@@ -97,7 +97,7 @@
             "><br><br>
             <label for="update_phone_number">Phone Number:</label>
             <input type="tel" id="update_phone_number" name="update_phone_number"><br><br>
-            <input type="submit" onClick="updateCustomer(this.customerID)" value="Update customer">
+            <input type="submit" onClick="event.preventDefault(); updateCustomer(this.customerID);" value="Update customer">
             <input type="reset" value="Cancel">
         </fieldset>
     </form>
@@ -110,7 +110,7 @@
             <label for="delete_customer_id"> Customer ID: 1</label><br><br>
             <label for="delete_customer_name">Name: </label>
             <input type="text" id="delete_customer_name" name="delete_customer_name" value="Melody Smith"><br><br>
-            <input type="submit" onClick="deleteCustomer(this.customerID)" value="Delete customer">
+            <input type="submit" onClick="event.preventDefault(); deleteCustomer(this.customerID);" value="Delete customer">
             <input type="reset" value="Cancel">
         </fieldset>
     </form>
