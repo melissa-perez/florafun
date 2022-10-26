@@ -66,10 +66,7 @@
         <th><a href="#" onClick="newOrder()">New</a></th>
         <th></th>
         <th>order_items_id</th>
-        <th>discount</th>
-        <th>sale_price</th>
-        <th>payment_method</th>
-        <th>card_number</th>
+        <th>quantity</th>
         <th>order_id</th>
         <th>item_id</th>
       </tr>
@@ -77,10 +74,7 @@
         <td><a href="#" onClick="updateOrder('this.order_itemID')">Edit</a></td>
         <td><a href="#" onclick="deleteorder('this.order_itemID')">Delete</a></td>
         <td>1</td>
-        <td>NONE</td>
-        <td>0.00</td>
-        <td>debit</td>
-        <td>5152606644395575</td>
+        <td>1</td>
         <td>1</td>
         <td>3</td>
       </tr>
@@ -88,10 +82,7 @@
         <td><a href="#" onClick="updateorder('this.orderID')">Edit</a></td>
         <td><a href="#" onclick="deleteorder('this.orderID')">Delete</a></td>
         <td>2</td>
-        <td>NONE</td>
-        <td>0.00</td>
-        <td>debit</td>
-        <td>5152606644395575</td>
+        <td>1</td>
         <td>1</td>
         <td>2</td>
       </tr>
@@ -99,10 +90,7 @@
         <td><a href="#" onClick="updateorder('this.orderID')">Edit</a></td>
         <td><a href="#" onclick="deleteorder('this.orderID')">Delete</a></td>
         <td>3</td>
-        <td>OFF30</td>
-        <td>90.92</td>
-        <td>debit</td>
-        <td>5152606644395575</td>
+        <td>1</td>
         <td>2</td>
         <td>1</td>
       </tr>
@@ -166,10 +154,7 @@
       <form method="POST" id="addOrderItem">
         <legend><strong>Add Order Item</strong></legend>
         <fieldset class="fields">
-          <label> Discount </label> <input type="text" name="discount">
-          <label> sale price </label> <input type="text" name="sale_price">
-          <label> payment method </label> <input type="text" name="payment_method">
-          <label> card nummber </label> <input type="text" name="card_number">
+          <label> quantity </label> <input type="text" name="quantity">
         </fieldset>
         <input class="btn" type="submit" id="addOrderItem" value="Add Order Item">
         <input class="btn" type="button" value="cancel" onClick="browseOrders()">
@@ -182,10 +167,7 @@
         <fieldset class="fields">
           <input type="hidden" name="orderitemID" id="updateorderitemID" value="1">
           <label> Order Item ID: </label> 1
-          <label> Discount </label> <input type="text" name="discount" value="NONE">
-          <label> sale price </label> <input type="text" name="sale_price" value="0.00">
-          <label> payment method </label> <input type="text" name="payment_method" value="debit">
-          <label> card number </label> <input type="text" name="card_number" value="5152606644395575">
+          <label> quantity </label> <input type="text" name="sale_price" value="1">
         </fieldset>
         <input class="btn" type="submit" id="UpdateSaveOrder" value="Save Update Order">
         <input class="btn" type="button" value="cancel" onClick="browseOrders()">
