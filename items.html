@@ -90,40 +90,55 @@
             <label for="add_color">Color:</label>
             <input type="text" id="add_color" name="add_color"><br><br>
             <label for="add_indoor">Indoor?:</label>
-            <input type="tel" id="add_phone" name="add_phone"><br><br>
-            add_color<input type="submit" value="Add customer">
-            <input type="reset" onClick="newCustomer()" value="Cancel">
-        </fieldset>
-    </form>
-
-    <form method="POST" id="UpdateCustomer">
-        <fieldset>
-            <legend>Update Existing Customer</legend>
-            <input type="hidden" name="exiting_customer_id" id="exiting_customer_id_to_update" value="1">
-            <label for="update_customer_id"> Customer ID: 1</label><br><br>
-            <label for="update_customer_name">Name:</label>
-            <input type="text" id="update_customer_name" name="update_customer_name" value="Melody Smith"><br><br>
-            <label for="update_customer_email">Email:</label>
-            <input type="email" id="update_customer_email" name="update_customer_email" value="msmith@msn.com"><br><br>
-            <label for="update_customer_address">Address:</label>
-            <input type="text" id="update_customer_address" name="update_customer_address" value="6601 SW WINDING WAY
-                                            "><br><br>
-            <label for="update_phone_number">Phone Number:</label>
-            <input type="tel" id="update_phone_number" name="update_phone_number"><br><br>
-            <input type="submit" onClick="updateCustomer(this.customerID)" value="Update customer">
+            <select name="add_indoor">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select><br><br>
+            <label for="add_stock">Stock quantity:</label>
+            <input type="text" id="add_stock" name="add_stock"><br><br>
+            <label for="add_price">Price:</label>
+            <input type="text" id="add_price" name="add_price"><br><br>
+            <label for="add_supplier">Supplier id:</label>
+            <input type="text" id="add_supplier" name="add_supplier"><br><br>
+            <input type="submit" onClick="event.preventDefault(); addItem(this.itemID);" value="Add item">
             <input type="reset" value="Cancel">
         </fieldset>
     </form>
 
-    <form method="POST" id="DeleteCustomer">
+    <form method="POST" id="UpdateItems">
         <fieldset>
-            <legend>Delete Existing Customer</legend>
+            <legend>Update Exiting Item</legend>
+            <label for="update_flower_name">Flower name:</label>
+            <input type="text" id="update_flower_name" name="update_flower_name"><br><br>
+            <label for="update_sci_name">Scientific name:</label>
+            <input type="text" id="update_sci_name" name="update_sci_name"><br><br>
+            <label for="update_color">Color:</label>
+            <input type="text" id="update_color" name="update_color"><br><br>
+            <label for="update_indoor">Indoor?:</label>
+            <select name="update_indoor">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select><br><br>
+            <label for="update_stock">Stock quantity:</label>
+            <input type="text" id="update_stock" name="update_stock"><br><br>
+            <label for="update_price">Price:</label>
+            <input type="text" id="update_price" name="update_price"><br><br>
+            <label for="update_supplier">Supplier id:</label>
+            <input type="text" id="update_supplier" name="update_supplier"><br><br>
+            <input type="submit" onClick="event.preventDefault(); updateItem(this.itemID);" value="Update item">
+            <input type="reset" value="Cancel">
+        </fieldset>
+    </form>
+
+    <form method="POST" id="DeleteItem">
+        <fieldset>
+            <legend>Delete Existing Item</legend>
             <p>Are you sure you want to delete the following?</p>
-            <input type="hidden" name="customerID" id="existing_customer_name_to_delete" value="1">
-            <label for="delete_customer_id"> Customer ID: 1</label><br><br>
-            <label for="delete_customer_name">Name: </label>
-            <input type="text" id="delete_customer_name" name="delete_customer_name" value="Melody Smith"><br><br>
-            <input type="submit" onClick="deleteCustomer(this.customerID)" value="Delete customer">
+            <input type="hidden" name="itemID id=" existing_item_name_to_delete" value="1">
+            <label for="delete_item_id"> Item ID: 1</label><br><br>
+            <label for="delete_item_name">Name: </label>
+            <input type="text" id="delete_item_name" name="delete_item_name" value="rose"><br><br>
+            <input type="submit" onClick="deleteItem(this.itemID)" value="Delete item">
             <input type="reset" value="Cancel">
         </fieldset>
     </form>
