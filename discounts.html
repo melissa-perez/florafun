@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discounts</title>
+</head>
+
+<body>
+    <nav>
+        [<a href="/index.html">Home</a> |
+        <a href="/customers.html">Customers</a> |
+        <a href="/orders.html">Orders</a> |
+        <a href="/items.html">Items</a> |
+        <a href="/suppliers.html">Suppliers</a>]
+    </nav>
+    <h1>Discounts</h1>
+    <div id="browse">
+        <table border="1" cellpadding="5">
+            <tr>
+                <th><a href="#" onClick="newDiscount()">New</a></th>
+                <th></th>
+                <th>discount_id</th>
+                <th>code</th>
+                <th>percent</th>
+            </tr>
+            <tr>
+                <td><a href="#" onClick="updateDiscount('this.discountID')">Edit</a></td>
+                <td><a href="#" onclick="deletediscount('this.discountID')">Delete</a></td>
+                <td>1</td>
+                <td>OFF10</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td><a href="#" onClick="updatediscount('this.discountID')">Edit</a></td>
+                <td><a href="#" onclick="deletediscount('this.discountID')">Delete</a></td>
+                <td>2</td>
+                <td>OFF20</td>
+                <td>20</td>
+            </tr>
+            <tr>
+                <td><a href="#" onClick="updatediscount('this.discountID')">Edit</a></td>
+                <td><a href="#" onclick="deletediscount('this.discountID')">Delete</a></td>
+                <td>3</td>
+                <td>OFF30</td>
+                <td>30</td>
+            </tr>
+        </table>
+        <p>&nbsp;</p>
+    </div>
+    <div id="insert">
+        <form method="POST" id="addDiscount">
+            <legend><strong>Add Discount</strong></legend>
+            <fieldset class="fields">
+                <label> code </label> <input type="text" name="code">
+                <label> percent </label> <input type="text" name="percent">
+            </fieldset>
+            <input class="btn" type="submit" id="addDiscount" value="Add Discount">
+            <input class="btn" type="button" value="cancel" onClick="browseDiscounts()">
+        </form>
+    </div>
+    <p>&nbsp;</p>
+    <div id="update">
+        <form method="POST" id="UpdateDiscount">
+            <legend><strong>Update Discount</strong></legend>
+            <fieldset class="fields">
+                <input type="hidden" name="discountID" id="updatediscountID" value="1">
+                <label> Discount ID: </label> 1
+                <label> code </label> <input type="text" name="code" value="OFF10">
+                <label> percent </label> <input type="text" name="percent" value="10">
+            </fieldset>
+            <input class="btn" type="submit" id="UpdateSaveDiscount" value="Save Update Discount">
+            <input class="btn" type="button" value="cancel" onClick="browseDiscounts()">
+        </form>
+    </div><!-- update -->
+    <p>&nbsp;</p>
+    <div id="delete" style="display: block">
+        <form method="POST" id="deleteDiscount">
+            <legend><strong>Delete Discount</strong></legend>
+            <fieldset class="fields">
+                <p>Are you sure you wish to delete the following?</p>
+                <input type="hidden" name="discountID" id="deletediscountID" value="1">
+                <label><strong>Discount ID:</strong></label> 1
+                <label> <strong>Name</strong> </label> OFF10
+            </fieldset>
+            <input class="btn" type="submit" id="DeleteDiscount" value="Delete Discount">
+            <input class="btn" type="button" value="cancel" onClick="browseDiscounts()">
+        </form>
+    </div><!-- delete -->
+</body>
+
+</html>
