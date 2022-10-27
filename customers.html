@@ -30,7 +30,7 @@
     <table border="1" cellpadding="5">
         <caption>Customer Table</caption>
         <tr>
-            <td><a href="#" onClick="newCustomer()">New</a></td>
+            <td></td>
             <td></td>
             <th>customer_id</th>
             <th>name</th>
@@ -67,7 +67,7 @@
         </tr>
     </table>
 
-    <form method="POST" id="AddCustomer">
+    <form method="POST" id="add_customers">
         <fieldset>
             <legend>Add New Customer</legend>
             <label for="add_customer_name">Name:</label>
@@ -78,23 +78,22 @@
             <input type="text" id="add_address" name="add_address"><br><br>
             <label for="add_phone">Phone Number:</label>
             <input type="tel" id="add_phone" name="add_phone"><br><br>
-            <input type="submit" value="Add customer">
-            <input type="reset" onClick="newCustomer()" value="Cancel">
+            <input type="submit" onClick="event.preventDefault(); addCustomer(this.customerID);" value="Add customer">
+            <input type="reset" value="Cancel">
         </fieldset>
     </form>
 
-    <form method="POST" id="UpdateCustomer">
+    <form method="POST" id="update_customers">
         <fieldset>
             <legend>Update Existing Customer</legend>
-            <input type="hidden" name="exiting_customer_id" id="exiting_customer_id_to_update" value="1">
+            <input type="hidden" name="existing_customer_id_to_update" id="existing_customer_id_to_update" value="1">
             <label for="update_customer_id"> Customer ID: 1</label><br><br>
             <label for="update_customer_name">Name:</label>
-            <input type="text" id="update_customer_name" name="update_customer_name" value="Melody Smith"><br><br>
+            <input type="text" id="update_customer_name" name="update_customer_name"><br><br>
             <label for="update_customer_email">Email:</label>
-            <input type="email" id="update_customer_email" name="update_customer_email" value="msmith@msn.com"><br><br>
+            <input type="email" id="update_customer_email" name="update_customer_email"><br><br>
             <label for="update_customer_address">Address:</label>
-            <input type="text" id="update_customer_address" name="update_customer_address" value="6601 SW WINDING WAY
-            "><br><br>
+            <input type="text" id="update_customer_address" name="update_customer_address"><br><br>
             <label for="update_phone_number">Phone Number:</label>
             <input type="tel" id="update_phone_number" name="update_phone_number"><br><br>
             <input type="submit" onClick="event.preventDefault(); updateCustomer(this.customerID);" value="Update customer">
@@ -102,11 +101,11 @@
         </fieldset>
     </form>
 
-    <form method="POST" id="DeleteCustomer">
+    <form method="POST" id="delete_customers">
         <fieldset>
             <legend>Delete Existing Customer</legend>
             <p>Are you sure you want to delete the following?</p>
-            <input type="hidden" name="customerID" id="existing_customer_name_to_delete" value="1">
+            <input type="hidden" name="customerID" id="existing_customer_id_to_delete" value="1">
             <label for="delete_customer_id"> Customer ID: 1</label><br><br>
             <label for="delete_customer_name">Name: </label>
             <input type="text" id="delete_customer_name" name="delete_customer_name" value="Melody Smith"><br><br>
