@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Types</title>
+</head>
+
+<body>
+    <nav>
+        [<a href="/index.html">Home</a> |
+        <a href="/customers.html">Customers</a> |
+        <a href="/orders.html">Orders</a> |
+        <a href="/items.html">Items</a> |
+        <a href="/suppliers.html">Suppliers</a>]
+    </nav>
+    <h1>Payment Types</h1>
+    <div id="browse">
+        <table border="1" cellpadding="5">
+            <tr>
+                <th><a href="#" onClick="newPayment_Type()">New</a></th>
+                <th></th>
+                <th>payment_type_id</th>
+                <th>type</th>
+            </tr>
+            <tr>
+                <td><a href="#" onClick="updatePayment_Type('this.payment_typeID')">Edit</a></td>
+                <td><a href="#" onclick="deletepayment_type('this.payment_typeID')">Delete</a></td>
+                <td>1</td>
+                <td>debit</td>
+            </tr>
+            <tr>
+                <td><a href="#" onClick="updatepayment_type('this.payment_typeID')">Edit</a></td>
+                <td><a href="#" onclick="deletepayment_type('this.payment_typeID')">Delete</a></td>
+                <td>2</td>
+                <td>credit</td>
+            </tr>
+            <tr>
+                <td><a href="#" onClick="updatepayment_type('this.payment_typeID')">Edit</a></td>
+                <td><a href="#" onclick="deletepayment_type('this.payment_typeID')">Delete</a></td>
+                <td>3</td>
+                <td>check</td>
+            </tr>
+        </table>
+        <p>&nbsp;</p>
+    </div>
+    <div id="insert">
+        <form method="POST" id="addPayment_Type">
+            <legend><strong>Add Payment Type</strong></legend>
+            <fieldset class="fields">
+                <label> type </label> <input type="text" name="name">
+            </fieldset>
+            <input class="btn" type="submit" id="addPayment_Type" value="Add Payment Type">
+            <input class="btn" type="button" value="cancel" onClick="browsePayment_Types()">
+        </form>
+    </div>
+    <p>&nbsp;</p>
+    <div id="update">
+        <form method="POST" id="UpdatePayment_Type">
+            <legend><strong>Update Payment Type</strong></legend>
+            <fieldset class="fields">
+                <input type="hidden" name="payment_typeID" id="updatepayment_typeID" value="1">
+                <label> Payment Type ID: </label> 1
+                <label> type </label> <input type="text" name="name" value="debit">
+            </fieldset>
+            <input class="btn" type="submit" id="UpdateSavePayment_Type" value="Save Update Payment Type">
+            <input class="btn" type="button" value="cancel" onClick="browsePayment_Types()">
+        </form>
+    </div><!-- update -->
+    <p>&nbsp;</p>
+    <div id="delete" style="display: block">
+        <form method="POST" id="deletePayment_Type">
+            <legend><strong>Delete Payment Type</strong></legend>
+            <fieldset class="fields">
+                <p>Are you sure you wish to delete the following?</p>
+                <input type="hidden" name="payment_typeID" id="deletepayment_typeID" value="1">
+                <label><strong>Payment Type ID:</strong></label> 1
+                <label> <strong>Name</strong> </label> debit
+            </fieldset>
+            <input class="btn" type="submit" id="DeletePayment_Type" value="Delete Payment Type">
+            <input class="btn" type="button" value="cancel" onClick="browsePayment_Types()">
+        </form>
+    </div><!-- delete -->
+</body>
+
+</html>
