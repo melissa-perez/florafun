@@ -153,88 +153,127 @@ WHERE
 SELECT
   *
 FROM
-  Colors;
+  `Colors`;
 
 -- INSERT a new color into Colors.
 INSERT INTO
-  `Colors` (name)
+  `Colors` (color)
 VALUES
-  (:colorInput);
+  (:colorName);
 
--- Create new Customer
-INSERT INTO
-  `Customers` (name, email, phone, address)
-VALUES
-  (
-    :nameInput,
-    :emailInput,
-    :phoneInput,
-    :addressInput
-  );
+-- SELECT all Colors relating to search in the Colors page.
+SELECT
+  *
+FROM
+  Colors
+WHERE
+  Colors.color LIKE CONCAT("%", LOWER(:colorName), "%");
 
--- View table upon clicking Customers page
+/********************************************************
+ Entity: Customers
+ The following are defined actions for the Customers entity.
+ Actions: INSERT, SEARCH, UPDATE, DELETE
+ *******************************************************/
+-- SELECT all Customers to display in the Customers page.
 SELECT
   *
 FROM
   Customers;
 
--- Update customer
-UPDATE
-  `Customers`
-SET
-  name = :nameInput,
-  email = :emailInput,
-  phone = :phoneInput,
-  address = :addressInput
-)
-WHERE
-  id = :customer_ID_from_the_update_form;
+-- INSERT a new customer into Customers.
+INSERT INTO
+  Customers (name, email, phone, address)
+VALUES
+  (
+    :customerName,
+    :customerEmail,
+    :customerPhone,
+    :customerAddress
+  );
 
--- Delete customer
+-- UPDATE an existing customer in Customers.
+UPDATE
+  Customers
+SET
+  name = :customerName,
+  email = :customerEmail,
+  phone = :customerPhone,
+  address = :customerAddress
+WHERE
+  Customers.customer_id = :customerIdToUpdate;
+
+-- DELETE an existing customer from Customers.
 DELETE FROM
   Customers
 WHERE
-  id = :customer_ID_selected_from_browse_customer_page;
+  Customers.customer_id = :customerIdToDelete;
 
--- Create new Item
-INSERT INTO
-  `Items` (
-    flower_name,
-    scientific_name,
-    is_indoor,
-    stock_quantity,
-    price
-  )
-VALUES
-  (
-    :flowerNameInput,
-    :sciNameInput,
-    :isIndoorInput,
-    :stockQuantityInput,
-    :priceInput
-  );
+-- SELECT all Customers relating to search in the Customers page.
+SELECT
+  *
+FROM
+  Customers
+WHERE
+  Customers.name LIKE CONCAT("%", LOWER(:customerName), "%");
 
--- View table upon clicking Items page
+/********************************************************
+ Entity: Items
+ The following are defined actions for the Items entity.
+ Actions: INSERT, SEARCH, UPDATE, DELETE
+ *******************************************************/
+-- SELECT all Items to display in the Items page.
 SELECT
   *
 FROM
   Items;
 
--- Update items
+-- INSERT a new item into Items.
+INSERT INTO
+  Items (
+    flower_name,
+    scientific_name,
+    is_indoor,
+    stock_quantity,
+    price,
+    supplier_id,
+    color_id
+  )
+VALUES
+  (
+    :flowerName,
+    :sciName,
+    :isIndoor,
+    :stockQuantity,
+    :price,
+    :supplierId,
+    :colorId
+  );
+
+-- UPDATE an existing item in Items.
 UPDATE
-  `Items`
+  Items
 SET
-  flower_name = :flowerNameInput,
-  scientific_name = :sciNameInput,
-  is_indoor = :isIndoorInput,
-  stock_quantity = :stockQuantityInput,
-  price = :priceInput
+  flower_name = :flowerName,
+  scientific_name = :sciName,
+  is_indoor = :isIndoor,
+  stock_quantity = :stockQuantity,
+  price = :price,
+  supplier_id = :supplierId,
+  color_id = :colorId
 )
 WHERE
-  id = :item_ID_from_the_update_form;
+  Items.item_id = :itemIdToUpdate;
 
--- Delete item
+-- DELETE an existing item in Items.
 DELETE FROM
   Items
 WHERE
-  id = :item_ID_selected_from_browse_item_page;
+  Items.item_id = :itemIdToDelete;
+
+-- SELECT all Items relating to search in the Items page.
+SELECT
+  *
+FROM
+  Items
+WHERE
+  Items.name LIKE CONCAT("%", LOWER(:itemName), "%");
