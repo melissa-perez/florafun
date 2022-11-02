@@ -9,17 +9,17 @@
 </head>
 
 <body>
-  <nav>
-        [<a href="/index.html">Home</a> |
-        <a href="/customers.html">Customers</a> |
-        <a href="/orders.html">Orders</a> |
-        <a href="/items.html">Items</a> |
-        <a href="/suppliers.html">Suppliers</a>
-        <a href="/payment_methods.html">Payment Methods</a> |
-        <a href="/discounts.html">Discounts</a> |
-        <a href="/colors.html">Colors</a>]
-  </nav>
   <h1>Orders/Order Items (Order Details)</h1>
+  <nav>
+    [<a href="/index.html">Home</a> |
+    <a href="/customers.html">Customers</a> |
+    <a href="/orders.html">Orders</a> |
+    <a href="/items.html">Items</a> |
+    <a href="/suppliers.html">Suppliers</a> |
+    <a href="/payment_methods.html">Payment Methods</a> |
+    <a href="/discounts.html">Discounts</a> |
+    <a href="/colors.html">Colors</a>]
+</nav>
   <div id="browse">
     <legend><strong>Orders Table</strong></legend>
     <table border="1" cellpadding="5">
@@ -100,9 +100,16 @@
     </table>
     <p>&nbsp;</p>
   </div>
-
-
-
+  <div id = "search">
+    <form method="GET" id="searchOrder">
+        <legend><strong> Search Order</strong></legend>
+        <fieldset class="fields">
+            <label> Order ID</label> <input type="text" name="search">
+        </fieldset>
+        <input class="btn" type="submit" id="searchOrder" value="Search Order">
+        <input class="btn" type="button" value="cancel" onClick="searchOrders()">
+    </form>
+  </div>
   <legend><strong>Modify Orders Table</strong></legend>
   <fieldset class="fields">
     <div id="insert">
