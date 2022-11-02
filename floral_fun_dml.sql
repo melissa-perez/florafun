@@ -144,7 +144,18 @@ DELETE FROM
 WHERE
   id = :discount_ID_selected_from_browse_discount_page;
 
--- Create new color
+/********************************************************
+ Entity: Colors
+ The following are defined actions for the Colors entity.
+ Actions: INSERT, SEARCH
+ *******************************************************/
+-- SELECT all Colors to display in the Colors page.
+SELECT
+  *
+FROM
+  Colors;
+
+-- INSERT a new color into Colors.
 INSERT INTO
   `Colors` (name)
 VALUES
