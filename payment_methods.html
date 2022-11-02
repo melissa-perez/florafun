@@ -9,17 +9,17 @@
 </head>
 
 <body>
+    <h1>Payment Methods</h1>
     <nav>
         [<a href="/index.html">Home</a> |
         <a href="/customers.html">Customers</a> |
         <a href="/orders.html">Orders</a> |
         <a href="/items.html">Items</a> |
-        <a href="/suppliers.html">Suppliers</a>
+        <a href="/suppliers.html">Suppliers</a> |
         <a href="/payment_methods.html">Payment Methods</a> |
         <a href="/discounts.html">Discounts</a> |
         <a href="/colors.html">Colors</a>]
     </nav>
-    <h1>Payment Methods</h1>
     <div id="browse">
         <table border="1" cellpadding="5">
             <tr>
@@ -48,6 +48,16 @@
             </tr>
         </table>
         <p>&nbsp;</p>
+    </div>
+    <div id = "search">
+        <form method="GET" id="searchPayment_Method">
+            <legend><strong> Search Payment Method</strong></legend>
+            <fieldset class="fields">
+                <label> Payment Method ID</label> <input type="text" name="search">
+            </fieldset>
+            <input class="btn" type="submit" id="searchPayment_Method" value="Search Payment Method">
+            <input class="btn" type="button" value="cancel" onClick="searchPayment_Methods()">
+        </form>
     </div>
     <div id="insert">
         <form method="POST" id="addPayment_Method">

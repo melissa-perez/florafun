@@ -1,8 +1,4 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
 <html>
 
 <head>
@@ -15,21 +11,17 @@
 </head>
 
 <body>
-    <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
+    <h1>Customers</h1>
     <nav>
         [<a href="/index.html">Home</a> |
         <a href="/customers.html">Customers</a> |
         <a href="/orders.html">Orders</a> |
         <a href="/items.html">Items</a> |
-        <a href="/suppliers.html">Suppliers</a>
+        <a href="/suppliers.html">Suppliers</a> |
         <a href="/payment_methods.html">Payment Methods</a> |
         <a href="/discounts.html">Discounts</a> |
         <a href="/colors.html">Colors</a>]
     </nav>
-    <h1>Customers</h1>
-
     <table border="1" cellpadding="5">
         <caption>Customer Table</caption>
         <tr>
@@ -69,7 +61,16 @@
             <td>1645 SW COUNTRY CLUB PL</td>
         </tr>
     </table>
-
+    <div id = "search">
+        <form method="GET" id="searchCustomer">
+            <legend><strong> Search Customer</strong></legend>
+            <fieldset class="fields">
+                <label> Customer ID</label> <input type="text" name="search">
+            </fieldset>
+            <input class="btn" type="submit" id="searchCustomer" value="Search Customer">
+            <input class="btn" type="button" value="cancel" onClick="searchCustomers()">
+        </form>
+    </div>
     <form method="POST" id="add_customers">
         <fieldset>
             <legend>Add New Customer</legend>
