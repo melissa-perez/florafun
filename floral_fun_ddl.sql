@@ -3,9 +3,14 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 27, 2022 at 07:03 AM
+-- Generation Time: Nov 02, 2022 at 04:37 AM
 -- Server version: 10.6.9-MariaDB-log
 -- PHP Version: 7.4.30
+--
+-- Database: Floral Fun
+-- Group: 56
+-- Members: Jacob Springer, Melissa Perez
+--
 SET
   SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 
@@ -33,9 +38,7 @@ SET
 ;
 
 --
--- Database: Floral Fun
--- Group: 56
--- Members: Jacob Springer, Melissa Perez
+-- Database: `cs340_springja`
 --
 -- --------------------------------------------------------
 --
@@ -142,7 +145,7 @@ OR REPLACE TABLE `Items` (
   `is_indoor` tinyint(1) NOT NULL,
   `stock_quantity` int(11) NOT NULL,
   `price` decimal(10, 2) NOT NULL,
-  `supplier_id` int(11) NOT NULL,
+  `supplier_id` int(11) DEFAULT NULL,
   `color_id` int(11) DEFAULT NULL
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb3;
 
@@ -216,7 +219,7 @@ OR REPLACE TABLE `Order_Items` (
   `order_item_id` int(11) NOT NULL,
   `quantity` int(5) NOT NULL,
   `order_id` int(11) DEFAULT NULL,
-  `item_id` int(11) NOT NULL
+  `item_id` int(11) DEFAULT NULL
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb3;
 
 --
@@ -466,9 +469,13 @@ MODIFY
 ALTER TABLE
   `Items`
 ADD
-  CONSTRAINT `Items_ibfk_1` FOREIGN KEY (`supplier_id`) REFERENCES `Suppliers` (`supplier_id`),
+  CONSTRAINT `Items_ibfk_1` FOREIGN KEY (`supplier_id`) REFERENCES `Suppliers` (`supplier_id`) ON DELETE
+SET
+  NULL ON UPDATE CASCADE,
 ADD
-  CONSTRAINT `Items_ibfk_2` FOREIGN KEY (`color_id`) REFERENCES `Colors` (`color_id`);
+  CONSTRAINT `Items_ibfk_2` FOREIGN KEY (`color_id`) REFERENCES `Colors` (`color_id`) ON DELETE
+SET
+  NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Orders`
@@ -476,11 +483,17 @@ ADD
 ALTER TABLE
   `Orders`
 ADD
-  CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `Customers` (`customer_id`) ON DELETE CASCADE,
+  CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`payment_method_id`) REFERENCES `Payment_Methods` (`payment_method_id`) ON DELETE
+SET
+  NULL ON UPDATE CASCADE,
 ADD
-  CONSTRAINT `Orders_ibfk_2` FOREIGN KEY (`payment_method_id`) REFERENCES `Payment_Methods` (`payment_method_id`),
+  CONSTRAINT `Orders_ibfk_2` FOREIGN KEY (`discount_id`) REFERENCES `Discounts` (`discount_id`) ON DELETE
+SET
+  NULL ON UPDATE CASCADE,
 ADD
-  CONSTRAINT `Orders_ibfk_3` FOREIGN KEY (`discount_id`) REFERENCES `Discounts` (`discount_id`);
+  CONSTRAINT `Orders_ibfk_3` FOREIGN KEY (`customer_id`) REFERENCES `Customers` (`customer_id`) ON DELETE
+SET
+  NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Order_Items`
@@ -488,9 +501,11 @@ ADD
 ALTER TABLE
   `Order_Items`
 ADD
-  CONSTRAINT `Order_Items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `Orders` (`order_id`) ON DELETE CASCADE,
+  CONSTRAINT `Order_Items_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `Items` (`item_id`) ON DELETE
+SET
+  NULL ON UPDATE CASCADE,
 ADD
-  CONSTRAINT `Order_Items_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `Items` (`item_id`);
+  CONSTRAINT `Order_Items_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `Orders` (`order_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 SET
   FOREIGN_KEY_CHECKS = 1;
