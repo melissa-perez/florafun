@@ -42,8 +42,8 @@
             <td>1</td>
             <td>300</td>
             <td>12.99</td>
-            <td>1</td>
-            <td>1</td>
+            <td>Flower Inc.</td>
+            <td>red</td>
         </tr>
         <tr>
             <td>2</td>
@@ -52,8 +52,8 @@
             <td>0</td>
             <td>500</td>
             <td>9.99</td>
-            <td>1</td>
-            <td>2</td>
+            <td>Flower Inc.</td>
+            <td>white</td>
         </tr>
         <tr>
             <td>3</td>
@@ -62,8 +62,8 @@
             <td>1</td>
             <td>150</td>
             <td>17.99</td>
-            <td>2</td>
-            <td>3</td>
+            <td>Sweet Honey</td>
+            <td>orange</td>
         </tr>
     </table>
     <div id="search">
@@ -71,8 +71,8 @@
             <fieldset class="fields">
                 <legend>Search Item</legend>
                 <label> Item name: </label> <input type="text" name="search"><br><br>
-                <input class="btn" type="submit" id="searchCustomer" value="Search item"
-                    onClick="event.preventDefault(); searchCustomer();">
+                <input class="btn" type="submit" id="searchItems" value="Search item"
+                    onClick="event.preventDefault(); searchItems(this.itemName);">
                 <input class="btn" type="reset" value="Cancel">
             </fieldset>
         </form>
@@ -129,7 +129,7 @@
             <label for="delete_item_id"> Item ID: 1</label><br><br>
             <label for="delete_item_name">Name: </label>
             <input type="text" id="delete_item_name" name="delete_item_name" value="rose"><br><br>
-            <input type="submit" onClick="deleteItem(this.itemID)" value="Delete item">
+            <input type="submit" onClick="event.preventDefault(); deleteItem(this.itemID);" value="Delete item">
             <input type="reset" value="Cancel">
         </fieldset>
     </form>
