@@ -240,6 +240,21 @@ SELECT
 FROM
   Items;
 
+-- SELECT all Items to display in the Items page with updated FOREIGN KEYS.
+SELECT
+  Items.item_id,
+  Items.flower_name,
+  Items.scientific_name,
+  Items.is_indoor,
+  Items.stock_quantity,
+  Items.price,
+  Suppliers.name,
+  Colors.color
+FROM
+  `Items`
+  INNER JOIN Suppliers ON Suppliers.supplier_id = Items.supplier_id
+  INNER JOIN Colors ON Items.color_id = Colors.color_id;
+
 -- INSERT a new item into Items.
 INSERT INTO
   Items (
