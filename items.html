@@ -25,16 +25,15 @@
         <a href="/colors.html">Colors</a>]
     </nav>
     <table border="1" cellpadding="5">
-        <caption>Items Table</caption>
         <tr>
-            <th>item_id</th>
-            <th>flower_name</th>
-            <th>scientific_name</th>
-            <th>is_indoor</th>
-            <th>stock_quantity</th>
-            <th>price</th>
-            <th>supplier_id</th>
-            <th>color_id</th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Scientific Name</th>
+            <th>Indoor Plant?</th>
+            <th>Stock Quantity</th>
+            <th>Price</th>
+            <th>Supplier</th>
+            <th>Color</th>
         </tr>
         <tr>
             <td>1</td>
@@ -68,13 +67,14 @@
         </tr>
     </table>
     <div id="search">
-        <form method="GET" id="searchItem">
-            <legend><strong> Search Item</strong></legend>
+        <form method="POST" id="searchItem">
             <fieldset class="fields">
-                <label> Item ID</label> <input type="text" name="search">
+                <legend>Search Item</legend>
+                <label> Item name: </label> <input type="text" name="search"><br><br>
+                <input class="btn" type="submit" id="searchCustomer" value="Search item"
+                    onClick="event.preventDefault(); searchCustomer();">
+                <input class="btn" type="reset" value="Cancel">
             </fieldset>
-            <input class="btn" type="submit" id="searchItem" value="Search Item">
-            <input class="btn" type="button" value="cancel" onClick="searchItems()">
         </form>
     </div>
     <form method="POST" id="add_items">
@@ -104,18 +104,18 @@
             <input type="hidden" name="existing_item_id_to_update" id="existing_item_id_to_update" value="1">
             <label for="update_item_id"> Item ID: 1</label><br><br>
             <label for="update_flower_name">Flower name:</label>
-            <input type="text" id="update_flower_name" name="update_flower_name"><br><br>
+            <input type="text" id="update_flower_name" name="update_flower_name" value="rose"><br><br>
             <label for="update_sci_name">Scientific name:</label>
-            <input type="text" id="update_sci_name" name="update_sci_name"><br><br>
+            <input type="text" id="update_sci_name" name="update_sci_name" value="rosa"><br><br>
             <label for="update_indoor">Indoor?:</label>
             <select name="update_indoor">
                 <option value="0">No</option>
-                <option value="1">Yes</option>
+                <option value="1" selected>Yes</option>
             </select><br><br>
             <label for="update_stock">Stock quantity:</label>
-            <input type="text" id="update_stock" name="update_stock"><br><br>
+            <input type="text" id="update_stock" name="update_stock" value="300"><br><br>
             <label for="update_price">Price:</label>
-            <input type="text" id="update_price" name="update_price"><br><br>
+            <input type="text" id="update_price" name="update_price" value="12.99"><br><br>
             <input type="submit" onClick="event.preventDefault(); updateItem(this.itemID);" value="Update item">
             <input type="reset" value="Cancel">
         </fieldset>
