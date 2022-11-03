@@ -23,10 +23,9 @@
         <a href="/colors.html">Colors</a>]
     </nav>
     <table border="1" cellpadding="5">
-        <caption>Colors Table</caption>
         <tr>
-            <th>color_id</th>
-            <th>name</th>
+            <th>ID</th>
+            <th>Color</th>
         </tr>
         <tr>
             <td>1</td>
@@ -41,14 +40,15 @@
             <td>orange</td>
         </tr>
     </table>
-    <div id = "search">
-        <form method="GET" id="searchColor">
+    <div id="search">
+        <form method="POST" id="searchColor">
             <legend><strong> Search Color</strong></legend>
             <fieldset class="fields">
-                <label> Color ID</label> <input type="text" name="search">
+                <label> Color name: </label> <input type="text" name="search"><br><br>
+                <input class="btn" type="submit" id="searchColor" value="Search color"
+                    onClick="event.preventDefault(); searchColors();">
+                <input class="btn" type="reset" value="Cancel">
             </fieldset>
-            <input class="btn" type="submit" id="searchColor" value="Search Color">
-            <input class="btn" type="button" value="cancel" onClick="searchColors()">
         </form>
     </div>
     <form method="POST" id="add_colors">

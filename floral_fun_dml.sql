@@ -153,11 +153,11 @@ WHERE
 SELECT
   *
 FROM
-  `Colors`;
+  Colors;
 
 -- INSERT a new color into Colors.
 INSERT INTO
-  `Colors` (color)
+  Colors (color)
 VALUES
   (:colorName);
 
