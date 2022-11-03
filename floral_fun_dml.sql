@@ -10,9 +10,18 @@ VALUES
 
 -- View table uppon clicking Orders page
 SELECT
-  *
+  Orders.order_id,
+  Orders.order_date,
+  Orders.product_quantity,
+  Orders.total_sale_price,
+  Customers.name,
+  Payment_Methods.type,
+  Discounts.code
 FROM
-  Orders;
+  `Orders`
+  INNER JOIN Customers ON Orders.customer_id = Customers.customer_id
+  INNER JOIN Payment_Methods ON Orders.payment_method_id = Payment_Methods.payment_method_id
+  INNER JOIN Discounts ON Orders.discount_id = Discounts.discount_id;
 
 -- Update order
 UPDATE
@@ -38,9 +47,13 @@ VALUES
 
 -- View table uppon clicking Order_Items page
 SELECT
-  *
+  Order_Items.order_item_id,
+  Order_Items.quantity,
+  Order_Items.order_id,
+  Items.flower_name
 FROM
-  Order_Items;
+  Order_Items
+  INNER JOIN Items ON Order_Items.item_id = Items.item_id;
 
 -- Update order_items
 UPDATE
