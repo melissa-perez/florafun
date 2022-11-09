@@ -8,7 +8,7 @@ var express = require('express')
 var app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-PORT = 3421
+PORT = 3000
 
 // Database
 var db = require('./database/db-connector')
