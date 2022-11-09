@@ -49,3 +49,11 @@ app.get('/', function (req, res) {
     pageTitle: 'Floral Fun Database',
   })
 })
+
+// Page to render for colors
+app.get('/colors', function (req, res) {
+  res.render('colors.hbs', {
+    layout: 'index.hbs',
+    pageTitle: 'Colors',
+  })
+})

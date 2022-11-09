@@ -1,0 +1,50 @@
+<h1>Colors</h1>
+<table border='1' cellpadding='5'>
+  <tr>
+    <th>ID</th>
+    <th>Color</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>red</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>white</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>orange</td>
+  </tr>
+</table>
+<div id='search'>
+  <form method='POST' id='searchColor'>
+    <legend><strong> Search Color</strong></legend>
+    <fieldset class='fields'>
+      <label> Color name: </label>
+      <input type='text' name='search' /><br /><br />
+      <input
+        class='btn'
+        type='submit'
+        id='searchColor'
+        value='Search color'
+        onClick='event.preventDefault(); searchColors();'
+      />
+      <input class='btn' type='reset' value='Cancel' />
+    </fieldset>
+  </form>
+</div>
+<form method='POST' id='add_colors'>
+  <fieldset>
+    <legend>Add New Color</legend>
+    <label for='add_color_name'>Color name:</label>
+    <input type='text' id='add_color_name' name='add_color_name' /><br /><br />
+    <input
+      type='submit'
+      onClick='event.preventDefault(); addColor();'
+      value='Add color'
+    />
+    <input type='reset' value='Cancel' />
+  </fieldset>
+</form>
+<script src='' async defer></script>
