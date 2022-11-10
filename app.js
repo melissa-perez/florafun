@@ -1,6 +1,6 @@
-/*
+/*************************************
     SETUP
-*/
+**************************************/
 // Express
 const path = require('path')
 const express = require('express')
@@ -26,9 +26,9 @@ app.engine(
 app.use(express.static('public'))
 app.set('view engine', '.hbs') // Tell express to use the handlebars engine whenever it encounters a *.hbs file.
 
-/*
-    LISTENER
-*/
+/*************************************
+  LISTENER
+**************************************/
 app.listen(process.env.PORT || PORT, function () {
   console.log(
     'Express started on http://localhost:' +
@@ -126,7 +126,7 @@ app.post('/add-supplier-form', function (req, res) {
   })
 })
 // Page to render for suppliers UPDATE
-app.post('/update-supplier-form/', function (req, res) {
+app.post('/update-supplier-form', function (req, res) {
   let data = req.body
   //let supplierID = parseInt(data.id);
   //let deleteSuppliers = `DELETE FROM Suppliers WHERE pid = ?`;
@@ -142,7 +142,7 @@ app.post('/update-supplier-form/', function (req, res) {
   })
 })
 // Page to render for suppliers DELETE
-app.post('/delete-supplier-form/', function (req, res) {
+app.post('/delete-supplier-form', function (req, res) {
   let data = req.body
   //let supplierID = parseInt(data.id);
   //let deleteSuppliers = `DELETE FROM Suppliers WHERE pid = ?`;
