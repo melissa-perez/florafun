@@ -14,6 +14,7 @@ const db = require('./database/db-connector')
 
 // Handlebars
 const { engine } = require('express-handlebars')
+const { cp } = require('fs')
 app.engine(
   '.hbs',
   engine({
@@ -164,8 +165,32 @@ app.post('/delete-supplier-form', function (req, res) {
 
 // Page to render for colors READ
 app.get('/colors', function (req, res) {
-  res.render('colors.hbs', {
-    layout: 'index.hbs',
-    pageTitle: 'Colors',
+  let searchQuery
+  if (req.query.color === undefined) {
+    searchQuery = `SELECT * FROM Colors;`
+  } else {
+    searchQuery = `SELECT * FROM Colors WHERE Colors.color LIKE CONCAT("%", "${req.query.color}", "%");`
+  }
+  db.pool.query(searchQuery, function (error, rows, fields) {
+    let colors = rows
+    res.render('colors.hbs', {
+      layout: 'index.hbs',
+      pageTitle: 'Colors',
+      data: colors,
+    })
+  })
+})
+// Page to render for colors CREATE
+app.post('/add-color-form', function (req, res) {
+  let data = req.body
+
+  let insertQuery = `INSERT INTO Colors (color) VALUES ('${data['input-color']}');`
+  db.pool.query(insertQuery, function (error, rows, fields) {
+    if (error) {
+      console.log(error)
+      res.sendStatus(400)
+    } else {
+      res.redirect('/colors')
+    }
   })
 })

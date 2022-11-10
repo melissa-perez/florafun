@@ -1,50 +1,41 @@
 <h1>Colors</h1>
-<table border='1' cellpadding='5'>
-  <tr>
-    <th>ID</th>
-    <th>Color</th>
-  </tr>
-  <tr>
-    <td>1</td>
-    <td>red</td>
-  </tr>
-  <tr>
-    <td>2</td>
-    <td>white</td>
-  </tr>
-  <tr>
-    <td>3</td>
-    <td>orange</td>
-  </tr>
+<table id='colors-table'>
+  <thead>
+    <tr>
+      {{#each data.[0]}}
+        <th>
+          {{@key}}
+        </th>
+      {{/each}}
+    </tr>
+  </thead>
+  <tbody>
+    {{#each data}}
+      <tr data-value={{this.color_id}}>
+        <td>{{this.color_id}}</td>
+        <td>{{this.color}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
 </table>
-<div id='search'>
-  <form method='POST' id='searchColor'>
-    <legend><strong> Search Color</strong></legend>
-    <fieldset class='fields'>
-      <label> Color name: </label>
-      <input type='text' name='search' /><br /><br />
-      <input
-        class='btn'
-        type='submit'
-        id='searchColor'
-        value='Search color'
-        onClick='event.preventDefault(); searchColors();'
-      />
-      <input class='btn' type='reset' value='Cancel' />
+
+<div>
+  <form method='GET' id='id="search-color-html" ' action='/colors'>
+    <legend>Search Color</legend>
+    <fieldset>
+      <label for="color-name">  Color name: </label>
+      <input type='text' name='color' /><br /><br />
+      <input type="submit">
+      <a href='/colors'><button>Reset</button></a>
     </fieldset>
   </form>
 </div>
-<form method='POST' id='add_colors'>
+
+<form method='POST' id='add_colors' action='/add-color-form'>
   <fieldset>
     <legend>Add New Color</legend>
-    <label for='add_color_name'>Color name:</label>
-    <input type='text' id='add_color_name' name='add_color_name' /><br /><br />
-    <input
-      type='submit'
-      onClick='event.preventDefault(); addColor();'
-      value='Add color'
-    />
-    <input type='reset' value='Cancel' />
+    <label for='input-color'>Color name:</label>
+    <input type='text' id='input-color' name='input-color' /><br /><br />
+    <input type='submit' value='Add color' />
   </fieldset>
 </form>
-<script src='' async defer></script>
