@@ -1,0 +1,75 @@
+<table id="discounts-table">
+    {{!-- Header section --}}
+    <thead>
+
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the id, code, percent, email and is_local, in order --}}
+        {{#each data}}
+        <tr data-value={{this.discount_id}}>
+            <td>{{this.discount_id}}</td>
+            <td>{{this.code}}</td>
+            <td>{{this.percent}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<h2>Search Using an HTML Form</h2>
+<p>Search by code using the field below. Partial code is okay too!</p>
+<form id="search-discount-html" method='GET' action='/discounts'>
+    <label for="input-code">Search by Code: </label>
+    <input type="text" name="code" id="input-code-html-search">
+    
+    <input type="submit">
+    <a href='/discounts'><button>Reset</button></a>
+</form>
+
+<!-- /views/index.hbs -->
+<h2>Adding Data using an HTML form</h2>
+<p>To add a new discount, please enter their information below and click `Submit`!</p>
+<form id="add-discount-form" method="POST" action="/add-discount-form">
+    <label for="input-code">Code: </label>
+    <input type="text" name="input-code" id="input-code">
+    
+    <label for="input-percent">Percent: </label>
+    <input type="text" name="input-percent" id="input-percent">
+
+    <input type="submit">
+</form>
+<table id="discounts-table">
+
+<h2>Updating Data using an HTML form</h2>
+<p>To update a new discount, please enter their id below and click `Submit`!</p>
+<p><strong>Blank values will be deleted!</strong></p>
+<form id="update-discount-form" method="POST" action="/update-discount-form">
+    <label for="input-discount_id">Discount ID: </label>
+    <input type="number" name="input-discount_id" id="input-discount_id">
+    
+    <label for="input-code">Code: </label>
+    <input type="text" name="input-code" id="input-code">
+    
+    <label for="input-percent">Percent: </label>
+    <input type="text" name="input-percent" id="input-percent">
+    <input type="submit">
+</form>
+
+<h2>Deleting Data using an HTML form</h2>
+<p>To delete a new discount, please enter their id below and click `Submit`!</p>
+<form id="delete-discount-form" method="POST" action="/delete-discount-form">
+    <label for="input-discount_id">Discount ID: </label>
+    <input type="number" name="input-discount_id" id="input-discount_id">
+    <input type="submit">
+</form>
