@@ -192,7 +192,7 @@ app.get('/colors', function (req, res) {
 // Page to render for colors CREATE
 app.post('/add-color-form', function (req, res) {
   let data = req.body
-
+  console.log(data)
   let insertQuery = `INSERT INTO Colors (color) VALUES ('${data['input-color']}');`
   db.pool.query(insertQuery, function (error, rows, fields) {
     if (error) {
