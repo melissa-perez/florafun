@@ -22,7 +22,10 @@
   <body>
 
     {{> navbar}}
-
+    {{#if isDisplayTables}}
+      {{> table data=data table-id='{{toLowerCase pageTitle}}-table'}}
+      {{> searchform main-name=pageTitle }}
+    {{/if}}
     {{{body}}}
     <script
       src='https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js'

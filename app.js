@@ -50,6 +50,7 @@ app.get('/', function (req, res) {
   res.render('home.hbs', {
     layout: 'index.hbs',
     pageTitle: 'Floral Fun Database',
+    isDisplayTables: false,
   })
 })
 
@@ -88,6 +89,7 @@ app.get('/suppliers', function (req, res) {
       layout: 'index.hbs',
       pageTitle: 'Suppliers',
       data: suppliers,
+      isDisplayTables: true,
     })
   })
 })
@@ -183,6 +185,7 @@ app.get('/colors', function (req, res) {
       layout: 'index.hbs',
       pageTitle: 'Colors',
       data: colors,
+      isDisplayTables: true,
     })
   })
 })
@@ -231,6 +234,7 @@ app.get('/customers', function (req, res) {
       layout: 'index.hbs',
       pageTitle: 'Customers',
       data: customers,
+      isDisplayTables: true,
     })
   })
 })
