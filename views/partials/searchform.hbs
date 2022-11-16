@@ -1,0 +1,26 @@
+<div class='container'>
+  <form
+    method='GET'
+    id='{{toLowerCase pageTitle}}-html-search'
+    action='/{{toLowerCase pageTitle}}'
+    class='mb-3'
+  >
+    <legend>Search {{removeLastLetter pageTitle}}</legend>
+    <fieldset>
+      <label for='{{toLowerCase pageTitle}}_name'>
+        {{removeLastLetter pageTitle}}
+        name:
+      </label>
+      <input type='text' name='{{toLowerCase pageTitle}}_name' />
+      <div class='form-text'>
+        The search term will look for general results that match the given term.
+      </div><br />
+      <button class='btn btn-primary my-2 my-sm-0' type='submit'>Search</button>
+      <a
+        class='btn btn-warning my-2 my-sm-0'
+        href='/{{toLowerCase pageTitle}}'
+        role='button'
+      >Reset table</a>
+    </fieldset>
+  </form>
+</div>

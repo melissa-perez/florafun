@@ -14,7 +14,6 @@ const db = require('./database/db-connector')
 
 // Handlebars
 const { engine } = require('express-handlebars')
-const { cp } = require('fs')
 app.engine(
   '.hbs',
   engine({
@@ -22,6 +21,7 @@ app.engine(
     extname: '.hbs',
     layoutsDir: __dirname + '/views/layouts',
     partialsDir: __dirname + '/views/partials',
+    helpers: require(__dirname + '/helpers.js'),
   })
 ) // Create an instance of the handlebars engine to process templates
 app.use(express.static('public'))
@@ -166,10 +166,16 @@ app.post('/delete-supplier-form', function (req, res) {
 // Page to render for colors READ
 app.get('/colors', function (req, res) {
   let searchQuery
-  if (req.query.color === undefined) {
-    searchQuery = `SELECT * FROM Colors;`
+  if (req.query.colors_name === undefined) {
+    searchQuery = `
+    SELECT Colors.color_id AS "ID",
+    Colors.color AS "Color"
+    FROM Colors;`
   } else {
-    searchQuery = `SELECT * FROM Colors WHERE Colors.color LIKE CONCAT("%", "${req.query.color}", "%");`
+    searchQuery = `SELECT Colors.color_id AS "ID",
+    Colors.color AS "Color" 
+    FROM Colors
+    WHERE Colors.color LIKE CONCAT("%", "${req.query.colors_name}", "%");`
   }
   db.pool.query(searchQuery, function (error, rows, fields) {
     let colors = rows
@@ -201,14 +207,7 @@ app.post('/add-color-form', function (req, res) {
 // Page to render for customers READ
 app.get('/customers', function (req, res) {
   let searchQuery
-  /*if (req.query.color === undefined) {
-    searchQuery = `SELECT Customers.customer_id AS "ID",
-    Customers.name AS "Name",
-    Customers.address AS "Address"
-    Customers.email AS "Email",
-    Customers.phone AS "Phone Number",
-    FROM Customers;`
-  } else {*/
+  if (req.query.customers_name === undefined) {
     searchQuery = `
     SELECT Customers.customer_id AS "ID",
     Customers.name AS "Name",
@@ -216,10 +215,18 @@ app.get('/customers', function (req, res) {
     Customers.email AS "Email",
     Customers.phone AS "Phone Number"
     FROM Customers;`
-  //}
+  } else {
+    searchQuery = `
+    SELECT Customers.customer_id AS "ID",
+    Customers.name AS "Name",
+    Customers.address AS "Address",
+    Customers.email AS "Email",
+    Customers.phone AS "Phone Number"
+    FROM Customers
+    WHERE Customers.name LIKE CONCAT("%", "${req.query.customers_name}", "%");`
+  }
   db.pool.query(searchQuery, function (error, rows, fields) {
     let customers = rows
-    //console.log((customers))
     res.render('customers.hbs', {
       layout: 'index.hbs',
       pageTitle: 'Customers',
