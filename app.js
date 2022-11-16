@@ -239,7 +239,7 @@ app.get('/customers', function (req, res) {
   })
 })
 // Page to render for customers CREATE
-app.post('/add-customer-form', function (req, res) {
+app.post('/customers', function (req, res) {
   let data = req.body
   let insertQuery = `INSERT INTO Customers (name, address, email, phone) VALUES ('${data['input-name']}', '${data['input-address']}', '${data['input-email']}', '${data['input-phone']}');`
   db.pool.query(insertQuery, function (error, rows, fields) {
@@ -255,7 +255,7 @@ app.post('/add-customer-form', function (req, res) {
       Customers.email AS "Email",
       Customers.phone AS "Phone Number"
       FROM Customers;`
-      db.pool.query(query2, function (error, rows, fields) {
+      db.pool.query(searchQuery, function (error, rows, fields) {
         if (error) {
           console.log(error)
           res.sendStatus(400)

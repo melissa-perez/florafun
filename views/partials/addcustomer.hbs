@@ -2,7 +2,6 @@
   <form
     method='POST'
     id='add-{{toLowerCase (removeLastLetter pageTitle)}}-form'
-    action='/add-{{toLowerCase (removeLastLetter pageTitle)}}-form'
     class='mb-4'
   >
     <legend>Add a new {{removeLastLetter pageTitle}}</legend>
@@ -82,5 +81,4 @@
       {{toLowerCase (removeLastLetter pageTitle)}}</button>
   </form>
 </div>
-
-<script src='./js/add_customer.js'></script>
+<script src='/js/add_customer.js'></script>

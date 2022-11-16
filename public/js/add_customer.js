@@ -3,7 +3,7 @@ let addCustomerForm = document.getElementById('add-customer-form')
 // Modify the objects we need
 addCustomerForm.addEventListener('submit', function (e) {
   e.preventDefault()
-
+console.log("hello")
   // Get form fields we need to get data from
   let inputName = document.getElementById('input-name')
   let inputAddress = document.getElementById('input-address')
@@ -26,7 +26,7 @@ addCustomerForm.addEventListener('submit', function (e) {
 
   // Setup our AJAX request
   var xhttp = new XMLHttpRequest()
-  xhttp.open('POST', '/add-customer-form', true)
+  xhttp.open('POST', '/customers', true)
   xhttp.setRequestHeader('Content-type', 'application/json')
 
   // Tell our AJAX request how to resolve
@@ -52,29 +52,25 @@ addCustomerForm.addEventListener('submit', function (e) {
 // Creates a single row from an Object representing a single record from
 addRowToTable = (data) => {
   // Get a reference to the current table on the page and clear it out.
-  let currentTable = document.getElementById('people-table')
-
-  // Get the location where we should insert the new row (end of table)
-  let newRowIndex = currentTable.rows.length
+  let currentTable = document.getElementById('customers-table')
 
   // Get a reference to the new row from the database query (last object)
   let parsedData = JSON.parse(data)
   let newRow = parsedData[parsedData.length - 1]
-
-  // Create a row and 4 cells
+  
   let row = document.createElement('TR')
   let idCell = document.createElement('TD')
-  let firstNameCell = document.createElement('TD')
-  let lastNameCell = document.createElement('TD')
-  let homeworldCell = document.createElement('TD')
-  let ageCell = document.createElement('TD')
+  let nameCell = document.createElement('TD')
+  let addressCell = document.createElement('TD')
+  let emailCell = document.createElement('TD')
+  let phoneCell = document.createElement('TD')
 
   // Fill the cells with correct data
   idCell.innerText = newRow.id
-  firstNameCell.innerText = newRow.fname
-  lastNameCell.innerText = newRow.lname
-  homeworldCell.innerText = newRow.homeworld
-  ageCell.innerText = newRow.age
+  nameCell.innerText = newRow.name
+  addressCell.innerText = newRow.address
+  emailCell.innerText = newRow.email
+  phoneCell.innerText = newRow.phone
 
   // Add the cells to the row
   row.appendChild(idCell)
