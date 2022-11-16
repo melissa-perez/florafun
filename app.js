@@ -1,28 +1,63 @@
-/*
+/*************************************
     SETUP
-*/
-
+**************************************/
 // Express
-
-var express = require('express')
-var app = express()
+const path = require('path')
+const express = require('express')
+const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-PORT = 3000
+const PORT = 3421
 
 // Database
-var db = require('./database/db-connector')
+const db = require('./database/db-connector')
 
 // Handlebars
 const { engine } = require('express-handlebars')
-var exphbs = require('express-handlebars') // Import express-handlebars
-app.engine('.hbs', engine({ extname: '.hbs' })) // Create an instance of the handlebars engine to process templates
+const { cp } = require('fs')
+app.engine(
+  '.hbs',
+  engine({
+    defaultLayout: 'index.hbs',
+    extname: '.hbs',
+    layoutsDir: __dirname + '/views/layouts',
+    partialsDir: __dirname + '/views/partials',
+  })
+) // Create an instance of the handlebars engine to process templates
+app.use(express.static('public'))
 app.set('view engine', '.hbs') // Tell express to use the handlebars engine whenever it encounters a *.hbs file.
 
-/*
-    ROUTES
-*/
+/*************************************
+  LISTENER
+**************************************/
+app.listen(process.env.PORT || PORT, function () {
+  console.log(
+    'Express started on http://localhost:' +
+      PORT +
+      '; press Ctrl-C to terminate.'
+  )
+})
+
+/*************************************
+  ROUTES
+**************************************/
+
+/*************************************
+  HOME ROUTE
+**************************************/
+// Page to render for home
 app.get('/', function (req, res) {
+  res.render('home.hbs', {
+    layout: 'index.hbs',
+    pageTitle: 'Floral Fun Database',
+  })
+})
+
+/*************************************
+  SUPPLIERS ROUTES
+**************************************/
+// Page to render for suppliers READ
+app.get('/suppliers', function (req, res) {
   // Declare Query 1
   let query1
 
@@ -49,13 +84,14 @@ app.get('/', function (req, res) {
 
     // Save the planets
     //let planets = rows;
-
-    return res.render('index', { data: suppliers })
+    res.render('suppliers.hbs', {
+      layout: 'index.hbs',
+      pageTitle: 'Suppliers',
+      data: suppliers,
+    })
   })
-  //})
 })
-// app.js
-
+// Page to render for suppliers CREATE
 app.post('/add-supplier-form', function (req, res) {
   // Capture the incoming data and parse it back to a JS object
   let data = req.body
@@ -86,12 +122,12 @@ app.post('/add-supplier-form', function (req, res) {
     // If there was no error, we redirect back to our root route, which automatically runs the SELECT * FROM Suppliers and
     // presents it on the screen
     else {
-      res.redirect('/')
+      res.redirect('/suppliers')
     }
   })
 })
-
-app.post('/update-supplier-form/', function (req, res) {
+// Page to render for suppliers UPDATE
+app.post('/update-supplier-form', function (req, res) {
   let data = req.body
   //let supplierID = parseInt(data.id);
   //let deleteSuppliers = `DELETE FROM Suppliers WHERE pid = ?`;
@@ -102,12 +138,12 @@ app.post('/update-supplier-form/', function (req, res) {
       console.log(error)
       res.sendStatus(400)
     } else {
-      res.redirect('/')
+      res.redirect('/suppliers')
     }
   })
 })
-
-app.post('/delete-supplier-form/', function (req, res) {
+// Page to render for suppliers DELETE
+app.post('/delete-supplier-form', function (req, res) {
   let data = req.body
   //let supplierID = parseInt(data.id);
   //let deleteSuppliers = `DELETE FROM Suppliers WHERE pid = ?`;
@@ -118,18 +154,43 @@ app.post('/delete-supplier-form/', function (req, res) {
       console.log(error)
       res.sendStatus(400)
     } else {
-      res.redirect('/')
+      res.redirect('/suppliers')
     }
   })
 })
 
-/*
-    LISTENER
-*/
-app.listen(PORT, function () {
-  console.log(
-    'Express started on http://localhost:' +
-      PORT +
-      '; press Ctrl-C to terminate.'
-  )
+/*************************************
+  COLORS ROUTES
+**************************************/
+
+// Page to render for colors READ
+app.get('/colors', function (req, res) {
+  let searchQuery
+  if (req.query.color === undefined) {
+    searchQuery = `SELECT * FROM Colors;`
+  } else {
+    searchQuery = `SELECT * FROM Colors WHERE Colors.color LIKE CONCAT("%", "${req.query.color}", "%");`
+  }
+  db.pool.query(searchQuery, function (error, rows, fields) {
+    let colors = rows
+    res.render('colors.hbs', {
+      layout: 'index.hbs',
+      pageTitle: 'Colors',
+      data: colors,
+    })
+  })
+})
+// Page to render for colors CREATE
+app.post('/add-color-form', function (req, res) {
+  let data = req.body
+
+  let insertQuery = `INSERT INTO Colors (color) VALUES ('${data['input-color']}');`
+  db.pool.query(insertQuery, function (error, rows, fields) {
+    if (error) {
+      console.log(error)
+      res.sendStatus(400)
+    } else {
+      res.redirect('/colors')
+    }
+  })
 })
