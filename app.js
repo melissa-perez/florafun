@@ -201,13 +201,25 @@ app.post('/add-color-form', function (req, res) {
 // Page to render for customers READ
 app.get('/customers', function (req, res) {
   let searchQuery
-  if (req.query.color === undefined) {
-    searchQuery = `SELECT * FROM Customers;`
-  } else {
-    searchQuery = `SELECT * FROM Customers WHERE Customers.name LIKE CONCAT("%", "${req.query.name}", "%");`
-  }
+  /*if (req.query.color === undefined) {
+    searchQuery = `SELECT Customers.customer_id AS "ID",
+    Customers.name AS "Name",
+    Customers.address AS "Address"
+    Customers.email AS "Email",
+    Customers.phone AS "Phone Number",
+    FROM Customers;`
+  } else {*/
+    searchQuery = `
+    SELECT Customers.customer_id AS "ID",
+    Customers.name AS "Name",
+    Customers.address AS "Address",
+    Customers.email AS "Email",
+    Customers.phone AS "Phone Number"
+    FROM Customers;`
+  //}
   db.pool.query(searchQuery, function (error, rows, fields) {
     let customers = rows
+    //console.log((customers))
     res.render('customers.hbs', {
       layout: 'index.hbs',
       pageTitle: 'Customers',
