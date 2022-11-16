@@ -406,3 +406,215 @@ app.get('/payment_methods', function (req, res) {
     })
   })
   
+  
+  /*************************************
+  ORDERS ROUTES
+**************************************/
+// Page to render for orders READ
+app.get('/orders', function (req, res) {
+  // Declare Query 1
+  let query1
+
+  // If there is no query string, we just perform a basic SELECT
+  if (req.query.order_id === undefined) {
+    query1 = 'SELECT * FROM Orders;'
+  }
+
+  // If there is a query string, we assume this is a search, and return desired results
+  else {
+    query1 = `SELECT * FROM Orders WHERE order_id LIKE "${req.query.order_id}%"`
+  }
+
+  // Query 2 is the same in both cases
+  //let query2 = "SELECT * FROM Orders;";
+
+  // Run the 1st query
+  db.pool.query(query1, function (error, rows, fields) {
+    // Save the orders
+    let orders = rows
+
+    // Run the second query
+    //db.pool.query(query2, (error, rows, fields) => {
+
+    // Save the planets
+    //let planets = rows;
+    res.render('orders.hbs', {
+      layout: 'index.hbs',
+      pageTitle: 'Orders',
+      data: orders,
+    })
+  })
+})
+// Page to render for orders CREATE
+app.post('/add-order-form', function (req, res) {
+  // Capture the incoming data and parse it back to a JS object
+  let data = req.body
+
+  // Capture NULL values
+  //let email = parseInt(data['input-email']);
+  //if (isNaN(email))
+  //{
+  //    email = 'NULL'
+  //}
+
+  //let is_local = parseInt(data['input-is_local']);
+  //if (isNaN(is_local))
+  //{
+  //    is_local = 'NULL'
+  //}
+
+  // Create the query and run it on the database
+  query1 = `INSERT INTO Orders (order_date, order_quantity, total_sale_price, customer_id, payment_method_id, discount_id) VALUES ('${data['input-order_date']}', '${data['input-order_quantity']}', '${data['input-total_sale_price']}', '${data['input-customer_id']}', '${data['input-payment_method_id']}', '${data['input-discount_id']}')`
+  db.pool.query(query1, function (error, rows, fields) {
+    // Check to see if there was an error
+    if (error) {
+      // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+      console.log(error)
+      res.sendStatus(400)
+    }
+
+    // If there was no error, we redirect back to our root route, which automatically runs the SELECT * FROM Orders and
+    // presents it on the screen
+    else {
+      res.redirect('/orders')
+    }
+  })
+})
+// Page to render for orders UPDATE
+app.post('/update-order-form', function (req, res) {
+  let data = req.body
+  //let orderID = parseInt(data.id);
+  //let deleteOrders = `DELETE FROM Orders WHERE pid = ?`;
+  let updateOrders = `UPDATE Orders SET order_date = '${data['input-order_date']}' , order_quantity = '${data['input-order_quantity']}' , total_sale_price = '${data['input-total_sale_price']}', customer_id = '${data['input-customer_id']}', payment_method_id = '${data['input-payment_method_id']}', discount_id = '${data['input-discount_id']}' WHERE order_id = '${data['input-order_id']}'`
+  // Run the second query
+  db.pool.query(updateOrders, function (error, rows, fields) {
+    if (error) {
+      console.log(error)
+      res.sendStatus(400)
+    } else {
+      res.redirect('/orders')
+    }
+  })
+})
+// Page to render for orders DELETE
+app.post('/delete-order-form', function (req, res) {
+  let data = req.body
+  //let orderID = parseInt(data.id);
+  //let deleteOrders = `DELETE FROM Orders WHERE pid = ?`;
+  let deleteOrders = `DELETE FROM Orders WHERE order_id = '${data['input-order_id']}'`
+  // Run the second query
+  db.pool.query(deleteOrders, function (error, rows, fields) {
+    if (error) {
+      console.log(error)
+      res.sendStatus(400)
+    } else {
+      res.redirect('/orders')
+    }
+  })
+})
+
+/*************************************
+  ORDER ITEMS ROUTES
+**************************************/
+// Page to render for order_items READ
+app.get('/order_items', function (req, res) {
+  // Declare Query 1
+  let query1
+
+  // If there is no query string, we just perform a basic SELECT
+  if (req.query.order_id === undefined) {
+    query1 = 'SELECT * FROM Order_Items;'
+  }
+
+  // If there is a query string, we assume this is a search, and return desired results
+  else {
+    query1 = `SELECT * FROM Order_Items WHERE order_id LIKE "${req.query.order_id}%"`
+  }
+
+  // Query 2 is the same in both cases
+  //let query2 = "SELECT * FROM Order_Items;";
+
+  // Run the 1st query
+  db.pool.query(query1, function (error, rows, fields) {
+    // Save the order_items
+    let order_items = rows
+
+    // Run the second query
+    //db.pool.query(query2, (error, rows, fields) => {
+
+    // Save the planets
+    //let planets = rows;
+    res.render('order_items.hbs', {
+      layout: 'index.hbs',
+      pageTitle: 'Order_Items',
+      data: order_items,
+    })
+  })
+})
+// Page to render for order_items CREATE
+app.post('/add-order_item-form', function (req, res) {
+  // Capture the incoming data and parse it back to a JS object
+  let data = req.body
+
+  // Capture NULL values
+  //let email = parseInt(data['input-email']);
+  //if (isNaN(email))
+  //{
+  //    email = 'NULL'
+  //}
+
+  //let is_local = parseInt(data['input-is_local']);
+  //if (isNaN(is_local))
+  //{
+  //    is_local = 'NULL'
+  //}
+
+  // Create the query and run it on the database
+  query1 = `INSERT INTO Order_Items (quantity, order_id, item_id) VALUES ('${data['input-quantity']}', '${data['input-order_id']}', '${data['input-item_id']}')`
+  db.pool.query(query1, function (error, rows, fields) {
+    // Check to see if there was an error
+    if (error) {
+      // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+      console.log(error)
+      res.sendStatus(400)
+    }
+
+    // If there was no error, we redirect back to our root route, which automatically runs the SELECT * FROM Order_Items and
+    // presents it on the screen
+    else {
+      res.redirect('/order_items')
+    }
+  })
+})
+// Page to render for order_items UPDATE
+app.post('/update-order_item-form', function (req, res) {
+  let data = req.body
+  //let order_itemID = parseInt(data.id);
+  //let deleteOrder_Items = `DELETE FROM Order_Items WHERE pid = ?`;
+  let updateOrder_Items = `UPDATE Order_Items SET quantity = '${data['input-quantity']}' , order_id = '${data['input-order_id']}' , item_id = '${data['input-item_id']}' WHERE order_item_id = '${data['input-order_item_id']}'`
+  // Run the second query
+  db.pool.query(updateOrder_Items, function (error, rows, fields) {
+    if (error) {
+      console.log(error)
+      res.sendStatus(400)
+    } else {
+      res.redirect('/order_items')
+    }
+  })
+})
+// Page to render for order_items DELETE
+app.post('/delete-order_item-form', function (req, res) {
+  let data = req.body
+  //let order_itemID = parseInt(data.id);
+  //let deleteOrder_Items = `DELETE FROM Order_Items WHERE pid = ?`;
+  let deleteOrder_Items = `DELETE FROM Order_Items WHERE order_item_id = '${data['input-order_item_id']}'`
+  // Run the second query
+  db.pool.query(deleteOrder_Items, function (error, rows, fields) {
+    if (error) {
+      console.log(error)
+      res.sendStatus(400)
+    } else {
+      res.redirect('/order_items')
+    }
+  })
+})
