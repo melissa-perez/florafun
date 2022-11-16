@@ -194,3 +194,24 @@ app.post('/add-color-form', function (req, res) {
     }
   })
 })
+
+/*************************************
+  CUSTOMERS ROUTES
+**************************************/
+// Page to render for customers READ
+app.get('/customers', function (req, res) {
+  let searchQuery
+  if (req.query.color === undefined) {
+    searchQuery = `SELECT * FROM Customers;`
+  } else {
+    searchQuery = `SELECT * FROM Customers WHERE Customers.name LIKE CONCAT("%", "${req.query.name}", "%");`
+  }
+  db.pool.query(searchQuery, function (error, rows, fields) {
+    let customers = rows
+    res.render('customers.hbs', {
+      layout: 'index.hbs',
+      pageTitle: 'Customers',
+      data: customers,
+    })
+  })
+})

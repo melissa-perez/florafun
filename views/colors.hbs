@@ -1,8 +1,8 @@
-<h1>Colors</h1>
+<h1>{{pageTitle}}</h1>
 <table id='colors-table'>
   <thead>
     <tr>
-      {{#each data.[0]}}
+      {{#each data.0}}
         <th>
           {{@key}}
         </th>
@@ -23,9 +23,9 @@
   <form method='GET' id='id="search-color-html" ' action='/colors'>
     <legend>Search Color</legend>
     <fieldset>
-      <label for="color-name">  Color name: </label>
+      <label for='color-name'> Color name: </label>
       <input type='text' name='color' /><br /><br />
-      <input type="submit">
+      <input type='submit' />
       <a href='/colors'><button>Reset</button></a>
     </fieldset>
   </form>
