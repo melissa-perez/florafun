@@ -238,3 +238,31 @@ app.get('/customers', function (req, res) {
     })
   })
 })
+// Page to render for customers CREATE
+app.post('/add-customer-form', function (req, res) {
+  let data = req.body
+  let insertQuery = `INSERT INTO Customers (name, address, email, phone) VALUES ('${data['input-name']}', '${data['input-address']}', '${data['input-email']}', '${data['input-phone']}');`
+  db.pool.query(insertQuery, function (error, rows, fields) {
+    if (error) {
+      console.log(error)
+      res.sendStatus(400)
+    } else {
+      let searchQuery
+      searchQuery = `
+      SELECT Customers.customer_id AS "ID",
+      Customers.name AS "Name",
+      Customers.address AS "Address",
+      Customers.email AS "Email",
+      Customers.phone AS "Phone Number"
+      FROM Customers;`
+      db.pool.query(query2, function (error, rows, fields) {
+        if (error) {
+          console.log(error)
+          res.sendStatus(400)
+        } else {
+          res.send(rows)
+        }
+      })
+    }
+  })
+})

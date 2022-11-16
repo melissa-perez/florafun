@@ -23,7 +23,7 @@
 
     {{> navbar}}
     {{#if isDisplayTables}}
-      {{> table data=data table-id='{{toLowerCase pageTitle}}-table'}}
+      {{> table data=data table-id=pageTitle}}
       {{> searchform main-name=pageTitle }}
     {{/if}}
     {{{body}}}
