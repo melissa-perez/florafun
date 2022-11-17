@@ -3,6 +3,7 @@
     method='POST'
     id='add-{{toLowerCase (removeLastLetter pageTitle)}}-form'
     class='mb-4'
+    action='/add-{{toLowerCase (removeLastLetter pageTitle)}}-form'
   >
     <legend>Add a new {{removeLastLetter pageTitle}}</legend>
     <p>Use the form below to add a new
@@ -19,6 +20,7 @@
           type='text'
           name='input-name'
           id='input-name'
+          required
         />
         <div class='form-text'>
           <em>First name Last name</em>
@@ -36,6 +38,7 @@
           type='text'
           name='input-address'
           id='input-address'
+          required
         />
         <div class='form-text'>
           <em>Street No. Street Name City State Zip</em>
@@ -53,6 +56,7 @@
           type='email'
           name='input-email'
           id='input-email'
+          required
         />
         <div class='form-text'>
           <em>address@provider.ext</em>
@@ -81,4 +85,3 @@
       {{toLowerCase (removeLastLetter pageTitle)}}</button>
   </form>
 </div>
-<script src='/js/add_customer.js'></script>

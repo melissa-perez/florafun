@@ -192,7 +192,6 @@ app.get('/colors', function (req, res) {
 // Page to render for colors CREATE
 app.post('/add-color-form', function (req, res) {
   let data = req.body
-  console.log(data)
   let insertQuery = `INSERT INTO Colors (color) VALUES ('${data['input-color']}');`
   db.pool.query(insertQuery, function (error, rows, fields) {
     if (error) {
@@ -239,7 +238,7 @@ app.get('/customers', function (req, res) {
   })
 })
 // Page to render for customers CREATE
-app.post('/customers', function (req, res) {
+app.post('/add-customer-form', function (req, res) {
   let data = req.body
   let insertQuery = `INSERT INTO Customers (name, address, email, phone) VALUES ('${data['input-name']}', '${data['input-address']}', '${data['input-email']}', '${data['input-phone']}');`
   db.pool.query(insertQuery, function (error, rows, fields) {
@@ -247,22 +246,44 @@ app.post('/customers', function (req, res) {
       console.log(error)
       res.sendStatus(400)
     } else {
-      let searchQuery
-      searchQuery = `
-      SELECT Customers.customer_id AS "ID",
-      Customers.name AS "Name",
-      Customers.address AS "Address",
-      Customers.email AS "Email",
-      Customers.phone AS "Phone Number"
-      FROM Customers;`
-      db.pool.query(searchQuery, function (error, rows, fields) {
-        if (error) {
-          console.log(error)
-          res.sendStatus(400)
-        } else {
-          res.send(rows)
-        }
-      })
+      res.redirect('/customers')
     }
+  })
+})
+
+/*************************************
+  ITEMS ROUTES
+**************************************/
+// Page to render for colors READ
+app.get('/items', function (req, res) {
+  let searchQuery
+  if (req.query.items_name === undefined) {
+    searchQuery = `SELECT Items.item_id AS ID,
+    Items.flower_name AS Flower,
+    Items.scientific_name AS 'Scientific name',
+    IF(Items.is_indoor, 'True', 'False') AS Indoor,
+    Items.stock_quantity AS Stock, CONCAT('$', Items.price) AS Price,
+    Suppliers.name AS Supplier FROM Items
+    JOIN Suppliers ON Suppliers.supplier_id = Items.supplier_id;`
+  } else {
+    searchQuery = `SELECT Items.item_id AS ID,
+    Items.flower_name AS Flower,
+    Items.scientific_name AS 'Scientific name',
+    IF(Items.is_indoor, 'True', 'False') AS Indoor,
+    Items.stock_quantity AS Stock, CONCAT('$', Items.price) AS Price,
+    Suppliers.name AS Supplier FROM Items
+    JOIN Suppliers ON Suppliers.supplier_id = Items.supplier_id
+    WHERE Items.flower_name LIKE CONCAT("%", "${req.query.items_name}", "%");`
+  }
+  console.log(searchQuery)
+  db.pool.query(searchQuery, function (error, rows, fields) {
+    let items = rows
+    console.log(items)
+    res.render('items.hbs', {
+      layout: 'index.hbs',
+      pageTitle: 'Items',
+      data: items,
+      isDisplayTables: true,
+    })
   })
 })
