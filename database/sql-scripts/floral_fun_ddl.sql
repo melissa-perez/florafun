@@ -185,7 +185,7 @@ CREATE
 OR REPLACE TABLE `Orders` (
   `order_id` int(11) NOT NULL,
   `order_date` date NOT NULL,
-  `product_quantity` int(11) NOT NULL,
+  `order_quantity` int(11) NOT NULL,
   `total_sale_price` decimal(10, 2) NOT NULL,
   `customer_id` int(11) DEFAULT NULL,
   `payment_method_id` int(11) DEFAULT NULL,
@@ -199,7 +199,7 @@ INSERT INTO
   `Orders` (
     `order_id`,
     `order_date`,
-    `product_quantity`,
+    `order_quantity`,
     `total_sale_price`,
     `customer_id`,
     `payment_method_id`,
