@@ -686,20 +686,26 @@ app.get('/items', function (req, res) {
   let searchQuery
   if (req.query.items_name === undefined) {
     searchQuery = `SELECT Items.item_id AS ID,
-    Items.flower_name AS Flower,
+    Items.flower_name AS Item,
     Items.scientific_name AS 'Scientific name',
+    Colors.color AS Color,
     IF(Items.is_indoor, 'True', 'False') AS Indoor,
     Items.stock_quantity AS Stock, CONCAT('$', Items.price) AS Price,
-    Suppliers.name AS Supplier FROM Items
-    JOIN Suppliers ON Suppliers.supplier_id = Items.supplier_id;`
+    Suppliers.name AS Supplier
+    FROM Items
+    JOIN Suppliers ON Suppliers.supplier_id = Items.supplier_id
+    JOIN Colors ON Colors.color_id = Items.color_id;`
   } else {
     searchQuery = `SELECT Items.item_id AS ID,
-    Items.flower_name AS Flower,
+    Items.flower_name AS Item,
     Items.scientific_name AS 'Scientific name',
+    Colors.color AS Color,
     IF(Items.is_indoor, 'True', 'False') AS Indoor,
     Items.stock_quantity AS Stock, CONCAT('$', Items.price) AS Price,
-    Suppliers.name AS Supplier FROM Items
+    Suppliers.name AS Supplier
+    FROM Items
     JOIN Suppliers ON Suppliers.supplier_id = Items.supplier_id
+    JOIN Colors ON Colors.color_id = Items.color_id
     WHERE Items.flower_name LIKE CONCAT("%", "${req.query.items_name}", "%");`
   }
   db.pool.query(searchQuery, function (error, rows, fields) {
