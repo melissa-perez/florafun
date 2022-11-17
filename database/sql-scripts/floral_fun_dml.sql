@@ -12,7 +12,7 @@ VALUES
 SELECT
   Orders.order_id,
   Orders.order_date,
-  Orders.product_quantity,
+  Orders.order_quantity,
   Orders.total_sale_price,
   Customers.name,
   Payment_Methods.type,

@@ -689,7 +689,7 @@ app.get('/items', function (req, res) {
     Items.flower_name AS Item,
     Items.scientific_name AS 'Scientific name',
     Colors.color AS Color,
-    IF(Items.is_indoor, 'True', 'False') AS Indoor,
+    IF(Items.is_indoor, 'Yes', 'No') AS Indoor,
     Items.stock_quantity AS Stock, CONCAT('$', Items.price) AS Price,
     Suppliers.name AS Supplier
     FROM Items
@@ -700,7 +700,7 @@ app.get('/items', function (req, res) {
     Items.flower_name AS Item,
     Items.scientific_name AS 'Scientific name',
     Colors.color AS Color,
-    IF(Items.is_indoor, 'True', 'False') AS Indoor,
+    IF(Items.is_indoor, 'Yes', 'No') AS Indoor,
     Items.stock_quantity AS Stock, CONCAT('$', Items.price) AS Price,
     Suppliers.name AS Supplier
     FROM Items
