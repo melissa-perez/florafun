@@ -1,21 +1,21 @@
 <div class='container border border-light rounded border-2 mb-2'>
   <form
     method='GET'
-    id='{{toLowerCase pageTitle}}-html-search'
-    action='/{{toLowerCase pageTitle}}'
+    id='{{toLowerCase tableId}}-html-search'
+    action='/{{toLowerCase tableId}}'
     class='mb-3'
   >
-    <legend>Search for a {{removeLastLetter pageTitle}}</legend>
+    <legend>Search for a {{removeLastLetter tableId}}</legend>
     <fieldset>
       <p>Search by name using the field below.</p>
-      <label clas='form-label' for='{{toLowerCase pageTitle}}_name'>
-        {{removeLastLetter pageTitle}}
+      <label clas='form-label' for='{{toLowerCase tableId}}_name'>
+        {{removeLastLetter tableId}}
         name:
       </label>
       <input
         class='form-control'
         type='text'
-        name='{{toLowerCase pageTitle}}_name'
+        name='{{toLowerCase tableId}}_name'
       />
       <div class='form-text'>
         The search will look for general results that match the given term.
@@ -26,7 +26,7 @@
       >Search</button>
       <a
         class='btn btn-warning my-2 my-sm-0 btn-sm'
-        href='/{{toLowerCase pageTitle}}'
+        href='/{{toLowerCase tableId}}'
         role='button'
       >Reset search</a>
     </fieldset>

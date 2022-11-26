@@ -49,7 +49,7 @@
     <div class='row mb-3'>
       <fieldset>
         <label class='form-label' for='input-email'>
-          Email
+          Email (Required*)
         </label>
         <input
           class='form-control'
@@ -74,9 +74,10 @@
           type='tel'
           name='input-phone'
           id='input-phone'
+          pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
         />
         <div class='form-text'>
-          <em>(###)###-####</em>
+          <em>###-###-####</em>
         </div>
       </fieldset>
     </div>

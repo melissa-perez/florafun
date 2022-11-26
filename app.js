@@ -70,6 +70,7 @@ app.get('/suppliers', function (req, res) {
       layout: 'index.hbs',
       pageTitle: 'Suppliers',
       data: suppliers,
+      tableId: 'Suppliers',
     })
   })
 })
@@ -138,6 +139,7 @@ app.get('/colors', function (req, res) {
       pageTitle: 'Colors',
       data: colors,
       isDisplayTables: true,
+      tableId: 'Colors',
     })
   })
 })
@@ -160,16 +162,17 @@ app.post('/add-color-form', function (req, res) {
 **************************************/
 // Page to render for customers READ
 app.get('/customers', function (req, res) {
-  let searchQuery
-  if (req.query.customers_name === undefined) {
-    searchQuery = `
-    SELECT Customers.customer_id AS "ID",
-    Customers.name AS "Name",
-    Customers.address AS "Address",
-    Customers.email AS "Email",
-    Customers.phone AS "Phone Number"
-    FROM Customers;`
-  } else {
+  let searchQuery = `
+  SELECT Customers.customer_id AS "ID",
+  Customers.name AS "Name",
+  Customers.address AS "Address",
+  Customers.email AS "Email",
+  Customers.phone AS "Phone Number"
+  FROM Customers;`
+
+  let callbackQuery = searchQuery
+
+  if (req.query.customers_name !== undefined) {
     searchQuery = `
     SELECT Customers.customer_id AS "ID",
     Customers.name AS "Name",
@@ -177,15 +180,27 @@ app.get('/customers', function (req, res) {
     Customers.email AS "Email",
     Customers.phone AS "Phone Number"
     FROM Customers
-    WHERE Customers.name LIKE CONCAT("%", "${req.query.customers_name}", "%");`
+    WHERE Customers.name LIKE CONCAT("%", "${String(
+      req.query.customers_name
+    ).trim()}", "%");`
   }
+
   db.pool.query(searchQuery, function (error, rows, fields) {
     let customers = rows
-    res.render('customers.hbs', {
-      layout: 'index.hbs',
-      pageTitle: 'Customers',
-      data: customers,
-      isDisplayTables: true,
+    
+    db.pool.query(callbackQuery, (error, rows, fields) => {
+      let cbCustomers = rows
+      //console.log(cbCustomers)
+      //console.log(callbackQuery)
+      res.render('customers.hbs', {
+        layout: 'index.hbs',
+        pageTitle: 'Customers',
+        data: customers,
+        dropdownData: cbCustomers,
+        isDisplayTables: true,
+        tableId: 'Customers',
+        toDelete: ['ID', 'Name'],
+      })
     })
   })
 })
@@ -220,6 +235,7 @@ app.get('/discounts', function (req, res) {
       layout: 'index.hbs',
       pageTitle: 'Discounts',
       data: discounts,
+      tableId: 'Discounts',
     })
   })
 })
@@ -279,8 +295,9 @@ app.get('/payment_methods', function (req, res) {
     let payment_methods = rows
     res.render('payment_methods.hbs', {
       layout: 'index.hbs',
-      pageTitle: 'Payment_Methods',
+      pageTitle: 'Payment Methods',
       data: payment_methods,
+      tableId: 'Payment-Methods',
     })
   })
 })
@@ -341,6 +358,7 @@ app.get('/orders', function (req, res) {
       layout: 'index.hbs',
       pageTitle: 'Orders',
       data: orders,
+      tableId: 'Orders',
     })
   })
 })
@@ -421,6 +439,7 @@ app.get('/items', function (req, res) {
       pageTitle: 'Items',
       data: items,
       isDisplayTables: true,
+      tableId: 'Items',
     })
   })
 })
@@ -440,8 +459,9 @@ app.get('/order_items', function (req, res) {
     let order_items = rows
     res.render('order_items.hbs', {
       layout: 'index.hbs',
-      pageTitle: 'Order_Items',
+      pageTitle: 'Order Items',
       data: order_items,
+      tableId: 'Order-Items',
     })
   })
 })
