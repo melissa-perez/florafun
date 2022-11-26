@@ -44,20 +44,19 @@
 <p>To add a new payment method, please enter their information below and click `Submit`!</p>
 <form id="add-payment_method-form" method="POST" action="/add-payment_method-form">
     <label for="input-type">Type: </label>
-    <input type="text" name="input-type" id="input-type">
+    <input type="text" name="input-type" id="input-type" required>
     <input type="submit">
 </form>
 <table id="payment_methods-table">
 
 <h2>Updating Data using an HTML form</h2>
 <p>To update a new payment method, please enter their id below and click `Submit`!</p>
-<p><strong>Blank values will be deleted!</strong></p>
 <form id="update-payment_method-form" method="POST" action="/update-payment_method-form">
     <label for="input-payment_method_id">Payment Method ID: </label>
-    <input type="number" name="input-payment_method_id" id="input-payment_method_id">
+    <input type="number" name="input-payment_method_id" id="input-payment_method_id" required>
     
     <label for="input-type">Type: </label>
-    <input type="text" name="input-type" id="input-type">
+    <input type="text" name="input-type" id="input-type" required>
     <input type="submit">
 </form>
 
