@@ -42,10 +42,10 @@
 <p>To add a new discount, please enter their information below and click `Submit`!</p>
 <form id="add-discount-form" method="POST" action="/add-discount-form">
     <label for="input-code">Code: </label>
-    <input type="text" name="input-code" id="input-code">
+    <input type="text" name="input-code" id="input-code" required>
     
     <label for="input-percent">Percent: </label>
-    <input type="text" name="input-percent" id="input-percent">
+    <input type="text" name="input-percent" id="input-percent" required>
 
     <input type="submit">
 </form>
@@ -53,16 +53,15 @@
 
 <h2>Updating Data using an HTML form</h2>
 <p>To update a new discount, please enter their id below and click `Submit`!</p>
-<p><strong>Blank values will be deleted!</strong></p>
 <form id="update-discount-form" method="POST" action="/update-discount-form">
     <label for="input-discount_id">Discount ID: </label>
-    <input type="number" name="input-discount_id" id="input-discount_id">
+    <input type="number" name="input-discount_id" id="input-discount_id" required>
     
     <label for="input-code">Code: </label>
-    <input type="text" name="input-code" id="input-code">
+    <input type="text" name="input-code" id="input-code" required>
     
     <label for="input-percent">Percent: </label>
-    <input type="text" name="input-percent" id="input-percent">
+    <input type="text" name="input-percent" id="input-percent" required>
     <input type="submit">
 </form>
 
