@@ -2,11 +2,12 @@
     SETUP
 **************************************/
 // Express
+const PORT = 3423
 const express = require('express')
 const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-const PORT = 3423
+app.use(express.static('public'))
 
 // Database
 const db = require('./database/db-connector')
@@ -20,10 +21,9 @@ app.engine(
     extname: '.hbs',
     layoutsDir: __dirname + '/views/layouts',
     partialsDir: __dirname + '/views/partials',
-    helpers: require(__dirname + '/helpers.js'),
+    helpers: require(__dirname + '/public/js/helpers.js'),
   })
 )
-app.use(express.static('public'))
 app.set('view engine', '.hbs')
 
 /*************************************
