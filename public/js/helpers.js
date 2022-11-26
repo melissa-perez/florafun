@@ -20,4 +20,7 @@ module.exports = {
     const vowels = new Set('a', 'e', 'i', 'o', 'u')
     return vowels.has(str[0].toLowerCase())
   },
+  jsonHelper: function (context) {
+    return JSON.stringify(context)
+  },
 }

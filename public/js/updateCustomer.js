@@ -34,7 +34,8 @@ updateCustomerForm.addEventListener('submit', function (e) {
   xhttp.send(JSON.stringify(data))
 })
 
-function customerFill() {
-  const customerID = document.getElementById('delete-customer-select').value
-  console.log(console.log)
+function customerFill(data) {
+  const customerID = document.getElementById('update-customer-select').value
+  console.log(customerID)
+  console.log(data)
 }
