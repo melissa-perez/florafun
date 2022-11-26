@@ -4,16 +4,20 @@
 **************************************/
 
 module.exports = {
-    ifeq: function(a, b, options){
-      if (a === b) {
-        return options.fn(this);
-        }
-      return options.inverse(this);
-    },
-    toLowerCase: function(str){
-      return str.toLowerCase();
-    },
-    removeLastLetter: function(str){
-      return str.slice(0, -1);
+  ifeq: function (a, b, options) {
+    if (a === b) {
+      return options.fn(this)
     }
-  }
+    return options.inverse(this)
+  },
+  toLowerCase: function (str) {
+    return str.toLowerCase()
+  },
+  removeLastLetter: function (str) {
+    return str.slice(0, -1)
+  },
+  checkIfVowel: function (str) {
+    const vowels = new Set('a', 'e', 'i', 'o', 'u')
+    return vowels.has(str[0].toLowerCase())
+  },
+}

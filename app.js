@@ -167,16 +167,15 @@ app.get('/customers', function (req, res) {
   Customers.name AS "Name",
   Customers.address AS "Address",
   Customers.email AS "Email",
-  Customers.phone AS "Phone Number"
+  IFNULL(Customers.phone, 'N/A') AS "Phone Number"
   FROM Customers;`
-
   if (req.query.customers_name !== undefined) {
     searchQuery = `
     SELECT Customers.customer_id AS "ID",
     Customers.name AS "Name",
     Customers.address AS "Address",
     Customers.email AS "Email",
-    Customers.phone AS "Phone Number"
+    IFNULL(Customers.phone, 'N/A') AS "Phone Number"
     FROM Customers
     WHERE Customers.name LIKE CONCAT("%", "${String(
       req.query.customers_name

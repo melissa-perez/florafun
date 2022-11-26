@@ -3,10 +3,10 @@
     id='{{toLowerCase tableId}}-html-delete'
     class='mb-3'
   >
-    <legend>Delete a {{removeLastLetter tableId}}</legend>
+    <legend>Delete an existing {{removeLastLetter tableId}}</legend>
     <fieldset>
       <label class='form-label' for='delete-customer-form'>
-        Use the dropdown to delete existing {{toLowerCase (removeLastLetter pageTitle)}}:
+        Use the dropdown to delete an existing {{toLowerCase (removeLastLetter pageTitle)}}:
       </label>
       <select name='delete-customer-form' id='delete-customer-form'>
         <option value=''>Select a {{toLowerCase (removeLastLetter pageTitle)}}.</option>
