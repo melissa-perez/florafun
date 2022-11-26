@@ -22,8 +22,7 @@
             <td>{{this.order_item_id}}</td>
             <td>{{this.quantity}}</td>
             <td>{{this.order_id}}</td>
-            <td>{{this.item_id}}</td>
-            <td>{{this.is_local}}</td>
+            <td>{{this.flower_name}}</td>
         </tr>
         {{/each}}
     </tbody>
@@ -44,13 +43,13 @@
 <p>To add a new order_item, please enter their information below and click `Submit`!</p>
 <form id="add-order_item-form" method="POST" action="/add-order_item-form">
     <label for="input-quantity">Quantity: </label>
-    <input type="text" name="input-quantity" id="input-quantity">
+    <input type="text" name="input-quantity" id="input-quantity" required>
     
     <label for="input-order_id">Order ID: </label>
-    <input type="text" name="input-order_id" id="input-order_id">
+    <input type="text" name="input-order_id" id="input-order_id" required>
 
     <label for="input-item_id">Item ID: </label>
-    <input type="text" name="input-item_id" id="input-item_id">
+    <input type="text" name="input-item_id" id="input-item_id" required>
 
     <input type="submit">
 </form>
@@ -58,19 +57,18 @@
 
 <h2>Updating Data using an HTML form</h2>
 <p>To update a new order_item, please enter their id below and click `Submit`!</p>
-<p><strong>Blank values will be deleted!</strong></p>
 <form id="update-order_item-form" method="POST" action="/update-order_item-form">
     <label for="input-order_item_id">Order Item ID: </label>
-    <input type="number" name="input-order_item_id" id="input-order_item_id">
+    <input type="number" name="input-order_item_id" id="input-order_item_id" required>
     
     <label for="input-quantity">Quantity: </label>
-    <input type="text" name="input-quantity" id="input-quantity">
+    <input type="text" name="input-quantity" id="input-quantity" required>
     
     <label for="input-order_id">Order ID: </label>
-    <input type="text" name="input-order_id" id="input-order_id">
+    <input type="text" name="input-order_id" id="input-order_id" required>
 
     <label for="input-item_id">Item ID: </label>
-    <input type="text" name="input-item_id" id="input-item_id">
+    <input type="text" name="input-item_id" id="input-item_id" required>
     <input type="submit">
 </form>
 
