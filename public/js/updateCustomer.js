@@ -2,32 +2,26 @@ let updateCustomerForm = document.getElementById('update-customer-form')
 
 updateCustomerForm.addEventListener('submit', function (e) {
   e.preventDefault()
-  // set up the drop down to fill
 
-  // Get form fields we need to get data from
-  let inputFullName = document.getElementById('mySelect')
-  let inputHomeworld = document.getElementById('input-homeworld-update')
+  let newName = document.getElementById('update-name')
+  let newAddress = document.getElementById('update-address')
+  let newEmail = document.getElementById('update-email')
+  let newPhone = document.getElementById('update-phone')
 
-  // Get the values from the form fields
-  let fullNameValue = inputFullName.value
-  let homeworldValue = inputHomeworld.value
+  let newNameValue = newName.value
+  let newAddressValue = newAddress.value
+  let newEmailValue = newEmail.value
+  let newPhoneValue = newPhone.value
 
-  // currently the database table for bsg_people does not allow updating values to NULL
-  // so we must abort if being bassed NULL for homeworld
-
-  if (isNaN(homeworldValue)) {
-    return
-  }
-
-  // Put our data we want to send in a javascript object
   let data = {
-    fullname: fullNameValue,
-    homeworld: homeworldValue,
+    name: newNameValue,
+    address: newAddressValue,
+    email: newEmailValue,
+    phone: newPhoneValue,
   }
 
-  // Setup our AJAX request
   var xhttp = new XMLHttpRequest()
-  xhttp.open('PUT', '/put-person-ajax', true)
+  xhttp.open('PUT', '/update-customer-form', true)
   xhttp.setRequestHeader('Content-type', 'application/json')
 
   xhttp.onreadystatechange = () => {
@@ -41,6 +35,6 @@ updateCustomerForm.addEventListener('submit', function (e) {
 })
 
 function customerFill() {
-    const customerID = document.getElementById('delete-customer-select').value
-    console.log(console.log)
+  const customerID = document.getElementById('delete-customer-select').value
+  console.log(console.log)
 }

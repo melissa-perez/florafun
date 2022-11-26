@@ -203,6 +203,7 @@ app.get('/customers', function (req, res) {
 // Page to render for customers CREATE
 app.post('/add-customer-form', function (req, res) {
   let data = req.body
+
   let insertQuery = `INSERT INTO Customers (name, address, email, phone) VALUES ('${String(
     data['input-name']
   ).trim()}', '${String(data['input-address']).trim()}', '${String(
@@ -241,42 +242,38 @@ app.delete('/delete-customer-form', function (req, res, next) {
 
 app.put('/update-customer-form', function (req, res, next) {
   let data = req.body
+  let customerID = parseInt(data.id)
 
-  let updateName = data['update-name']
-  let updateAddress = data['update-address']
-  let updateEmail = data['update-email']
-  let updatePhone = data['update-phone']
+  let updateName = String(data.name).trim()
+  let updateAddress = String(data.address).trim()
+  let updateEmail = String(data.email).trim()
+  let updatePhone = String(data.phone).trim()
 
+  let updateQuery = `UPDATE Customers
+   SET Customer.name = '${updateName}',
+   Customer.email = '${updateEmail}',
+   Customer.phone = '${updatePhone}',
+   Customer.address = '${updateAddress}'
+   WHERE Customer.customer_id = ${customerID}`
 
-  let queryUpdateWorld = `UPDATE bsg_people SET homeworld = ? WHERE bsg_people.id = ?`
-  let selectWorld = `SELECT * FROM bsg_planets WHERE id = ?`
+  // might need to fix
+  if (!updatePhone) {
+    updateQuery = `UPDATE Customers
+    SET Customer.name = '${updateName}',
+    Customer.email = '${updateEmail}',
+    Customer.phone = '${updatePhone}',
+    Customer.address = '${updateAddress}'
+    WHERE Customer.customer_id = ${customerID}`
+  }
 
-  // Run the 1st query
-  db.pool.query(
-    queryUpdateWorld,
-    [homeworld, person],
-    function (error, rows, fields) {
-      if (error) {
-        // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-        console.log(error)
-        res.sendStatus(400)
-      }
-
-      // If there was no error, we run our second query and return that data so we can use it to update the people's
-      // table on the front-end
-      else {
-        // Run the second query
-        db.pool.query(selectWorld, [homeworld], function (error, rows, fields) {
-          if (error) {
-            console.log(error)
-            res.sendStatus(400)
-          } else {
-            res.send(rows)
-          }
-        })
-      }
+  db.pool.query(updateQuery, [customerID], function (error, rows, fields) {
+    if (error) {
+      console.log(error)
+      res.sendStatus(400)
+    } else {
+      res.sendStatus(200)
     }
-  )
+  })
 })
 
 /*************************************
