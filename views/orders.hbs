@@ -22,9 +22,9 @@
             <td>{{this.order_date}}</td>
             <td>{{this.order_quantity}}</td>
             <td>{{this.total_sale_price}}</td>
-            <td>{{this.customer_id}}</td>
-            <td>{{this.payment_method_id}}</td>
-            <td>{{this.discount_id}}</td>
+            <td>{{this.name}}</td>
+            <td>{{this.type}}</td>
+            <td>{{this.code}}</td>
         </tr>
         {{/each}}
     </tbody>
@@ -45,22 +45,22 @@
 <p>To add a new order, please enter their information below and click `Submit`!</p>
 <form id="add-order-form" method="POST" action="/add-order-form">
     <label for="input-order_date">Order Date: </label>
-    <input type="text" name="input-order_date" id="input-order_date">
+    <input type="text" name="input-order_date" id="input-order_date" required>
     
     <label for="input-order_quantity">Order Quantity: </label>
-    <input type="text" name="input-order_quantity" id="input-order_quantity">
+    <input type="text" name="input-order_quantity" id="input-order_quantity" required>
 
     <label for="input-total_sale_price">Total Sale Price: </label>
-    <input type="text" name="input-total_sale_price" id="input-total_sale_price">
+    <input type="text" name="input-total_sale_price" id="input-total_sale_price" required>
 
     <label for="input-customer_id">Customer ID: </label>
-    <input type="number" name="input-customer_id" id="input-customer_id">
+    <input type="number" name="input-customer_id" id="input-customer_id" required>
 
     <label for="input-payment_method_id">Payment Method ID: </label>
-    <input type="number" name="input-payment_method_id" id="input-payment_method_id">
+    <input type="number" name="input-payment_method_id" id="input-payment_method_id" required>
 
     <label for="input-discount_id">Discount ID: </label>
-    <input type="number" name="input-discount_id" id="input-discount_id">
+    <input type="number" name="input-discount_id" id="input-discount_id" required>
 
     <input type="submit">
 </form>
@@ -68,30 +68,27 @@
 
 <h2>Updating Data using an HTML form</h2>
 <p>To update a new order, please enter their id below and click `Submit`!</p>
-<p><strong>Blank values will be deleted!</strong></p>
 <form id="update-order-form" method="POST" action="/update-order-form">
     <label for="input-order_id">Order ID: </label>
-    <input type="number" name="input-order_id" id="input-order_id">
+    <input type="number" name="input-order_id" id="input-order_id" required>
     
     <label for="input-order_date">Order Date: </label>
-    <input type="text" name="input-order_date" id="input-order_date">
+    <input type="text" name="input-order_date" id="input-order_date" required>
     
     <label for="input-order_quantity">Order Quantity: </label>
-    <input type="text" name="input-order_quantity" id="input-order_quantity">
+    <input type="number" name="input-order_quantity" id="input-order_quantity" required>
 
     <label for="input-total_sale_price">Total Sale Price: </label>
-    <input type="text" name="input-total_sale_price" id="input-total_sale_price">
+    <input type="text" name="input-total_sale_price" id="input-total_sale_price" required>
 
     <label for="input-customer_id">Customer ID: </label>
-    <input type="number" name="input-customer_id" id="input-customer_id">
-    <input type="submit">
+    <input type="number" name="input-customer_id" id="input-customer_id" required>
 
     <label for="input-payment_method_id">Payment Method ID: </label>
-    <input type="number" name="input-payment_method_id" id="input-payment_method_id">
-    <input type="submit">
+    <input type="number" name="input-payment_method_id" id="input-payment_method_id" required>
 
     <label for="input-discount_id">Discount ID: </label>
-    <input type="number" name="input-discount_id" id="input-discount_id">
+    <input type="number" name="input-discount_id" id="input-discount_id" required>
     <input type="submit">
 </form>
 
