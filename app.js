@@ -170,8 +170,6 @@ app.get('/customers', function (req, res) {
   Customers.phone AS "Phone Number"
   FROM Customers;`
 
-  let callbackQuery = searchQuery
-
   if (req.query.customers_name !== undefined) {
     searchQuery = `
     SELECT Customers.customer_id AS "ID",
@@ -187,23 +185,19 @@ app.get('/customers', function (req, res) {
 
   db.pool.query(searchQuery, function (error, rows, fields) {
     let customers = rows
-    
-    db.pool.query(callbackQuery, (error, rows, fields) => {
-      let cbCustomers = rows
-      //console.log(cbCustomers)
-      //console.log(callbackQuery)
-      res.render('customers.hbs', {
-        layout: 'index.hbs',
-        pageTitle: 'Customers',
-        data: customers,
-        dropdownData: cbCustomers,
-        isDisplayTables: true,
-        tableId: 'Customers',
-        toDelete: ['ID', 'Name'],
-      })
+
+    res.render('customers.hbs', {
+      layout: 'index.hbs',
+      pageTitle: 'Customers',
+      data: customers,
+      dropdownData: customers,
+      isDisplayTables: true,
+      tableId: 'Customers',
+      deleteKeys: ['ID', 'Name'],
     })
   })
 })
+
 // Page to render for customers CREATE
 app.post('/add-customer-form', function (req, res) {
   let data = req.body
@@ -297,7 +291,7 @@ app.get('/payment_methods', function (req, res) {
       layout: 'index.hbs',
       pageTitle: 'Payment Methods',
       data: payment_methods,
-      tableId: 'Payment-Methods',
+      tableId: 'Payment_Methods',
     })
   })
 })
@@ -461,7 +455,7 @@ app.get('/order_items', function (req, res) {
       layout: 'index.hbs',
       pageTitle: 'Order Items',
       data: order_items,
-      tableId: 'Order-Items',
+      tableId: 'OrderItems',
     })
   })
 })

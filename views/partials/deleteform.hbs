@@ -8,16 +8,12 @@
     <legend>Delete a {{removeLastLetter tableId}}</legend>
     <fieldset>
       <label class='form-label' for='delete-customer'>
-        Use the dropdown to delete existing {{toLowerCase (removeLastLetter tableId)}}:
+        Use the dropdown to delete existing {{toLowerCase (removeLastLetter pageTitle)}}:
       </label>
       <select name='delete-customer' id='delete-customer'>
-        <option value=''>Select a {{toLowerCase (removeLastLetter tableId)}}.</option>
-        {{log this.[dropdownData]}}
-        {{#each this.[dropdownData]}}
-            {{log this.Name}}
-            {{log @root.toDelete}}
-            {{log @root.toDelete.[0]}}
-            <option value='{{this.[@root].toDelete.[0]}}'>{{this.Name}}</option>
+        <option value=''>Select a {{toLowerCase (removeLastLetter pageTitle)}}.</option>
+        {{#each this.[data]}}
+            <option value='{{this.ID}}'>({{this.ID}}) {{this.Name}}</option>
         {{/each}}
       </select>
       <div class='form-text'>
