@@ -1,25 +1,39 @@
-<div class='container border border-light rounded border-2'>
+<div class='container border border-light rounded border-2 mb-2'>
   <form
-    method='POST'
-    id='update-{{toLowerCase (removeLastLetter pageTitle)}}-form'
+    id='update-{{toLowerCase (removeLastLetter tableId)}}-form'
     class='mb-4'
-    action='/update-{{toLowerCase (removeLastLetter pageTitle)}}-form'
   >
     <legend>Update an existing {{removeLastLetter pageTitle}}</legend>
-    <p>Use the form below to update an existing
-      {{toLowerCase (removeLastLetter pageTitle)}}.
-    </p>
+    <label
+      class='form-label'
+      for='update-{{toLowerCase (removeLastLetter tableId)}}-select'
+    >
+      Use the dropdown to update an existing
+      {{toLowerCase (removeLastLetter pageTitle)}}:
+    </label>
+    <select
+      name='update-{{toLowerCase (removeLastLetter tableId)}}-select'
+      id='update-{{toLowerCase (removeLastLetter tableId)}}-select'
+      onChange='{{customerFill}}'
+    >
+      <option value=''>Select a
+        {{toLowerCase (removeLastLetter pageTitle)}}.</option>
+      {{#each this.data}}
+        <option value='{{this.ID}}'>({{this.ID}}) {{this.Name}}</option>
+      {{/each}}
+    </select>
+
     <div class='row mb-3'>
       <fieldset>
-        <label class='form-label' for='input-name'>
+        <label class='form-label' for='update-name'>
           {{removeLastLetter pageTitle}}
           name:
         </label>
         <input
           class='form-control'
           type='text'
-          name='input-name'
-          id='input-name'
+          name='update-name'
+          id='update-name'
           required
         />
         <div class='form-text'>
@@ -30,14 +44,14 @@
 
     <div class='row mb-3'>
       <fieldset>
-        <label class='form-label' for='input-address'>
+        <label class='form-label' for='update-address'>
           Address
         </label>
         <input
           class='form-control'
           type='text'
-          name='input-address'
-          id='input-address'
+          name='update-address'
+          id='update-address'
           required
         />
         <div class='form-text'>
@@ -48,14 +62,14 @@
 
     <div class='row mb-3'>
       <fieldset>
-        <label class='form-label' for='input-email'>
+        <label class='form-label' for='update-email'>
           Email (Required*)
         </label>
         <input
           class='form-control'
           type='email'
-          name='input-email'
-          id='input-email'
+          name='update-email'
+          id='update-email'
           required
         />
         <div class='form-text'>
@@ -66,23 +80,26 @@
 
     <div class='row mb-3'>
       <fieldset>
-        <label class='form-label' for='input-phone'>
+        <label class='form-label' for='update-phone'>
           Phone number
         </label>
         <input
           class='form-control'
           type='tel'
-          name='input-phone'
-          id='input-phone'
-          pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+          name='update-phone'
+          id='update-phone'
+          pattern='[0-9]{3}-[0-9]{3}-[0-9]{4}'
+          placeholder='optional'
         />
         <div class='form-text'>
           <em>###-###-####</em>
         </div>
       </fieldset>
     </div>
-
-    <button class='btn btn-success my-2 my-sm-0 btn-sm' type='submit'>Add
+    <div class='form-text'>
+      WARNING: The update operation is permanent.
+    </div><br />
+    <button class='btn btn-success my-2 my-sm-0 btn-sm' type='submit'>Update
       {{toLowerCase (removeLastLetter pageTitle)}}</button>
   </form>
 </div>

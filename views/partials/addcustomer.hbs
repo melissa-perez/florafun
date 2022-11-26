@@ -1,4 +1,4 @@
-<div class='container border border-light rounded border-2'>
+<div class='container border border-light rounded border-2 mb-2'>
   <form
     method='POST'
     id='add-{{toLowerCase (removeLastLetter pageTitle)}}-form'
@@ -74,7 +74,8 @@
           type='tel'
           name='input-phone'
           id='input-phone'
-          pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+          pattern='[0-9]{3}-[0-9]{3}-[0-9]{4}'
+          placeholder='optional'
         />
         <div class='form-text'>
           <em>###-###-####</em>

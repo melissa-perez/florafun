@@ -1,17 +1,25 @@
 <div class='container border border-light rounded border-2 mb-2'>
   <form
-    id='{{toLowerCase tableId}}-html-delete'
-    class='mb-3'
+    id='delete-{{toLowerCase (removeLastLetter tableId)}}-form'
+    class='mb-4'
   >
-    <legend>Delete an existing {{removeLastLetter tableId}}</legend>
+    <legend>Delete an existing {{removeLastLetter pageTitle}}</legend>
     <fieldset>
-      <label class='form-label' for='delete-customer-form'>
-        Use the dropdown to delete an existing {{toLowerCase (removeLastLetter pageTitle)}}:
+      <label
+        class='form-label'
+        for='delete-{{toLowerCase (removeLastLetter tableId)}}-select'
+      >
+        Use the dropdown to delete an existing
+        {{toLowerCase (removeLastLetter pageTitle)}}:
       </label>
-      <select name='delete-customer-form' id='delete-customer-form'>
-        <option value=''>Select a {{toLowerCase (removeLastLetter pageTitle)}}.</option>
-        {{#each this.[data]}}
-            <option value='{{this.ID}}'>({{this.ID}}) {{this.Name}}</option>
+      <select
+        name='delete-{{toLowerCase (removeLastLetter tableId)}}-select'
+        id='delete-{{toLowerCase (removeLastLetter tableId)}}-select'
+      >
+        <option value=''>Select a
+          {{toLowerCase (removeLastLetter pageTitle)}}.</option>
+        {{#each this.data}}
+          <option value='{{this.ID}}'>({{this.ID}}) {{this.Name}}</option>
         {{/each}}
       </select>
       <div class='form-text'>
@@ -19,7 +27,7 @@
       </div><br />
       <button
         class='btn btn-danger my-2 my-sm-0 btn-sm'
-        onclick="deleteCustomer()"
+        onclick='{{deleteFunction}}'
       >Delete</button>
     </fieldset>
   </form>

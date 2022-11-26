@@ -130,7 +130,9 @@ app.get('/colors', function (req, res) {
     searchQuery = `SELECT Colors.color_id AS "ID",
     Colors.color AS "Color" 
     FROM Colors
-    WHERE Colors.color LIKE CONCAT("%", "${String(req.query.colors_name).trim()}", "%");`
+    WHERE Colors.color LIKE CONCAT("%", "${String(
+      req.query.colors_name
+    ).trim()}", "%");`
   }
   db.pool.query(searchQuery, function (error, rows, fields) {
     let colors = rows
@@ -146,7 +148,9 @@ app.get('/colors', function (req, res) {
 // Page to render for colors CREATE
 app.post('/add-color-form', function (req, res) {
   let data = req.body
-  let insertQuery = `INSERT INTO Colors (color) VALUES ('${String(data['input-color']).trim()}');`
+  let insertQuery = `INSERT INTO Colors (color) VALUES ('${String(
+    data['input-color']
+  ).trim()}');`
   db.pool.query(insertQuery, function (error, rows, fields) {
     if (error) {
       console.log(error)
@@ -199,9 +203,17 @@ app.get('/customers', function (req, res) {
 // Page to render for customers CREATE
 app.post('/add-customer-form', function (req, res) {
   let data = req.body
-  let insertQuery = `INSERT INTO Customers (name, address, email, phone) VALUES ('${String(data['input-name']).trim()}', '${String(data['input-address']).trim()}', '${String(data['input-email']).trim()}', '${String(data['input-phone']).trim()}');`
+  let insertQuery = `INSERT INTO Customers (name, address, email, phone) VALUES ('${String(
+    data['input-name']
+  ).trim()}', '${String(data['input-address']).trim()}', '${String(
+    data['input-email']
+  ).trim()}', '${String(data['input-phone']).trim()}');`
   if (!data['input-phone']) {
-    insertQuery = `INSERT INTO Customers (name, address, email) VALUES ('${String(data['input-name']).trim()}', '${String(data['input-address']).trim()}', '${String(data['input-email']).trim()}');`
+    insertQuery = `INSERT INTO Customers (name, address, email) VALUES ('${String(
+      data['input-name']
+    ).trim()}', '${String(data['input-address']).trim()}', '${String(
+      data['input-email']
+    ).trim()}');`
   }
   db.pool.query(insertQuery, function (error, rows, fields) {
     if (error) {
@@ -225,6 +237,46 @@ app.delete('/delete-customer-form', function (req, res, next) {
       res.sendStatus(204)
     }
   })
+})
+
+app.put('/update-customer-form', function (req, res, next) {
+  let data = req.body
+
+  let updateName = data['update-name']
+  let updateAddress = data['update-address']
+  let updateEmail = data['update-email']
+  let updatePhone = data['update-phone']
+
+
+  let queryUpdateWorld = `UPDATE bsg_people SET homeworld = ? WHERE bsg_people.id = ?`
+  let selectWorld = `SELECT * FROM bsg_planets WHERE id = ?`
+
+  // Run the 1st query
+  db.pool.query(
+    queryUpdateWorld,
+    [homeworld, person],
+    function (error, rows, fields) {
+      if (error) {
+        // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+        console.log(error)
+        res.sendStatus(400)
+      }
+
+      // If there was no error, we run our second query and return that data so we can use it to update the people's
+      // table on the front-end
+      else {
+        // Run the second query
+        db.pool.query(selectWorld, [homeworld], function (error, rows, fields) {
+          if (error) {
+            console.log(error)
+            res.sendStatus(400)
+          } else {
+            res.send(rows)
+          }
+        })
+      }
+    }
+  )
 })
 
 /*************************************
