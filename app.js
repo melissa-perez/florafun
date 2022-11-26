@@ -2,7 +2,7 @@
     SETUP
 **************************************/
 // Express
-const PORT = 3423
+const PORT = 3000
 const express = require('express')
 const app = express()
 app.use(express.json())
@@ -331,7 +331,7 @@ app.post('/delete-payment_method-form', function (req, res) {
 app.get('/orders', function (req, res) {
   let query1
   if (req.query.order_id === undefined) {
-    query1 = 'SELECT * FROM Orders;'
+    query1 = 'SELECT Orders.order_id, Orders.order_date, Orders.order_quantity, Orders.total_sale_price, Customers.name, Payment_Methods.type, Discounts.code FROM `Orders` INNER JOIN Customers ON Orders.customer_id = Customers.customer_id INNER JOIN Payment_Methods ON Orders.payment_method_id = Payment_Methods.payment_method_id INNER JOIN Discounts ON Orders.discount_id = Discounts.discount_id;'
   } else {
     query1 = `SELECT * FROM Orders WHERE order_id LIKE "${req.query.order_id}%"`
   }
@@ -347,6 +347,12 @@ app.get('/orders', function (req, res) {
 // Page to render for orders CREATE
 app.post('/add-order-form', function (req, res) {
   let data = req.body
+  // Capture NULL values
+  let discount_id = parseInt(data['input-discount_id']);
+  if (isNaN(discount_id))
+  {
+      discount_id = 'NULL'
+  }
   query1 = `INSERT INTO Orders (order_date, order_quantity, total_sale_price, customer_id, payment_method_id, discount_id) VALUES ('${data['input-order_date']}', '${data['input-order_quantity']}', '${data['input-total_sale_price']}', '${data['input-customer_id']}', '${data['input-payment_method_id']}', '${data['input-discount_id']}')`
   db.pool.query(query1, function (error, rows, fields) {
     if (error) {
@@ -432,7 +438,7 @@ app.get('/items', function (req, res) {
 app.get('/order_items', function (req, res) {
   let query1
   if (req.query.order_id === undefined) {
-    query1 = 'SELECT * FROM Order_Items;'
+    query1 = 'SELECT Order_Items.order_item_id, Order_Items.quantity, Order_Items.order_id, Items.flower_name FROM Order_Items INNER JOIN Items ON Order_Items.item_id = Items.item_id;'
   } else {
     query1 = `SELECT * FROM Order_Items WHERE order_id LIKE "${req.query.order_id}%"`
   }
