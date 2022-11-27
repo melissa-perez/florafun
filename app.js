@@ -251,17 +251,14 @@ app.get('/customers', function (req, res) {
 app.post('/add-customer-form', function (req, res) {
   let data = req.body
 
-  let insertQuery = `INSERT INTO Customers (name, address, email, phone) VALUES ('${String(
-    data['add-name']
-  ).trim()}', '${String(data['add-address']).trim()}', '${String(
-    data['add-email']
-  ).trim()}', '${String(data['add-phone']).trim()}');`
-  if (!data['add-phone']) {
-    insertQuery = `INSERT INTO Customers (name, address, email) VALUES ('${String(
-      data['add-name']
-    ).trim()}', '${String(data['add-address']).trim()}', '${String(
-      data['add-email']
-    ).trim()}');`
+  const addName = String(data['add-name']).trim()
+  const addAddress = String(data['add-address']).trim()
+  const addEmail = String(data['add-email']).trim()
+  const addPhone = String(data['add-phone']).trim()
+
+  let insertQuery = `INSERT INTO Customers (name, address, email, phone) VALUES ('${addName}', '${addAddress}', '${addEmail}', '${addPhone}');`
+  if (!addPhone) {
+    insertQuery = `INSERT INTO Customers (name, address, email) VALUES ('${addName}', '${addAddress}', '${addEmail}');`
   }
   db.pool.query(insertQuery, function (error, rows, fields) {
     if (error) {
