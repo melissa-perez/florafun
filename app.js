@@ -285,8 +285,6 @@ app.put('/update-customer-form', function (req, res, next) {
   const updatePhone = String(data.phone).trim()
 
   let updateQuery = `UPDATE Customers SET Customers.name = '${updateName}', Customers.email = '${updateEmail}', Customers.phone = '${updatePhone}', Customers.address = '${updateAddress}' WHERE Customers.customer_id = ${customerID};`
-
-  // might need to fix
   if (!updatePhone) {
     updateQuery = `UPDATE Customers SET Customers.name = '${updateName}', Customers.email = '${updateEmail}', Customers.phone = '${updatePhone}', Customers.address = '${updateAddress}' WHERE Customers.customer_id = ${customerID};`
   }
@@ -539,6 +537,30 @@ app.delete('/delete-item-form', function (req, res, next) {
       res.sendStatus(400)
     } else {
       res.sendStatus(204)
+    }
+  })
+})
+
+// Page to render for items UPDATE
+app.put('/update-item-form', function (req, res, next) {
+  const data = req.body
+  const itemID = parseInt(data.id)
+
+  const updateName = String(data.name).trim()
+  const updateSciName = String(data.sciName).trim()
+  const updateStock = String(data.stock).trim()
+  const updatePrice = String(data.price).trim()
+  const updateColorID = parseInt(data.colorid)
+  const updateSupplierID = parseInt(data.supplierid)
+  const updateIndoor = parseInt(data.indoor)
+
+  let updateQuery = `UPDATE Items SET Items.flower_name = '${updateName}', Items.scientific_name = '${updateSciName}', Items.is_indoor = '${updateIndoor}', Items.stock_quantity = '${updateStock}, Items.price = '${updatePrice}, Items.supplier_id = '${updateSupplierID}, Items.color_id = '${updateColorID}' WHERE Items.item_id = ${itemID};`
+  db.pool.query(updateQuery, [itemID], function (error, rows, fields) {
+    if (error) {
+      console.log(error)
+      res.sendStatus(400)
+    } else {
+      res.sendStatus(200)
     }
   })
 })
