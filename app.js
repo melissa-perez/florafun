@@ -190,7 +190,7 @@ app.get('/colors', function (req, res) {
 app.post('/add-color-form', function (req, res) {
   let data = req.body
   let insertQuery = `INSERT INTO Colors (color) VALUES ('${String(
-    data['input-color']
+    data['add-color']
   ).trim()}');`
   db.pool.query(insertQuery, function (error, rows, fields) {
     if (error) {
@@ -252,15 +252,15 @@ app.post('/add-customer-form', function (req, res) {
   let data = req.body
 
   let insertQuery = `INSERT INTO Customers (name, address, email, phone) VALUES ('${String(
-    data['input-name']
-  ).trim()}', '${String(data['input-address']).trim()}', '${String(
-    data['input-email']
-  ).trim()}', '${String(data['input-phone']).trim()}');`
-  if (!data['input-phone']) {
+    data['add-name']
+  ).trim()}', '${String(data['add-address']).trim()}', '${String(
+    data['add-email']
+  ).trim()}', '${String(data['add-phone']).trim()}');`
+  if (!data['add-phone']) {
     insertQuery = `INSERT INTO Customers (name, address, email) VALUES ('${String(
-      data['input-name']
-    ).trim()}', '${String(data['input-address']).trim()}', '${String(
-      data['input-email']
+      data['add-name']
+    ).trim()}', '${String(data['add-address']).trim()}', '${String(
+      data['add-email']
     ).trim()}');`
   }
   db.pool.query(insertQuery, function (error, rows, fields) {
@@ -618,7 +618,15 @@ app.put('/update-item-form', function (req, res, next) {
 app.post('/add-item-form', function (req, res) {
   let data = req.body
 
-  let insertQuery = `INSERT INTO Items (flower_name, scientific_name, is_indoor, stock_quantity, price, supplier_id, color_id) VALUES ('${String(data['add-name']).trim()}', '${String(data['add-sci-name']).trim()}', ${parseInt(data['add-indoor-select'])}, ${parseInt(data['add-stock'])}, ${parseFloat(data['add-price'])}, ${parseInt(data['add-supplier-select'])}, ${parseInt(data['add-color-select'])});`
+  let insertQuery = `INSERT INTO Items (flower_name, scientific_name, is_indoor, stock_quantity, price, supplier_id, color_id) VALUES ('${String(
+    data['add-name']
+  ).trim()}', '${String(data['add-sci-name']).trim()}', ${parseInt(
+    data['add-indoor-select']
+  )}, ${parseInt(data['add-stock'])}, ${parseFloat(
+    data['add-price']
+  )}, ${parseInt(data['add-supplier-select'])}, ${parseInt(
+    data['add-color-select']
+  )});`
   db.pool.query(insertQuery, function (error, rows, fields) {
     if (error) {
       console.log(error)
