@@ -20,12 +20,13 @@
         integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
   </head>
-  <body class="bg-light bg-gradient">
+  <body class="bg-light bg-gradient d-flex flex-column h-100">
     {{> navbar}}
     {{#if isDisplayTables}}
       {{> table data=data table-id=pageTitle}}
     {{/if}}
     {{{body}}}
+    {{> footer}}
     <script
       src='https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js'
       integrity='sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3'

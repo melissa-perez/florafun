@@ -213,7 +213,7 @@ app.get('/customers', function (req, res) {
     Customers.name AS "Name",
     Customers.address AS "Address",
     Customers.email AS "Email",
-    IFNULL(Customers.phone, 'N/A') AS "Phone Number"
+    Customers.phone AS "Phone Number"
     FROM Customers
     WHERE Customers.name LIKE CONCAT("%", "${String(
       req.query.customers_name

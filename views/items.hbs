@@ -1,0 +1,16 @@
+<div class="container border border-2 border-gray rounded">
+    <div class="row">
+        <div class="col">
+            {{> searchform main-name=pageTitle }}
+            {{> deleteform deleteFunction=deleteCustomer}}
+        </div>
+        <div class="col">
+            {{> additem }}
+        </div>
+        <div class="border-top border-2 border-gray">
+            {{> updateitem dropdownFunction=customerFill}}
+        </div>
+    </div>
+</div>
+<script src="./js/deleteItem.js"></script>
+<script src="./js/updateItem.js"></script>
