@@ -23,4 +23,7 @@ module.exports = {
   jsonHelper: function (context) {
     return JSON.stringify(context)
   },
+  returnKey: function (keys, index) {
+    return keys[index]
+  }
 }

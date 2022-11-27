@@ -488,19 +488,17 @@ app.post('/delete-order-form', function (req, res) {
 **************************************/
 // Page to render for colors READ
 app.get('/items', function (req, res) {
-  let searchQuery
-  if (req.query.items_name === undefined) {
-    searchQuery = `SELECT Items.item_id AS ID,
-    Items.flower_name AS Item,
-    Items.scientific_name AS 'Scientific name',
-    Colors.color AS Color,
-    IF(Items.is_indoor, 'Yes', 'No') AS Indoor,
-    Items.stock_quantity AS Stock, CONCAT('$', Items.price) AS Price,
-    Suppliers.name AS Supplier
-    FROM Items
-    JOIN Suppliers ON Suppliers.supplier_id = Items.supplier_id
-    JOIN Colors ON Colors.color_id = Items.color_id;`
-  } else {
+  let searchQuery = `SELECT Items.item_id AS ID,
+  Items.flower_name AS Item,
+  Items.scientific_name AS 'Scientific name',
+  Colors.color AS Color,
+  IF(Items.is_indoor, 'Yes', 'No') AS Indoor,
+  Items.stock_quantity AS Stock, CONCAT('$', Items.price) AS Price,
+  Suppliers.name AS Supplier
+  FROM Items
+  JOIN Suppliers ON Suppliers.supplier_id = Items.supplier_id
+  JOIN Colors ON Colors.color_id = Items.color_id;`
+  if (req.query.items_name !== undefined) {
     searchQuery = `SELECT Items.item_id AS ID,
     Items.flower_name AS Item,
     Items.scientific_name AS 'Scientific name',
@@ -511,7 +509,9 @@ app.get('/items', function (req, res) {
     FROM Items
     JOIN Suppliers ON Suppliers.supplier_id = Items.supplier_id
     JOIN Colors ON Colors.color_id = Items.color_id
-    WHERE Items.flower_name LIKE CONCAT("%", "${req.query.items_name}", "%");`
+    WHERE Items.flower_name LIKE CONCAT("%", "${String(
+      req.query.items_name
+    ).trim()}", "%");`
   }
   db.pool.query(searchQuery, function (error, rows, fields) {
     let items = rows
