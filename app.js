@@ -170,13 +170,18 @@ app.get('/colors', function (req, res) {
   }
   db.pool.query(searchQuery, function (error, rows, fields) {
     let colors = rows
-    res.render('colors.hbs', {
-      layout: 'index.hbs',
-      pageTitle: 'Colors',
-      data: colors,
-      isDisplayTables: true,
-      tableId: 'Colors',
-    })
+    if (error) {
+      console.log(error)
+      res.sendStatus(400)
+    } else {
+      res.render('colors.hbs', {
+        layout: 'index.hbs',
+        pageTitle: 'Colors',
+        data: colors,
+        isDisplayTables: true,
+        tableId: 'Colors',
+      })
+    }
   })
 })
 // Page to render for colors CREATE
@@ -222,14 +227,19 @@ app.get('/customers', function (req, res) {
 
   db.pool.query(searchQuery, function (error, rows, fields) {
     let customers = rows
-    res.render('customers.hbs', {
-      layout: 'index.hbs',
-      pageTitle: 'Customers',
-      data: customers,
-      dropdownData: customers,
-      isDisplayTables: true,
-      tableId: 'Customers',
-    })
+    if (error) {
+      console.log(error)
+      res.sendStatus(400)
+    } else {
+      res.render('customers.hbs', {
+        layout: 'index.hbs',
+        pageTitle: 'Customers',
+        data: customers,
+        dropdownData: customers,
+        isDisplayTables: true,
+        tableId: 'Customers',
+      })
+    }
   })
 })
 
@@ -516,13 +526,38 @@ app.get('/items', function (req, res) {
   }
   db.pool.query(searchQuery, function (error, rows, fields) {
     let items = rows
-    res.render('items.hbs', {
-      layout: 'index.hbs',
-      pageTitle: 'Items',
-      data: items,
-      isDisplayTables: true,
-      tableId: 'Items',
-    })
+    if (error) {
+      console.log(error)
+      res.sendStatus(400)
+    } else {
+      let colorQuery = `SELECT * FROM Colors;`
+      db.pool.query(colorQuery, function (error, rows, fields) {
+        let colors = rows
+        if (error) {
+          console.log(error)
+          res.sendStatus(400)
+        } else {
+          let supplierQuery = `SELECT * FROM Suppliers;`
+          db.pool.query(supplierQuery, function (error, rows, fields) {
+            let suppliers = rows
+            if (error) {
+              console.log(error)
+              res.sendStatus(400)
+            } else {
+              res.render('items.hbs', {
+                layout: 'index.hbs',
+                pageTitle: 'Items',
+                data: items,
+                colorsdata: colors,
+                suppliersdata: suppliers,
+                isDisplayTables: true,
+                tableId: 'Items',
+              })
+            }
+          })
+        }
+      })
+    }
   })
 })
 
