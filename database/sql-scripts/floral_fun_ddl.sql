@@ -25,6 +25,15 @@ SET
 SET
   AUTOCOMMIT = 0;
 
+DROP TABLE IF EXISTS Customers,
+Orders,
+Order_Items,
+Suppliers,
+Colors,
+Items,
+Discounts,
+Payment_Methods;
+
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */
 ;
 
@@ -38,17 +47,16 @@ SET
 ;
 
 --
--- Database: `cs340_springja`
+-- Database: `cs340_peremeli
 --
 -- --------------------------------------------------------
 --
 -- Table structure for table `Colors`
 --
-CREATE
-OR REPLACE TABLE `Colors` (
+CREATE TABLE `Colors` (
   `color_id` int(11) NOT NULL,
   `color` varchar(45) NOT NULL
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb3;
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
 --
 -- Dumping data for table `Colors`
@@ -68,8 +76,7 @@ VALUES
 --
 -- Table structure for table `Customers`
 --
-CREATE
-OR REPLACE TABLE `Customers` (
+CREATE TABLE `Customers` (
   `customer_id` int(11) NOT NULL,
   `name` varchar(45) NOT NULL,
   `email` varchar(45) NOT NULL,
@@ -115,8 +122,7 @@ VALUES
 --
 -- Table structure for table `Discounts`
 --
-CREATE
-OR REPLACE TABLE `Discounts` (
+CREATE TABLE `Discounts` (
   `discount_id` int(11) NOT NULL,
   `code` varchar(45) NOT NULL,
   `percent` int(3) NOT NULL
@@ -137,8 +143,7 @@ VALUES
 --
 -- Table structure for table `Items`
 --
-CREATE
-OR REPLACE TABLE `Items` (
+CREATE TABLE `Items` (
   `item_id` int(11) NOT NULL,
   `flower_name` varchar(45) NOT NULL,
   `scientific_name` varchar(45) NOT NULL,
@@ -181,8 +186,7 @@ VALUES
 --
 -- Table structure for table `Orders`
 --
-CREATE
-OR REPLACE TABLE `Orders` (
+CREATE TABLE `Orders` (
   `order_id` int(11) NOT NULL,
   `order_date` date NOT NULL,
   `order_quantity` int(11) NOT NULL,
@@ -214,8 +218,7 @@ VALUES
 --
 -- Table structure for table `Order_Items`
 --
-CREATE
-OR REPLACE TABLE `Order_Items` (
+CREATE TABLE `Order_Items` (
   `order_item_id` int(11) NOT NULL,
   `quantity` int(5) NOT NULL,
   `order_id` int(11) DEFAULT NULL,
@@ -241,8 +244,7 @@ VALUES
 --
 -- Table structure for table `Payment_Methods`
 --
-CREATE
-OR REPLACE TABLE `Payment_Methods` (
+CREATE TABLE `Payment_Methods` (
   `payment_method_id` int(11) NOT NULL,
   `type` varchar(45) NOT NULL
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb3;
@@ -261,8 +263,7 @@ VALUES
 --
 -- Table structure for table `Suppliers`
 --
-CREATE
-OR REPLACE TABLE `Suppliers` (
+CREATE TABLE `Suppliers` (
   `supplier_id` int(11) NOT NULL,
   `name` varchar(45) NOT NULL,
   `address` varchar(145) NOT NULL,

@@ -5,12 +5,25 @@
 const PORT = 3423
 const express = require('express')
 const app = express()
+const Importer = require('mysql-import')
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 
 // Database
 const db = require('./database/db-connector')
+let importer = new Importer({
+  host: 'classmysql.engr.oregonstate.edu',
+  user: 'cs340_peremeli',
+  password: '6989',
+  database: 'cs340_peremeli',
+})
+
+importer.onProgress((progress) => {
+  let percent =
+    Math.floor((progress.bytes_processed / progress.total_bytes) * 10000) / 100
+  console.log(`${percent}% Completed`)
+})
 
 // Handlebars
 const { engine } = require('express-handlebars')
@@ -53,6 +66,27 @@ app.get('/', function (req, res) {
   })
 })
 
+/*************************************
+  RELOAD ROUTE
+  Credit to James Cole
+  https://edstem.org/us/courses/28987/discussion/1836410
+**************************************/
+app.get('/reload', function (req, res) {
+  res.render('reload.hbs', {
+    layout: 'index.hbs',
+    pageTitle: 'Floral Fun Database',
+    isDisplayTables: false,
+  })
+  importer
+    .import('./database/sql-scripts/floral_fun_ddl.sql')
+    .then(() => {
+      let files_imported = importer.getImported()
+      console.log(`${files_imported.length} SQL file(s) imported.`)
+    })
+    .catch((err) => {
+      console.error(err)
+    })
+})
 /*************************************
   SUPPLIERS ROUTES
 **************************************/
@@ -229,9 +263,7 @@ app.post('/add-customer-form', function (req, res) {
 app.delete('/delete-customer-form', function (req, res, next) {
   let data = req.body
   let customerID = parseInt(data.id)
-  console.log(customerID, data)
   let deleteQuery = `DELETE FROM Customers WHERE Customers.customer_id = ${customerID};`
-  console.log(deleteQuery)
   db.pool.query(deleteQuery, [customerID], function (error, rows, fields) {
     if (error) {
       console.log(error)
@@ -257,7 +289,6 @@ app.put('/update-customer-form', function (req, res, next) {
   if (!updatePhone) {
     updateQuery = `UPDATE Customers SET Customers.name = '${updateName}', Customers.email = '${updateEmail}', Customers.phone = '${updatePhone}', Customers.address = '${updateAddress}' WHERE Customers.customer_id = ${customerID};`
   }
-  console.log(updateQuery)
   db.pool.query(updateQuery, [customerID], function (error, rows, fields) {
     if (error) {
       console.log(error)
