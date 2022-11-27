@@ -40,7 +40,7 @@ updateItemForm.addEventListener('submit', function (e) {
   xhttp.send(JSON.stringify(data))
 })
 
-function itemFill(data) {
+function itemFill(data, colorsdata, suppliersdata) {
   const itemID = document.getElementById('update-item-select').value
   if (!itemID) {
     document.getElementById('update-name').value = ''
@@ -61,9 +61,10 @@ function itemFill(data) {
       document.getElementById('update-price').value = data[i].Price
       document.getElementById('update-indoor-select').value =
         data[i].Indoor == 'Yes' ? '1' : '0'
-      document.getElementById('update-color-select').value = ''
-      document.getElementById('update-supplier-select').value = ''
-      break
+      document.getElementById('update-supplier-select').value =
+        data[i]['Supplier ID']
+      document.getElementById('update-color-select').value = data[i]['Color ID']
+      return
     }
   }
 }

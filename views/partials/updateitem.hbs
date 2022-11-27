@@ -14,7 +14,7 @@
     <select
       name='update-{{toLowerCase (removeLastLetter tableId)}}-select'
       id='update-{{toLowerCase (removeLastLetter tableId)}}-select'
-      onChange='itemFill({{jsonHelper data}})'
+      onChange='itemFill({{jsonHelper data}}, {{jsonHelper colorsdata}}, {{jsonHelper suppliersdata}})'
     >
       <option value=''>Select a
         {{toLowerCase (removeLastLetter pageTitle)}}.</option>

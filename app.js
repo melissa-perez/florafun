@@ -500,11 +500,13 @@ app.get('/items', function (req, res) {
   let searchQuery = `SELECT Items.item_id AS ID,
   Items.flower_name AS Item,
   Items.scientific_name AS 'Scientific name',
-  Colors.color AS Color,
   IF(Items.is_indoor, 'Yes', 'No') AS Indoor,
   Items.stock_quantity AS Stock,
-  CONCAT('$', Items.price) AS Price,
-  Suppliers.name AS Supplier
+  Items.price AS Price,
+  Colors.color AS Color,
+  Items.color_id AS 'Color ID',
+  Suppliers.name AS Supplier,
+  Items.supplier_id AS 'Supplier ID'
   FROM Items
   JOIN Suppliers ON Suppliers.supplier_id = Items.supplier_id
   JOIN Colors ON Colors.color_id = Items.color_id;`
@@ -512,11 +514,13 @@ app.get('/items', function (req, res) {
     searchQuery = `SELECT Items.item_id AS ID,
     Items.flower_name AS Item,
     Items.scientific_name AS 'Scientific name',
-    Colors.color AS Color,
     IF(Items.is_indoor, 'Yes', 'No') AS Indoor,
     Items.stock_quantity AS Stock,
-    CONCAT('$', Items.price) AS Price,
-    Suppliers.name AS Supplier
+    Items.price AS Price,
+    Colors.color AS Color,
+    Items.color_id AS 'Color ID',
+    Suppliers.name AS Supplier,
+    Items.supplier_id AS 'Supplier ID'
     FROM Items
     JOIN Suppliers ON Suppliers.supplier_id = Items.supplier_id
     JOIN Colors ON Colors.color_id = Items.color_id
@@ -587,8 +591,8 @@ app.put('/update-item-form', function (req, res, next) {
 
   const updateName = String(data.name).trim()
   const updateSciName = String(data.sciName).trim()
-  const updateStock = String(data.stock).trim()
-  const updatePrice = String(data.price).trim()
+  const updateStock = parseInt(data.stock).trim()
+  const updatePrice = parseFloat(data.price).trim()
   const updateColorID = parseInt(data.colorid)
   const updateSupplierID = parseInt(data.supplierid)
   const updateIndoor = parseInt(data.indoor)

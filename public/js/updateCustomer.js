@@ -49,7 +49,7 @@ function customerFill(data) {
       document.getElementById('update-email').value = data[i].Email
       document.getElementById('update-address').value = data[i].Address
       document.getElementById('update-phone').value = data[i]['Phone Number']
-      break
+      return
     }
   }
 }
