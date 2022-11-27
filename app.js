@@ -299,6 +299,25 @@ app.delete('/delete-discount-form', function (req, res, next) {
   })
 })
 
+// Page to render for discounts CREATE
+app.post('/add-discount-form', function (req, res) {
+  let data = req.body
+
+  const addCode = String(data['add-code']).trim()
+  const addPercent = parseInt(data['add-percent'])
+
+  let insertQuery = `INSERT INTO Discounts (code, percent) VALUES ('${addCode}', ${addPercent});`
+
+  db.pool.query(insertQuery, function (error, rows, fields) {
+    if (error) {
+      console.log(error)
+      res.sendStatus(400)
+    } else {
+      res.redirect('/discounts')
+    }
+  })
+})
+
 /*************************************
   PAYMENT METHODS ROUTES
 **************************************/

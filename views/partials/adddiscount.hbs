@@ -27,56 +27,18 @@
 
     <div class='row mb-3'>
       <fieldset>
-        <label class='form-label' for='add-address'>
+        <label class='form-label' for='add-percent'>
           Percent
         </label>
         <input
           class='form-control'
-          type='text'
-          name='add-address'
-          id='add-address'
+          type='number'
+          name='add-percent'
+          id='add-percent'
+          min='0'
+          step='1'
           required
         />
-        <div class='form-text'>
-          <em>Street No. Street Name City State Zip</em>
-        </div>
-      </fieldset>
-    </div>
-
-    <div class='row mb-3'>
-      <fieldset>
-        <label class='form-label' for='add-email'>
-          Email (Required*)
-        </label>
-        <input
-          class='form-control'
-          type='email'
-          name='add-email'
-          id='add-email'
-          required
-        />
-        <div class='form-text'>
-          <em>address@provider.ext</em>
-        </div>
-      </fieldset>
-    </div>
-
-    <div class='row mb-3'>
-      <fieldset>
-        <label class='form-label' for='add-phone'>
-          Phone number
-        </label>
-        <input
-          class='form-control'
-          type='tel'
-          name='add-phone'
-          id='add-phone'
-          pattern='[0-9]{3}-[0-9]{3}-[0-9]{4}'
-          placeholder='optional'
-        />
-        <div class='form-text'>
-          <em>###-###-####</em>
-        </div>
       </fieldset>
     </div>
 
