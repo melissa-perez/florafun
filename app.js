@@ -284,6 +284,21 @@ app.get('/discounts', function (req, res) {
   })
 })
 
+// Page to render for discounts DELETE
+app.delete('/delete-discount-form', function (req, res, next) {
+  let data = req.body
+  let discountID = parseInt(data.id)
+  let deleteQuery = `DELETE FROM Discounts WHERE Discounts.discount_id = ${discountID};`
+  db.pool.query(deleteQuery, [discountID], function (error, rows, fields) {
+    if (error) {
+      console.log(error)
+      res.sendStatus(400)
+    } else {
+      res.sendStatus(204)
+    }
+  })
+})
+
 /*************************************
   PAYMENT METHODS ROUTES
 **************************************/

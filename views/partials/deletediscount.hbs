@@ -20,7 +20,8 @@
         <option value=''>Select a
           {{toLowerCase (removeLastLetter pageTitle)}}.</option>
         {{#each data}}
-          <option value='{{this.ID}}'>({{this.ID}}) {{this.Type}}</option>
+          <option value='{{this.ID}}'>({{this.ID}})
+            {{this.Code}}/{{this.Percent}}%</option>
         {{/each}}
       </select>
       <div class='form-text'>
@@ -28,7 +29,7 @@
       </div><br />
       <button
         class='btn btn-danger my-2 my-sm-0 btn-sm'
-        onclick='deletePaymentMethod()'
+        onclick='deleteDiscount()'
       >Delete {{toLowerCase (removeLastLetter pageTitle)}}</button>
     </fieldset>
   </form>

@@ -17,7 +17,7 @@
       onChange='itemFill({{jsonHelper data}})'
       required
     >
-      <option value=''>Select a
+      <option value=''>Select an
         {{toLowerCase (removeLastLetter pageTitle)}}.</option>
       {{#each this.data}}
         <option value='{{this.ID}}'>({{this.ID}}) {{this.Item}}</option>
