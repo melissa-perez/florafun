@@ -40,7 +40,7 @@ updateItemForm.addEventListener('submit', function (e) {
   xhttp.send(JSON.stringify(data))
 })
 
-function itemFill(data, colorsdata, suppliersdata) {
+function itemFill(data) {
   const itemID = document.getElementById('update-item-select').value
   if (!itemID) {
     document.getElementById('update-name').value = ''

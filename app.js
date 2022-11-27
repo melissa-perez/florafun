@@ -159,14 +159,16 @@ app.get('/colors', function (req, res) {
     searchQuery = `
     SELECT Colors.color_id AS "ID",
     Colors.color AS "Color"
-    FROM Colors;`
+    FROM Colors
+    ORDER BY ID ASC;`
   } else {
     searchQuery = `SELECT Colors.color_id AS "ID",
     Colors.color AS "Color" 
     FROM Colors
     WHERE Colors.color LIKE CONCAT("%", "${String(
       req.query.colors_name
-    ).trim()}", "%");`
+    ).trim()}", "%")
+    ORDER BY ID ASC;`
   }
   db.pool.query(searchQuery, function (error, rows, fields) {
     let colors = rows
@@ -211,7 +213,8 @@ app.get('/customers', function (req, res) {
   Customers.address AS "Address",
   Customers.email AS "Email",
   Customers.phone AS "Phone Number"
-  FROM Customers;`
+  FROM Customers
+  ORDER BY ID ASC;`
   if (req.query.customers_name !== undefined) {
     searchQuery = `
     SELECT Customers.customer_id AS "ID",
@@ -222,7 +225,8 @@ app.get('/customers', function (req, res) {
     FROM Customers
     WHERE Customers.name LIKE CONCAT("%", "${String(
       req.query.customers_name
-    ).trim()}", "%");`
+    ).trim()}", "%")
+    ORDER BY ID ASC;`
   }
 
   db.pool.query(searchQuery, function (error, rows, fields) {
@@ -509,7 +513,8 @@ app.get('/items', function (req, res) {
   Items.supplier_id AS 'Supplier ID'
   FROM Items
   JOIN Suppliers ON Suppliers.supplier_id = Items.supplier_id
-  JOIN Colors ON Colors.color_id = Items.color_id;`
+  JOIN Colors ON Colors.color_id = Items.color_id
+  ORDER BY ID ASC;`
   if (req.query.items_name !== undefined) {
     searchQuery = `SELECT Items.item_id AS ID,
     Items.flower_name AS Item,
@@ -526,7 +531,8 @@ app.get('/items', function (req, res) {
     JOIN Colors ON Colors.color_id = Items.color_id
     WHERE Items.flower_name LIKE CONCAT("%", "${String(
       req.query.items_name
-    ).trim()}", "%");`
+    ).trim()}", "%")
+    ORDER BY ID ASC;`
   }
   db.pool.query(searchQuery, function (error, rows, fields) {
     let items = rows
@@ -591,13 +597,13 @@ app.put('/update-item-form', function (req, res, next) {
 
   const updateName = String(data.name).trim()
   const updateSciName = String(data.sciName).trim()
-  const updateStock = parseInt(data.stock).trim()
-  const updatePrice = parseFloat(data.price).trim()
+  const updateStock = parseInt(data.stock)
+  const updatePrice = parseFloat(data.price)
   const updateColorID = parseInt(data.colorid)
   const updateSupplierID = parseInt(data.supplierid)
   const updateIndoor = parseInt(data.indoor)
 
-  let updateQuery = `UPDATE Items SET Items.flower_name = '${updateName}', Items.scientific_name = '${updateSciName}', Items.is_indoor = '${updateIndoor}', Items.stock_quantity = '${updateStock}, Items.price = '${updatePrice}, Items.supplier_id = '${updateSupplierID}, Items.color_id = '${updateColorID}' WHERE Items.item_id = ${itemID};`
+  let updateQuery = `UPDATE Items SET Items.flower_name = '${updateName}', Items.scientific_name = '${updateSciName}', Items.is_indoor = ${updateIndoor}, Items.stock_quantity = ${updateStock}, Items.price = ${updatePrice}, Items.supplier_id = ${updateSupplierID}, Items.color_id = ${updateColorID} WHERE Items.item_id = ${itemID};`
   db.pool.query(updateQuery, [itemID], function (error, rows, fields) {
     if (error) {
       console.log(error)
