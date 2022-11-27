@@ -1,6 +1,16 @@
-{{> addcustomer }}
-{{> deleteform deleteFunction=deleteCustomer}}
-{{> updatecustomer dropdownFunction=customerFill}}
+<div class="container border border-2 border-gray rounded">
+    <div class="row">
+        <div class="col">
+            {{> searchform main-name=pageTitle }}
+            {{> deleteform deleteFunction=deleteCustomer}}
+        </div>
+        <div class="col">
+            {{> addcustomer }}
+        </div>
+        <div class="border-top border-2 border-gray">
+            {{> updatecustomer dropdownFunction=customerFill}}
+        </div>
+    </div>
+</div>
 <script src="./js/deleteCustomer.js"></script>
 <script src="./js/updateCustomer.js"></script>
-
