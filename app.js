@@ -494,7 +494,8 @@ app.get('/items', function (req, res) {
   Items.scientific_name AS 'Scientific name',
   Colors.color AS Color,
   IF(Items.is_indoor, 'Yes', 'No') AS Indoor,
-  Items.stock_quantity AS Stock, CONCAT('$', Items.price) AS Price,
+  Items.stock_quantity AS Stock,
+  CONCAT('$', Items.price) AS Price,
   Suppliers.name AS Supplier
   FROM Items
   JOIN Suppliers ON Suppliers.supplier_id = Items.supplier_id
@@ -505,7 +506,8 @@ app.get('/items', function (req, res) {
     Items.scientific_name AS 'Scientific name',
     Colors.color AS Color,
     IF(Items.is_indoor, 'Yes', 'No') AS Indoor,
-    Items.stock_quantity AS Stock, CONCAT('$', Items.price) AS Price,
+    Items.stock_quantity AS Stock,
+    CONCAT('$', Items.price) AS Price,
     Suppliers.name AS Supplier
     FROM Items
     JOIN Suppliers ON Suppliers.supplier_id = Items.supplier_id

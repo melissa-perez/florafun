@@ -1,0 +1,142 @@
+<div class='container border border-light rounded border-2 mb-2'>
+  <form
+    id='update-{{toLowerCase (removeLastLetter tableId)}}-form'
+    class='mb-4'
+  >
+    <legend>Update an existing {{removeLastLetter pageTitle}}</legend>
+    <label
+      class='form-label'
+      for='update-{{toLowerCase (removeLastLetter tableId)}}-select'
+    >
+      Use the dropdown to update an existing
+      {{toLowerCase (removeLastLetter pageTitle)}}:
+    </label>
+    <select
+      name='update-{{toLowerCase (removeLastLetter tableId)}}-select'
+      id='update-{{toLowerCase (removeLastLetter tableId)}}-select'
+      onChange='itemFill({{jsonHelper data}})'
+    >
+      <option value=''>Select a
+        {{toLowerCase (removeLastLetter pageTitle)}}.</option>
+      {{#each this.data}}
+        <option value='{{this.ID}}'>({{this.ID}}) {{this.Item}}</option>
+      {{/each}}
+    </select>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='update-name'>
+          {{removeLastLetter pageTitle}}
+          name
+        </label>
+        <input
+          class='form-control'
+          type='text'
+          name='update-name'
+          id='update-name'
+          required
+        />
+      </fieldset>
+    </div>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='update-sci-name'>
+          Scientific name
+        </label>
+        <input
+          class='form-control'
+          type='text'
+          name='update-sci-name'
+          id='update-sci-name'
+          required
+        />
+      </fieldset>
+    </div>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='update-color-select'>
+          Color:
+        </label>
+        <select
+          name='update-color-select'
+          id='update-color-select'
+          onChange='colorFill({{jsonHelper data}})'
+          required
+        >
+          <option value=''>Select a color.</option>
+          {{#each this.data}}
+            <option value='{{this.ID}}'>({{this.ID}}) {{this.Color}}</option>
+          {{/each}}
+        </select>
+      </fieldset>
+    </div>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='update-indoor-select'>
+          Indoor flower?:
+        </label>
+        <select name='update-indoor-select' id='update-indoor-select' required>
+          <option value=''>Select a response.</option>
+          <option value='1'>Yes</option>
+          <option value='0'>No</option>
+        </select>
+      </fieldset>
+    </div>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='update-stock'>
+          Stock quantity
+        </label>
+        <input
+          class='form-control'
+          type='text'
+          name='update-stock'
+          id='update-stock'
+          required
+        />
+      </fieldset>
+    </div>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='update-price'>
+          Price
+        </label>
+        <input
+          class='form-control'
+          type='text'
+          name='update-price'
+          id='update-price'
+          required
+        />
+      </fieldset>
+    </div>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='update-supplier-select'>
+          Supplier:
+        </label>
+        <select
+          name='update-supplier-select'
+          id='update-supplier-select'
+          required
+        >
+          <option value=''>Select a supplier.</option>
+          {{#each this.data}}
+            <option value='{{this.ID}}'>({{this.ID}}) {{this.Color}}</option>
+          {{/each}}
+        </select>
+      </fieldset>
+    </div>
+    <div class='form-text'>
+      WARNING: The update operation is permanent.
+    </div><br />
+    <button class='btn btn-success my-2 my-sm-0 btn-sm' type='submit'>Update
+      {{toLowerCase (removeLastLetter pageTitle)}}</button>
+  </form>
+</div>

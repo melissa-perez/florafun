@@ -18,7 +18,6 @@
       >
         <option value=''>Select a
           {{toLowerCase (removeLastLetter pageTitle)}}.</option>
-          {{log this}}
         {{#each data}}
           <option value='{{this.ID}}'>({{this.ID}}) {{this.Item}}</option>
         {{/each}}
