@@ -512,8 +512,8 @@ app.get('/items', function (req, res) {
   Suppliers.name AS Supplier,
   Items.supplier_id AS 'Supplier ID'
   FROM Items
-  JOIN Suppliers ON Suppliers.supplier_id = Items.supplier_id
-  JOIN Colors ON Colors.color_id = Items.color_id
+  LEFT JOIN Suppliers ON Suppliers.supplier_id = Items.supplier_id
+  LEFT JOIN Colors ON Colors.color_id = Items.color_id
   ORDER BY ID ASC;`
   if (req.query.items_name !== undefined) {
     searchQuery = `SELECT Items.item_id AS ID,
@@ -599,11 +599,18 @@ app.put('/update-item-form', function (req, res, next) {
   const updateSciName = String(data.sciName).trim()
   const updateStock = parseInt(data.stock)
   const updatePrice = parseFloat(data.price)
-  const updateColorID = parseInt(data.colorid)
-  const updateSupplierID = parseInt(data.supplierid)
+  const updateColorID = !data.colorid ? '' : parseInt(data.colorid)
+  const updateSupplierID = !data.supplierid ? '' : parseInt(data.supplierid)
   const updateIndoor = parseInt(data.indoor)
 
   let updateQuery = `UPDATE Items SET Items.flower_name = '${updateName}', Items.scientific_name = '${updateSciName}', Items.is_indoor = ${updateIndoor}, Items.stock_quantity = ${updateStock}, Items.price = ${updatePrice}, Items.supplier_id = ${updateSupplierID}, Items.color_id = ${updateColorID} WHERE Items.item_id = ${itemID};`
+  if (!updateColorID && !updateSupplierID) {
+    updateQuery = `UPDATE Items SET Items.flower_name = '${updateName}', Items.scientific_name = '${updateSciName}', Items.is_indoor = ${updateIndoor}, Items.stock_quantity = ${updateStock}, Items.price = ${updatePrice}, Items.supplier_id = NULL, Items.color_id = NULL WHERE Items.item_id = ${itemID};`
+  } else if (!updateColorID) {
+    updateQuery = `UPDATE Items SET Items.flower_name = '${updateName}', Items.scientific_name = '${updateSciName}', Items.is_indoor = ${updateIndoor}, Items.stock_quantity = ${updateStock}, Items.price = ${updatePrice}, Items.supplier_id = ${updateSupplierID}, Items.color_id = NULL WHERE Items.item_id = ${itemID};`
+  } else if (!updateSupplierID) {
+    updateQuery = `UPDATE Items SET Items.flower_name = '${updateName}', Items.scientific_name = '${updateSciName}', Items.is_indoor = ${updateIndoor}, Items.stock_quantity = ${updateStock}, Items.price = ${updatePrice}, Items.color_id = ${updateColorID}, Items.supplier_id = NULL WHERE Items.item_id = ${itemID};`
+  }
   db.pool.query(updateQuery, [itemID], function (error, rows, fields) {
     if (error) {
       console.log(error)

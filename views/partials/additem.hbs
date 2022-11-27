@@ -46,7 +46,11 @@
         <label class='form-label' for='add-color-select'>
           Color:
         </label>
-        <select name='add-color-select' id='add-color-select' required>
+        <select
+          name='add-color-select'
+          id='add-color-select'
+          placeholder='optional'
+        >
           <option value=''>Select a color.</option>
           {{#each this.colorsdata}}
             <option value='{{this.ID}}'>({{this.ID}}) {{this.Color}}</option>
@@ -103,7 +107,11 @@
         <label class='form-label' for='add-supplier-select'>
           Supplier:
         </label>
-        <select name='add-supplier-select' id='add-supplier-select' required>
+        <select
+          name='add-supplier-select'
+          id='add-supplier-select'
+          placeholder='optional'
+        >
           <option value=''>Select a supplier.</option>
           {{#each this.suppliersdata}}
             <option value='{{this.ID}}'>({{this.ID}}) {{this.Supplier}}</option>

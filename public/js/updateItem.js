@@ -61,9 +61,16 @@ function itemFill(data) {
       document.getElementById('update-price').value = data[i].Price
       document.getElementById('update-indoor-select').value =
         data[i].Indoor == 'Yes' ? '1' : '0'
-      document.getElementById('update-supplier-select').value =
-        data[i]['Supplier ID']
-      document.getElementById('update-color-select').value = data[i]['Color ID']
+      if (!data[i]['Supplier ID'])
+        document.getElementById('update-supplier-select').value = ''
+      else
+        document.getElementById('update-supplier-select').value =
+          data[i]['Supplier ID']
+      if (!data[i]['Color ID'])
+        document.getElementById('update-color-select').value = ''
+      else
+        document.getElementById('update-color-select').value =
+          data[i]['Color ID']
       return
     }
   }
