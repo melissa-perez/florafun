@@ -318,6 +318,26 @@ app.post('/add-discount-form', function (req, res) {
   })
 })
 
+// Page to render for discounts UPDATE
+app.put('/update-discount-form', function (req, res, next) {
+  const data = req.body
+  const discountID = parseInt(data.id)
+
+  const updateCode = String(data.code).trim()
+  const updatePercent = parseInt(data.percent)
+
+  let updateQuery = `UPDATE Discounts SET Discounts.code = '${updateCode}', Discounts.percent = ${updatePercent} WHERE Discounts.discount_id = ${discountID};`
+
+  db.pool.query(updateQuery, [discountID], function (error, rows, fields) {
+    if (error) {
+      console.log(error)
+      res.sendStatus(400)
+    } else {
+      res.sendStatus(200)
+    }
+  })
+})
+
 /*************************************
   PAYMENT METHODS ROUTES
 **************************************/

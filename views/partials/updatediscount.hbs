@@ -1,0 +1,66 @@
+<div class='container border border-light rounded border-2 mb-2'>
+  <form
+    id='update-{{toLowerCase (removeLastLetter tableId)}}-form'
+    class='mb-4'
+  >
+    <legend>Update an existing {{removeLastLetter pageTitle}}</legend>
+    <label
+      class='form-label'
+      for='update-{{toLowerCase (removeLastLetter tableId)}}-select'
+    >
+      Use the dropdown to update an existing
+      {{toLowerCase (removeLastLetter pageTitle)}}:
+    </label>
+    <select
+      name='update-{{toLowerCase (removeLastLetter tableId)}}-select'
+      id='update-{{toLowerCase (removeLastLetter tableId)}}-select'
+      onChange='discountFill({{jsonHelper data}})'
+      required
+    >
+      <option value=''>Select an
+        {{toLowerCase (removeLastLetter pageTitle)}}.</option>
+      {{#each data}}
+        <option value='{{this.ID}}'>({{this.ID}})
+          {{this.Code}}/{{this.Percent}}%</option>
+      {{/each}}
+    </select>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='update-code'>
+          {{removeLastLetter pageTitle}}
+          code
+        </label>
+        <input
+          class='form-control'
+          type='text'
+          name='update-code'
+          id='update-code'
+          required
+        />
+      </fieldset>
+    </div>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='update-percent'>
+          Percent
+        </label>
+        <input
+          class='form-control'
+          type='number'
+          name='update-percent'
+          id='update-percent'
+          min='0'
+          step='1'
+          required
+        />
+      </fieldset>
+    </div>
+    <div class='form-text'>
+      WARNING: The update operation is permanent.
+    </div><br />
+    <button class='btn btn-success my-2 my-sm-0 btn-sm' type='submit'>Update
+      {{toLowerCase (removeLastLetter pageTitle)}}</button>
+  </form>
+</div>

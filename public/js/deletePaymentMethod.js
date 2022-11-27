@@ -1,5 +1,6 @@
 function deletePaymentMethod() {
   const methodID = document.getElementById('delete-payment-method-select').value
+  if (!methodID) return
   let data = {
     id: methodID,
   }
