@@ -87,66 +87,6 @@ app.get('/reload', function (req, res) {
       console.error(err)
     })
 })
-/*************************************
-  SUPPLIERS ROUTES
-**************************************/
-// Page to render for suppliers READ
-app.get('/suppliers', function (req, res) {
-  let query1
-  if (req.query.name === undefined) {
-    query1 = 'SELECT * FROM Suppliers;'
-  } else {
-    query1 = `SELECT * FROM Suppliers WHERE name LIKE "${req.query.name}%"`
-  }
-  db.pool.query(query1, function (error, rows, fields) {
-    let suppliers = rows
-    res.render('suppliers.hbs', {
-      layout: 'index.hbs',
-      pageTitle: 'Suppliers',
-      data: suppliers,
-      tableId: 'Suppliers',
-    })
-  })
-})
-// Page to render for suppliers CREATE
-app.post('/add-supplier-form', function (req, res) {
-  let data = req.body
-  query1 = `INSERT INTO Suppliers (name, address, email, is_local) VALUES ('${data['input-name']}', '${data['input-address']}', '${data['input-email']}', '${data['input-is_local']}')`
-  db.pool.query(query1, function (error, rows, fields) {
-    if (error) {
-      console.log(error)
-      res.sendStatus(400)
-    } else {
-      res.redirect('/suppliers')
-    }
-  })
-})
-// Page to render for suppliers UPDATE
-app.post('/update-supplier-form', function (req, res) {
-  let data = req.body
-  let updateSuppliers = `UPDATE Suppliers SET name = '${data['input-name']}' , address = '${data['input-address']}' , email = '${data['input-email']}', is_local = '${data['input-is_local']}' WHERE supplier_id = '${data['input-supplier_id']}'`
-  db.pool.query(updateSuppliers, function (error, rows, fields) {
-    if (error) {
-      console.log(error)
-      res.sendStatus(400)
-    } else {
-      res.redirect('/suppliers')
-    }
-  })
-})
-// Page to render for suppliers DELETE
-app.post('/delete-supplier-form', function (req, res) {
-  let data = req.body
-  let deleteSuppliers = `DELETE FROM Suppliers WHERE supplier_id = '${data['input-supplier_id']}'`
-  db.pool.query(deleteSuppliers, function (error, rows, fields) {
-    if (error) {
-      console.log(error)
-      res.sendStatus(400)
-    } else {
-      res.redirect('/suppliers')
-    }
-  })
-})
 
 /*************************************
   COLORS ROUTES
@@ -316,11 +256,20 @@ app.put('/update-customer-form', function (req, res, next) {
 **************************************/
 // Page to render for discounts READ
 app.get('/discounts', function (req, res) {
-  let query1
-  if (req.query.code === undefined) {
-    query1 = 'SELECT * FROM Discounts;'
-  } else {
-    query1 = `SELECT * FROM Discounts WHERE code LIKE "${req.query.code}%"`
+  let query1 = `SELECT Discounts.discount_id AS ID,
+  Discounts.code AS Code,
+  Discounts.percent AS Percent FROM Discounts
+  ORDER BY ID ASC;`
+
+  if (req.query.discounts_name !== undefined) {
+    query1 = `SELECT Discounts.discount_id AS ID,
+    Discounts.code AS Code,
+    Discounts.percent AS Percent
+    FROM Discounts
+    WHERE Discounts.code LIKE CONCAT("%", "${String(
+      req.query.discounts_name
+    ).trim()}", "%")
+    ORDER BY ID ASC;`
   }
   db.pool.query(query1, function (error, rows, fields) {
     let discounts = rows
@@ -329,47 +278,9 @@ app.get('/discounts', function (req, res) {
       pageTitle: 'Discounts',
       data: discounts,
       tableId: 'Discounts',
+      searchTerm: 'code',
+      isDisplayTables: true,
     })
-  })
-})
-// Page to render for discounts CREATE
-app.post('/add-discount-form', function (req, res) {
-  // Capture the incoming data and parse it back to a JS object
-  let data = req.body
-  query1 = `INSERT INTO Discounts (code, percent) VALUES ('${data['input-code']}', '${data['input-percent']}')`
-  db.pool.query(query1, function (error, rows, fields) {
-    if (error) {
-      console.log(error)
-      res.sendStatus(400)
-    } else {
-      res.redirect('/discounts')
-    }
-  })
-})
-// Page to render for discounts UPDATE
-app.post('/update-discount-form', function (req, res) {
-  let data = req.body
-  let updateDiscounts = `UPDATE Discounts SET code = '${data['input-code']}' , percent = '${data['input-percent']}' WHERE discount_id = '${data['input-discount_id']}'`
-  db.pool.query(updateDiscounts, function (error, rows, fields) {
-    if (error) {
-      console.log(error)
-      res.sendStatus(400)
-    } else {
-      res.redirect('/discounts')
-    }
-  })
-})
-// Page to render for discounts DELETE
-app.post('/delete-discount-form', function (req, res) {
-  let data = req.body
-  let deleteDiscounts = `DELETE FROM Discounts WHERE discount_id = '${data['input-discount_id']}'`
-  db.pool.query(deleteDiscounts, function (error, rows, fields) {
-    if (error) {
-      console.log(error)
-      res.sendStatus(400)
-    } else {
-      res.redirect('/discounts')
-    }
   })
 })
 
@@ -394,14 +305,19 @@ app.get('/payment-methods', function (req, res) {
 
   db.pool.query(query1, function (error, rows, fields) {
     let payment_methods = rows
-    res.render('payment-methods.hbs', {
-      layout: 'index.hbs',
-      pageTitle: 'Payment Methods',
-      data: payment_methods,
-      isDisplayTables: true,
-      tableId: 'Payment-Methods',
-      searchTerm: 'type',
-    })
+    if (error) {
+      console.log(error)
+      res.sendStatus(400)
+    } else {
+      res.render('payment-methods.hbs', {
+        layout: 'index.hbs',
+        pageTitle: 'Payment Methods',
+        data: payment_methods,
+        isDisplayTables: true,
+        tableId: 'Payment-Methods',
+        searchTerm: 'type',
+      })
+    }
   })
 })
 // Page to render for payment_methods CREATE
@@ -444,67 +360,6 @@ app.delete('/delete-payment-method-form', function (req, res) {
       res.sendStatus(400)
     } else {
       res.sendStatus(204)
-    }
-  })
-})
-
-/*************************************
-  ORDERS ROUTES
-**************************************/
-// Page to render for orders READ
-app.get('/orders', function (req, res) {
-  let query1
-  if (req.query.order_id === undefined) {
-    query1 = 'SELECT * FROM Orders;'
-  } else {
-    query1 = `SELECT * FROM Orders WHERE order_id LIKE "${req.query.order_id}%"`
-  }
-  db.pool.query(query1, function (error, rows, fields) {
-    let orders = rows
-    res.render('orders.hbs', {
-      layout: 'index.hbs',
-      pageTitle: 'Orders',
-      data: orders,
-      tableId: 'Orders',
-    })
-  })
-})
-// Page to render for orders CREATE
-app.post('/add-order-form', function (req, res) {
-  let data = req.body
-  query1 = `INSERT INTO Orders (order_date, order_quantity, total_sale_price, customer_id, payment_method_id, discount_id) VALUES ('${data['input-order_date']}', '${data['input-order_quantity']}', '${data['input-total_sale_price']}', '${data['input-customer_id']}', '${data['input-payment_method_id']}', '${data['input-discount_id']}')`
-  db.pool.query(query1, function (error, rows, fields) {
-    if (error) {
-      console.log(error)
-      res.sendStatus(400)
-    } else {
-      res.redirect('/orders')
-    }
-  })
-})
-// Page to render for orders UPDATE
-app.post('/update-order-form', function (req, res) {
-  let data = req.body
-  let updateOrders = `UPDATE Orders SET order_date = '${data['input-order_date']}' , order_quantity = '${data['input-order_quantity']}' , total_sale_price = '${data['input-total_sale_price']}', customer_id = '${data['input-customer_id']}', payment_method_id = '${data['input-payment_method_id']}', discount_id = '${data['input-discount_id']}' WHERE order_id = '${data['input-order_id']}'`
-  db.pool.query(updateOrders, function (error, rows, fields) {
-    if (error) {
-      console.log(error)
-      res.sendStatus(400)
-    } else {
-      res.redirect('/orders')
-    }
-  })
-})
-// Page to render for orders DELETE
-app.post('/delete-order-form', function (req, res) {
-  let data = req.body
-  let deleteOrders = `DELETE FROM Orders WHERE order_id = '${data['input-order_id']}'`
-  db.pool.query(deleteOrders, function (error, rows, fields) {
-    if (error) {
-      console.log(error)
-      res.sendStatus(400)
-    } else {
-      res.redirect('/orders')
     }
   })
 })
@@ -666,67 +521,6 @@ app.post('/add-item-form', function (req, res) {
       res.sendStatus(400)
     } else {
       res.redirect('/items')
-    }
-  })
-})
-
-/*************************************
-  ORDER ITEMS ROUTES
-**************************************/
-// Page to render for order_items READ
-app.get('/order_items', function (req, res) {
-  let query1
-  if (req.query.order_id === undefined) {
-    query1 = 'SELECT * FROM Order_Items;'
-  } else {
-    query1 = `SELECT * FROM Order_Items WHERE order_id LIKE "${req.query.order_id}%"`
-  }
-  db.pool.query(query1, function (error, rows, fields) {
-    let order_items = rows
-    res.render('order_items.hbs', {
-      layout: 'index.hbs',
-      pageTitle: 'Order Items',
-      data: order_items,
-      tableId: 'OrderItems',
-    })
-  })
-})
-// Page to render for order_items CREATE
-app.post('/add-order_item-form', function (req, res) {
-  let data = req.body
-  query1 = `INSERT INTO Order_Items (quantity, order_id, item_id) VALUES ('${data['input-quantity']}', '${data['input-order_id']}', '${data['input-item_id']}')`
-  db.pool.query(query1, function (error, rows, fields) {
-    if (error) {
-      console.log(error)
-      res.sendStatus(400)
-    } else {
-      res.redirect('/order_items')
-    }
-  })
-})
-// Page to render for order_items UPDATE
-app.post('/update-order_item-form', function (req, res) {
-  let data = req.body
-  let updateOrder_Items = `UPDATE Order_Items SET quantity = '${data['input-quantity']}' , order_id = '${data['input-order_id']}' , item_id = '${data['input-item_id']}' WHERE order_item_id = '${data['input-order_item_id']}'`
-  db.pool.query(updateOrder_Items, function (error, rows, fields) {
-    if (error) {
-      console.log(error)
-      res.sendStatus(400)
-    } else {
-      res.redirect('/order_items')
-    }
-  })
-})
-// Page to render for order_items DELETE
-app.post('/delete-order_item-form', function (req, res) {
-  let data = req.body
-  let deleteOrder_Items = `DELETE FROM Order_Items WHERE order_item_id = '${data['input-order_item_id']}'`
-  db.pool.query(deleteOrder_Items, function (error, rows, fields) {
-    if (error) {
-      console.log(error)
-      res.sendStatus(400)
-    } else {
-      res.redirect('/order_items')
     }
   })
 })
