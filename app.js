@@ -2,7 +2,7 @@
     SETUP
 **************************************/
 // Express
-const PORT = 3423
+const PORT = 3424
 const express = require('express')
 const app = express()
 const Importer = require('mysql-import')
@@ -229,7 +229,6 @@ app.get('/customers', function (req, res) {
       dropdownData: customers,
       isDisplayTables: true,
       tableId: 'Customers',
-      deleteKeys: ['ID', 'Name'],
     })
   })
 })
@@ -260,6 +259,7 @@ app.post('/add-customer-form', function (req, res) {
   })
 })
 
+// Page to render for customers DELETE
 app.delete('/delete-customer-form', function (req, res, next) {
   let data = req.body
   let customerID = parseInt(data.id)
@@ -274,6 +274,7 @@ app.delete('/delete-customer-form', function (req, res, next) {
   })
 })
 
+// Page to render for customers UPDATE
 app.put('/update-customer-form', function (req, res, next) {
   const data = req.body
   const customerID = parseInt(data.id)
@@ -522,6 +523,21 @@ app.get('/items', function (req, res) {
       isDisplayTables: true,
       tableId: 'Items',
     })
+  })
+})
+
+// Page to render for items DELETE
+app.delete('/delete-item-form', function (req, res, next) {
+  let data = req.body
+  let itemID = parseInt(data.id)
+  let deleteQuery = `DELETE FROM Items WHERE Items.item_id = ${itemID};`
+  db.pool.query(deleteQuery, [itemID], function (error, rows, fields) {
+    if (error) {
+      console.log(error)
+      res.sendStatus(400)
+    } else {
+      res.sendStatus(204)
+    }
   })
 })
 

@@ -1,7 +1,7 @@
 <div class='container border border-light rounded border-2 mb-2'>
   <form
     method='GET'
-    id='{{toLowerCase tableId}}-html-search'
+    id='read-{{removeLastLetter (toLowerCase tableId)}}-form'
     action='/{{toLowerCase tableId}}'
     class='mb-4'
   >
@@ -9,7 +9,7 @@
     <fieldset>
       <p>Search by using the field below.</p>
       <label class='form-label' for='{{toLowerCase tableId}}_name'>
-        {{removeLastLetter tableId}}
+        {{removeLastLetter pageTitle}}
         name:
       </label>
       <input
