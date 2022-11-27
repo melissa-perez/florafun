@@ -422,7 +422,7 @@ app.post('/add-payment-method-form', function (req, res) {
 // Page to render for payment_methods UPDATE
 app.put('/update-payment-method-form', function (req, res) {
   let data = req.body
-  let updatePayment_Methods = `UPDATE Payment_Methods SET type = '${data['input-type']}' WHERE payment_method_id = '${data['input-payment_method_id']}'`
+  let updatePayment_Methods = `UPDATE Payment_Methods SET type = '${data['type']}' WHERE payment_method_id = '${data['id']}'`
   db.pool.query(updatePayment_Methods, function (error, rows, fields) {
     if (error) {
       console.log(error)

@@ -2,17 +2,14 @@
   <form
     method='POST'
     id='add-{{toLowerCase (removeLastLetter tableId)}}-form'
+    class='mb-4'
     action='/add-{{toLowerCase (removeLastLetter tableId)}}-form'
-    class='mb-3'
   >
     <legend>Add a new {{removeLastLetter pageTitle}}</legend>
     <fieldset>
       <p>Use the form below to add a new
         {{toLowerCase (removeLastLetter pageTitle)}}.</p>
-      <label
-        class='form-label'
-        for='add-color'
-      >
+      <label class='form-label' for='add-color'>
         {{removeLastLetter pageTitle}}
         name
       </label>
