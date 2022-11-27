@@ -1,70 +1,16 @@
-<table id="payment_methods-table">
-    {{!-- Header section --}}
-    <thead>
-
-        {{!-- For just the first row, we print each key of the row object as a header cell so we
-        know what each column means when the page renders --}}
-        <tr>
-            {{#each data.[0]}}
-            <th>
-                {{@key}}
-            </th>
-            {{/each}}
-        </tr>
-    </thead>
-
-    {{!-- Body section --}}
-    <tbody>
-
-        {{!-- For each row, print the id, type, address, email and is_local, in order --}}
-        {{#each data}}
-        <tr data-value={{this.payment_method_id}}>
-            <td>{{this.payment_method_id}}</td>
-            <td>{{this.type}}</td>
-            <td>{{this.address}}</td>
-            <td>{{this.email}}</td>
-            <td>{{this.is_local}}</td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
-
-<h2>Search Using an HTML Form</h2>
-<p>Search by type using the field below. Partial type is okay too!</p>
-<form id="search-payment_method-html" method='GET' action='/payment_methods'>
-    <label for="input-type">Search by Type: </label>
-    <input type="text" name="type" id="input-type-html-search">
-    
-    <input type="submit">
-    <a href='/payment_methods'><button>Reset</button></a>
-</form>
-
-<!-- /views/index.hbs -->
-<h2>Adding Data using an HTML form</h2>
-<p>To add a new payment method, please enter their information below and click `Submit`!</p>
-<form id="add-payment_method-form" method="POST" action="/add-payment_method-form">
-    <label for="input-type">Type: </label>
-    <input type="text" name="input-type" id="input-type">
-    <input type="submit">
-</form>
-<table id="payment_methods-table">
-
-<h2>Updating Data using an HTML form</h2>
-<p>To update a new payment method, please enter their id below and click `Submit`!</p>
-<p><strong>Blank values will be deleted!</strong></p>
-<form id="update-payment_method-form" method="POST" action="/update-payment_method-form">
-    <label for="input-payment_method_id">Payment Method ID: </label>
-    <input type="number" name="input-payment_method_id" id="input-payment_method_id">
-    
-    <label for="input-type">Type: </label>
-    <input type="text" name="input-type" id="input-type">
-    <input type="submit">
-</form>
-
-<h2>Deleting Data using an HTML form</h2>
-<p>To delete a new payment method, please enter their id below and click `Submit`!</p>
-<form id="delete-payment_method-form" method="POST" action="/delete-payment_method-form">
-    <label for="input-payment_method_id">Payment Method ID: </label>
-    <input type="number" name="input-payment_method_id" id="input-payment_method_id">
-    <input type="submit">
-</form>
+<div class="container border border-2 border-gray rounded">
+    <div class="row">
+        <div class="col">
+            {{> searchform }}
+            {{> deletepaymentmethod }}
+        </div>
+        <div class="col">
+            {{> addpaymentmethod}}
+        </div>
+        <div class="border-top border-2 border-gray">
+            {{> updatepaymentmethod }}
+        </div>
+    </div>
+</div>
+<script src="./js/deletePaymentMethod.js"></script>
+<script src="./js/updatePaymentMethod.js"></script>

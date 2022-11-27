@@ -182,6 +182,7 @@ app.get('/colors', function (req, res) {
         data: colors,
         isDisplayTables: true,
         tableId: 'Colors',
+        searchTerm: 'name',
       })
     }
   })
@@ -242,6 +243,7 @@ app.get('/customers', function (req, res) {
         dropdownData: customers,
         isDisplayTables: true,
         tableId: 'Customers',
+        searchTerm: 'name',
       })
     }
   })
@@ -376,19 +378,29 @@ app.post('/delete-discount-form', function (req, res) {
 **************************************/
 // Page to render for payment_methods READ
 app.get('/payment_methods', function (req, res) {
-  let query1
-  if (req.query.type === undefined) {
-    query1 = 'SELECT * FROM Payment_Methods;'
-  } else {
-    query1 = `SELECT * FROM Payment_Methods WHERE type LIKE "${req.query.type}%"`
+  let query1 = `SELECT Payment_Methods.payment_method_id AS ID,
+  Payment_Methods.type AS Type
+  FROM Payment_Methods
+  ORDER BY ID ASC;`
+  if (req.query.payment_methods_name !== undefined) {
+    query1 = `SELECT Payment_Methods.payment_method_id AS ID,
+    Payment_Methods.type AS Type
+    FROM Payment_Methods
+    WHERE Payment_Methods.type LIKE CONCAT("%", "${String(
+      req.query.payment_methods_name
+    ).trim()}", "%")
+    ORDER BY ID ASC;`
   }
+
   db.pool.query(query1, function (error, rows, fields) {
     let payment_methods = rows
     res.render('payment_methods.hbs', {
       layout: 'index.hbs',
       pageTitle: 'Payment Methods',
       data: payment_methods,
+      isDisplayTables: true,
       tableId: 'Payment_Methods',
+      searchTerm: 'type',
     })
   })
 })
@@ -563,6 +575,7 @@ app.get('/items', function (req, res) {
                 suppliersdata: suppliers,
                 isDisplayTables: true,
                 tableId: 'Items',
+                searchTerm: 'name',
               })
             }
           })
