@@ -1,0 +1,117 @@
+<div class='container border border-light rounded border-2 mb-2'>
+  <form
+    method='POST'
+    id='add-{{toLowerCase (removeLastLetter pageTitle)}}-form'
+    class='mb-4'
+    action='/add-{{toLowerCase (removeLastLetter pageTitle)}}-form'
+  >
+    <legend>Add a new {{removeLastLetter pageTitle}}</legend>
+    <p>Use the form below to add a new
+      {{toLowerCase (removeLastLetter pageTitle)}}.
+    </p>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='add-name'>
+          {{removeLastLetter pageTitle}}
+          name
+        </label>
+        <input
+          class='form-control'
+          type='text'
+          name='add-name'
+          id='add-name'
+          required
+        />
+      </fieldset>
+    </div>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='add-sci-name'>
+          Scientific name
+        </label>
+        <input
+          class='form-control'
+          type='text'
+          name='add-sci-name'
+          id='add-sci-name'
+          required
+        />
+      </fieldset>
+    </div>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='add-color-select'>
+          Color:
+        </label>
+        <select name='add-color-select' id='add-color-select' required>
+          <option value=''>Select a color.</option>
+          {{#each this.colorsdata}}
+            <option value='{{this.ID}}'>({{this.ID}}) {{this.Color}}</option>
+          {{/each}}
+        </select>
+      </fieldset>
+    </div>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='add-indoor-select'>
+          Indoor flower?:
+        </label>
+        <select name='add-indoor-select' id='add-indoor-select' required>
+          <option value=''>Select a response.</option>
+          <option value='1'>Yes</option>
+          <option value='0'>No</option>
+        </select>
+      </fieldset>
+    </div>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='add-stock'>
+          Stock quantity
+        </label>
+        <input
+          class='form-control'
+          type='text'
+          name='add-stock'
+          id='add-stock'
+          required
+        />
+      </fieldset>
+    </div>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='add-price'>
+          Price
+        </label>
+        <input
+          class='form-control'
+          type='text'
+          name='add-price'
+          id='add-price'
+          required
+        />
+      </fieldset>
+    </div>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='add-supplier-select'>
+          Supplier:
+        </label>
+        <select name='add-supplier-select' id='add-supplier-select' required>
+          <option value=''>Select a supplier.</option>
+          {{#each this.suppliersdata}}
+            <option value='{{this.ID}}'>({{this.ID}}) {{this.Supplier}}</option>
+          {{/each}}
+        </select>
+      </fieldset>
+    </div>
+    <button class='btn btn-success my-2 my-sm-0 btn-sm' type='submit'>Add
+      {{toLowerCase (removeLastLetter pageTitle)}}</button>
+  </form>
+</div>

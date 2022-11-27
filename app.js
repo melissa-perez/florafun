@@ -614,6 +614,21 @@ app.put('/update-item-form', function (req, res, next) {
   })
 })
 
+// Page to render for customers CREATE
+app.post('/add-item-form', function (req, res) {
+  let data = req.body
+
+  let insertQuery = `INSERT INTO Items (flower_name, scientific_name, is_indoor, stock_quantity, price, supplier_id, color_id) VALUES ('${String(data['add-name']).trim()}', '${String(data['add-sci-name']).trim()}', ${parseInt(data['add-indoor-select'])}, ${parseInt(data['add-stock'])}, ${parseFloat(data['add-price'])}, ${parseInt(data['add-supplier-select'])}, ${parseInt(data['add-color-select'])});`
+  db.pool.query(insertQuery, function (error, rows, fields) {
+    if (error) {
+      console.log(error)
+      res.sendStatus(400)
+    } else {
+      res.redirect('/items')
+    }
+  })
+})
+
 /*************************************
   ORDER ITEMS ROUTES
 **************************************/
