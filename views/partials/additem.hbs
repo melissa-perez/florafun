@@ -79,9 +79,11 @@
         </label>
         <input
           class='form-control'
-          type='text'
+          type='number'
           name='add-stock'
           id='add-stock'
+          min='0'
+          step='1'
           required
         />
       </fieldset>
@@ -94,7 +96,9 @@
         </label>
         <input
           class='form-control'
-          type='text'
+          type='number'
+          min='0'
+          step='0.01'
           name='add-price'
           id='add-price'
           required
