@@ -377,48 +377,50 @@ app.post('/delete-discount-form', function (req, res) {
   PAYMENT METHODS ROUTES
 **************************************/
 // Page to render for payment_methods READ
-app.get('/payment_methods', function (req, res) {
+app.get('/payment-methods', function (req, res) {
   let query1 = `SELECT Payment_Methods.payment_method_id AS ID,
   Payment_Methods.type AS Type
   FROM Payment_Methods
   ORDER BY ID ASC;`
-  if (req.query.payment_methods_name !== undefined) {
+  if (req.query['payment-methods_name'] !== undefined) {
     query1 = `SELECT Payment_Methods.payment_method_id AS ID,
     Payment_Methods.type AS Type
     FROM Payment_Methods
     WHERE Payment_Methods.type LIKE CONCAT("%", "${String(
-      req.query.payment_methods_name
+      req.query['payment-methods_name']
     ).trim()}", "%")
     ORDER BY ID ASC;`
   }
 
   db.pool.query(query1, function (error, rows, fields) {
     let payment_methods = rows
-    res.render('payment_methods.hbs', {
+    res.render('payment-methods.hbs', {
       layout: 'index.hbs',
       pageTitle: 'Payment Methods',
       data: payment_methods,
       isDisplayTables: true,
-      tableId: 'Payment_Methods',
+      tableId: 'Payment-Methods',
       searchTerm: 'type',
     })
   })
 })
 // Page to render for payment_methods CREATE
-app.post('/add-payment_method-form', function (req, res) {
+app.post('/add-payment-method-form', function (req, res) {
   let data = req.body
-  query1 = `INSERT INTO Payment_Methods (type) VALUES ('${data['input-type']}')`
+  const addPaymentMethodType = String(data['add-payment-method-type']).trim()
+
+  query1 = `INSERT INTO Payment_Methods (type) VALUES ('${addPaymentMethodType}')`
   db.pool.query(query1, function (error, rows, fields) {
     if (error) {
       console.log(error)
       res.sendStatus(400)
     } else {
-      res.redirect('/payment_methods')
+      res.redirect('/payment-methods')
     }
   })
 })
 // Page to render for payment_methods UPDATE
-app.post('/update-payment_method-form', function (req, res) {
+app.put('/update-payment-method-form', function (req, res) {
   let data = req.body
   let updatePayment_Methods = `UPDATE Payment_Methods SET type = '${data['input-type']}' WHERE payment_method_id = '${data['input-payment_method_id']}'`
   db.pool.query(updatePayment_Methods, function (error, rows, fields) {
@@ -426,20 +428,22 @@ app.post('/update-payment_method-form', function (req, res) {
       console.log(error)
       res.sendStatus(400)
     } else {
-      res.redirect('/payment_methods')
+      res.redirect('/payment-methods')
     }
   })
 })
 // Page to render for payment_methods DELETE
-app.post('/delete-payment_method-form', function (req, res) {
+app.delete('/delete-payment-method-form', function (req, res) {
   let data = req.body
-  let deletePayment_Methods = `DELETE FROM Payment_Methods WHERE payment_method_id = '${data['input-payment_method_id']}'`
-  db.pool.query(deletePayment_Methods, function (error, rows, fields) {
+  let paymentMethodID = parseInt(data.id)
+
+  let deleteQuery = `DELETE FROM Payment_Methods WHERE Payment_Methods.payment_method_id = ${paymentMethodID};`
+  db.pool.query(deleteQuery, [paymentMethodID], function (error, rows, fields) {
     if (error) {
       console.log(error)
       res.sendStatus(400)
     } else {
-      res.redirect('/payment_methods')
+      res.sendStatus(204)
     }
   })
 })

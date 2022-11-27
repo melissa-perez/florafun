@@ -1,8 +1,8 @@
 <div class='container border border-light rounded border-2'>
   <form
     method='POST'
-    id='add-{{toLowerCase (removeLastLetter pageTitle)}}-form'
-    action='/add-{{toLowerCase (removeLastLetter pageTitle)}}-form'
+    id='add-{{toLowerCase (removeLastLetter tableId)}}-form'
+    action='/add-{{toLowerCase (removeLastLetter tableId)}}-form'
     class='mb-3'
   >
     <legend>Add a new {{removeLastLetter pageTitle}}</legend>
@@ -11,7 +11,7 @@
         {{toLowerCase (removeLastLetter pageTitle)}}.</p>
       <label
         class='form-label'
-        for='add-{{toLowerCase (removeLastLetter pageTitle)}}'
+        for='add-color'
       >
         {{removeLastLetter pageTitle}}
         name
@@ -19,7 +19,8 @@
       <input
         class='form-control'
         type='text'
-        name='add-{{toLowerCase (removeLastLetter pageTitle)}}'
+        name='add-color'
+        id='add-color'
         required
       />
       <br />

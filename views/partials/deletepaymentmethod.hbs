@@ -1,0 +1,34 @@
+<div class='container border border-light rounded border-2 mb-2'>
+  <form
+    id='delete-{{toLowerCase (removeLastLetter tableId)}}-form'
+    class='mb-4'
+  >
+    <legend>Delete an existing {{removeLastLetter pageTitle}}</legend>
+    <fieldset>
+      <label
+        class='form-label'
+        for='delete-{{toLowerCase (removeLastLetter tableId)}}-select'
+      >
+        Use the dropdown to delete an existing
+        {{toLowerCase (removeLastLetter pageTitle)}}:
+      </label>
+      <select
+        name='delete-{{toLowerCase (removeLastLetter tableId)}}-select'
+        id='delete-{{toLowerCase (removeLastLetter tableId)}}-select'
+      >
+        <option value=''>Select a
+          {{toLowerCase (removeLastLetter pageTitle)}}.</option>
+        {{#each data}}
+          <option value='{{this.ID}}'>({{this.ID}}) {{this.Type}}</option>
+        {{/each}}
+      </select>
+      <div class='form-text'>
+        WARNING: The delete operation is permanent.
+      </div><br />
+      <button
+        class='btn btn-danger my-2 my-sm-0 btn-sm'
+        onclick='deletePaymentMethod()'
+      >Delete {{toLowerCase (removeLastLetter pageTitle)}}</button>
+    </fieldset>
+  </form>
+</div>
