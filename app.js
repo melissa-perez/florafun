@@ -530,14 +530,18 @@ app.get('/items', function (req, res) {
       console.log(error)
       res.sendStatus(400)
     } else {
-      let colorQuery = `SELECT * FROM Colors;`
+      let colorQuery = `SELECT Colors.color_id AS ID,
+       Colors.color AS Color
+       FROM Colors;`
       db.pool.query(colorQuery, function (error, rows, fields) {
         let colors = rows
         if (error) {
           console.log(error)
           res.sendStatus(400)
         } else {
-          let supplierQuery = `SELECT * FROM Suppliers;`
+          let supplierQuery = `SELECT Suppliers.supplier_id AS ID,
+          Suppliers.name AS Supplier
+          FROM Suppliers;`
           db.pool.query(supplierQuery, function (error, rows, fields) {
             let suppliers = rows
             if (error) {

@@ -59,14 +59,9 @@
         <label class='form-label' for='update-color-select'>
           Color:
         </label>
-        <select
-          name='update-color-select'
-          id='update-color-select'
-          onChange='colorFill({{jsonHelper data}})'
-          required
-        >
+        <select name='update-color-select' id='update-color-select' required>
           <option value=''>Select a color.</option>
-          {{#each this.data}}
+          {{#each this.colorsdata}}
             <option value='{{this.ID}}'>({{this.ID}}) {{this.Color}}</option>
           {{/each}}
         </select>
@@ -127,8 +122,8 @@
           required
         >
           <option value=''>Select a supplier.</option>
-          {{#each this.data}}
-            <option value='{{this.ID}}'>({{this.ID}}) {{this.Color}}</option>
+          {{#each this.suppliersdata}}
+            <option value='{{this.ID}}'>({{this.ID}}) {{this.Supplier}}</option>
           {{/each}}
         </select>
       </fieldset>
