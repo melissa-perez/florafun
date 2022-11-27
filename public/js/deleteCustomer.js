@@ -1,6 +1,7 @@
 function deleteCustomer() {
   const customerID = document.getElementById('delete-customer-select').value
   if (!customerID) return
+
   let data = {
     id: customerID,
   }
