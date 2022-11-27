@@ -1,5 +1,6 @@
 function deleteCustomer() {
   const customerID = document.getElementById('delete-customer-select').value
+  console.log(customerID)
   let data = {
     id: customerID,
   }

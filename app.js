@@ -171,7 +171,7 @@ app.get('/customers', function (req, res) {
   Customers.name AS "Name",
   Customers.address AS "Address",
   Customers.email AS "Email",
-  IFNULL(Customers.phone, 'N/A') AS "Phone Number"
+  Customers.phone AS "Phone Number"
   FROM Customers;`
   if (req.query.customers_name !== undefined) {
     searchQuery = `
@@ -229,7 +229,9 @@ app.post('/add-customer-form', function (req, res) {
 app.delete('/delete-customer-form', function (req, res, next) {
   let data = req.body
   let customerID = parseInt(data.id)
+  console.log(customerID, data)
   let deleteQuery = `DELETE FROM Customers WHERE Customers.customer_id = ${customerID};`
+  console.log(deleteQuery)
   db.pool.query(deleteQuery, [customerID], function (error, rows, fields) {
     if (error) {
       console.log(error)
@@ -241,31 +243,21 @@ app.delete('/delete-customer-form', function (req, res, next) {
 })
 
 app.put('/update-customer-form', function (req, res, next) {
-  let data = req.body
-  let customerID = parseInt(data.id)
+  const data = req.body
+  const customerID = parseInt(data.id)
 
-  let updateName = String(data.name).trim()
-  let updateAddress = String(data.address).trim()
-  let updateEmail = String(data.email).trim()
-  let updatePhone = String(data.phone).trim()
+  const updateName = String(data.name).trim()
+  const updateAddress = String(data.address).trim()
+  const updateEmail = String(data.email).trim()
+  const updatePhone = String(data.phone).trim()
 
-  let updateQuery = `UPDATE Customers
-   SET Customer.name = '${updateName}',
-   Customer.email = '${updateEmail}',
-   Customer.phone = '${updatePhone}',
-   Customer.address = '${updateAddress}'
-   WHERE Customer.customer_id = ${customerID}`
+  let updateQuery = `UPDATE Customers SET Customers.name = '${updateName}', Customers.email = '${updateEmail}', Customers.phone = '${updatePhone}', Customers.address = '${updateAddress}' WHERE Customers.customer_id = ${customerID};`
 
   // might need to fix
   if (!updatePhone) {
-    updateQuery = `UPDATE Customers
-    SET Customer.name = '${updateName}',
-    Customer.email = '${updateEmail}',
-    Customer.phone = '${updatePhone}',
-    Customer.address = '${updateAddress}'
-    WHERE Customer.customer_id = ${customerID}`
+    updateQuery = `UPDATE Customers SET Customers.name = '${updateName}', Customers.email = '${updateEmail}', Customers.phone = '${updatePhone}', Customers.address = '${updateAddress}' WHERE Customers.customer_id = ${customerID};`
   }
-
+  console.log(updateQuery)
   db.pool.query(updateQuery, [customerID], function (error, rows, fields) {
     if (error) {
       console.log(error)
