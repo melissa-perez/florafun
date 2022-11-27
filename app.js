@@ -625,15 +625,27 @@ app.put('/update-item-form', function (req, res, next) {
 app.post('/add-item-form', function (req, res) {
   let data = req.body
 
-  let insertQuery = `INSERT INTO Items (flower_name, scientific_name, is_indoor, stock_quantity, price, supplier_id, color_id) VALUES ('${String(
-    data['add-name']
-  ).trim()}', '${String(data['add-sci-name']).trim()}', ${parseInt(
-    data['add-indoor-select']
-  )}, ${parseInt(data['add-stock'])}, ${parseFloat(
-    data['add-price']
-  )}, ${parseInt(data['add-supplier-select'])}, ${parseInt(
-    data['add-color-select']
-  )});`
+  const addName = String(data['add-name']).trim()
+  const addSciName = String(data['add-sci-name']).trim()
+  const addStock = parseInt(data['add-stock'])
+  const addPrice = parseFloat(data['add-price'])
+  const addColorID = !data['add-color-select']
+    ? ''
+    : parseInt(data['add-color-select'])
+  const addSupplierID = !data['add-supplier-select']
+    ? ''
+    : parseInt(data['add-supplier-select'])
+  const addIndoor = parseInt(data['add-indoor-select'])
+
+  let insertQuery = `INSERT INTO Items (flower_name, scientific_name, is_indoor, stock_quantity, price, supplier_id, color_id) VALUES ('${addName}', '${addSciName}', ${addIndoor}, ${addStock}, ${addPrice}, ${addSupplierID}, ${addColorID});`
+  if (!addColorID && !addSupplierID) {
+    insertQuery = `INSERT INTO Items (flower_name, scientific_name, is_indoor, stock_quantity, price) VALUES ('${addName}', '${addSciName}', ${addIndoor}, ${addStock}, ${addPrice});`
+  } else if (!addColorID) {
+    insertQuery = `INSERT INTO Items (flower_name, scientific_name, is_indoor, stock_quantity, price, supplier_id) VALUES ('${addName}', '${addSciName}', ${addIndoor}, ${addStock}, ${addPrice}, ${addSupplierID});`
+  } else if (!addSupplierID) {
+    insertQuery = `INSERT INTO Items (flower_name, scientific_name, is_indoor, stock_quantity, price, color_id) VALUES ('${addName}', '${addSciName}', ${addIndoor}, ${addStock}, ${addPrice}, ${addColorID});`
+  }
+
   db.pool.query(insertQuery, function (error, rows, fields) {
     if (error) {
       console.log(error)
