@@ -2,7 +2,7 @@
     SETUP
 **************************************/
 // Express
-const PORT = 3424
+const PORT = 3425
 const express = require('express')
 const app = express()
 const Importer = require('mysql-import')
@@ -820,9 +820,8 @@ app.put('/update-order-item-form', function (req, res, next) {
   } else if (!updateOrderID) {
     updateQuery = `UPDATE Order_Items SET Order_Items.quantity = ${updateQuantity}, Order_Items.order_id = NULL, Order_Items.item_id = ${updateItemID} WHERE Order_Items.order_item_id = ${orderItemID};`
   } else if (!updateItemID) {
-    updateQuery = `UPDATE Order_Items SET Order_Items.quantity = ${updateQuantity}, Order_Items.order_id = = ${updateOrderID}, Order_Items.item_id = NULL WHERE Order_Items.order_item_id = ${orderItemID};`
+    updateQuery = `UPDATE Order_Items SET Order_Items.quantity = ${updateQuantity}, Order_Items.order_id = ${updateOrderID}, Order_Items.item_id = NULL WHERE Order_Items.order_item_id = ${orderItemID};`
   }
-  console.log(updateQuery)
   db.pool.query(updateQuery, [orderItemID], function (error, rows, fields) {
     if (error) {
       console.log(error)

@@ -5,10 +5,9 @@ updateOrderItemForm.addEventListener('submit', function () {
   const newQuantity = document.getElementById('update-quantity')
   const newOrderID = document.getElementById('update-order-select').value
   const newItemID = document.getElementById('update-item-select').value
-
   const newQuantityValue = parseInt(newQuantity.value)
-  const newOrderIDValue = parseInt(newOrderID.value)
-  const newItemIDValue = parseInt(newItemID.value)
+  const newOrderIDValue = parseInt(newOrderID)
+  const newItemIDValue = parseInt(newItemID)
 
   let data = {
     id: orderItemID,
@@ -41,8 +40,6 @@ function orderItemFill(data) {
   }
   for (let i = 0; i < data.length; i++) {
     if (data[i].ID == orderItemID) {
-      console.log(data[i])
-
       document.getElementById('update-quantity').value =
         data[i]['Order Item Quantity']
       if (!data[i]['Order ID'])
