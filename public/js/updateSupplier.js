@@ -1,11 +1,11 @@
 const updateSupplierForm = document.getElementById('update-supplier-form')
 
-updateSupplierForm.addEventListener('submit', function (e) {
+updateSupplierForm.addEventListener('submit', function () {
   const supplierID = document.getElementById('update-supplier-select').value
   const newName = document.getElementById('update-name')
   const newAddress = document.getElementById('update-address')
   const newEmail = document.getElementById('update-email')
-  const newLocal = document.getElementById('update-local')
+  const newLocal = document.getElementById('update-local-select')
 
   const newNameValue = newName.value
   const newAddressValue = newAddress.value
@@ -40,7 +40,7 @@ function supplierFill(data) {
     document.getElementById('update-name').value = ''
     document.getElementById('update-email').value = ''
     document.getElementById('update-address').value = ''
-    document.getElementById('update-local').value = ''
+    document.getElementById('update-local-select').value = ''
     return
   }
   for (let i = 0; i < data.length; i++) {
@@ -48,7 +48,8 @@ function supplierFill(data) {
       document.getElementById('update-name').value = data[i].Name
       document.getElementById('update-email').value = data[i].Email
       document.getElementById('update-address').value = data[i].Address
-      document.getElementById('update-local').value = data[i].Local
+      document.getElementById('update-local-select').value =
+        data[i].Local == 'Yes' ? '1' : '0'
       return
     }
   }

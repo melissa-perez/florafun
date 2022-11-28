@@ -668,10 +668,9 @@ app.put('/update-supplier-form', function (req, res, next) {
   const updateName = String(data.name).trim()
   const updateAddress = String(data.address).trim()
   const updateEmail = String(data.email).trim()
-  const updateLocal = parseInt(data.phone)
+  const updateLocal = parseInt(data.local)
 
   let updateQuery = `UPDATE Suppliers SET Suppliers.name = '${updateName}', Suppliers.email = '${updateEmail}', Suppliers.is_local = '${updateLocal}', Suppliers.address = '${updateAddress}' WHERE Suppliers.supplier_id = ${supplierID};`
-
   db.pool.query(updateQuery, [supplierID], function (error, rows, fields) {
     if (error) {
       console.log(error)
