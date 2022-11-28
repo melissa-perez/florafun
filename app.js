@@ -839,42 +839,42 @@ app.put('/update-order-item-form', function (req, res, next) {
 // Page to render for orders READ
 app.get('/orders', function (req, res) {
   let query1 = `
-  SELECT Orders.order_id AS ID,
-  Orders.order_date AS 'Order Date',
-  Orders.order_quantity AS 'Order Quantity',
-  Orders.total_sale_price AS 'Total Order Price',
-  Customers.name AS 'Customer Name',
-  Customers.email AS 'Customer Email',
-  Orders.customer_id AS 'Customer ID',
-  Payment_Methods.type AS 'Payment Type',
-  Orders.payment_method_id AS 'Payment Method ID',
-  Discounts.code AS 'Discount Applied',
-  Orders.discount_id AS 'Discount ID',
-  FROM Orders
-  LEFT JOIN Customers ON Customers.customer_id = Orders.customer_id
-  LEFT JOIN Payment_Methods ON Payment_Methods.payment_method_id = Orders.payment_method_id
-  LEFT JOIN Discounts ON Discounts.discount_id = Orders.discount_id
-  ORDER BY ID ASC;`
+    SELECT Orders.order_id AS ID,
+    Orders.order_date AS 'Order Date',
+    Orders.order_quantity AS 'Order Quantity',
+    Orders.total_sale_price AS 'Total Order Price',
+    Customers.name AS 'Customer Name',
+    Customers.email AS 'Customer Email',
+    Orders.customer_id AS 'Customer ID',
+    Payment_Methods.type AS 'Payment Type',
+    Orders.payment_method_id AS 'Payment Method ID',
+    Discounts.code AS 'Discount Applied',
+    Orders.discount_id AS 'Discount ID'
+    FROM Orders
+    LEFT JOIN Customers ON Customers.customer_id = Orders.customer_id
+    LEFT JOIN Payment_Methods ON Payment_Methods.payment_method_id = Orders.payment_method_id
+    LEFT JOIN Discounts ON Discounts.discount_id = Orders.discount_id
+    ORDER BY ID ASC;`
 
   if (req.query['orders_name'] !== undefined) {
     query1 = `
     SELECT Orders.order_id AS ID,
-  Orders.order_date AS 'Order Date',
-  Orders.order_quantity AS 'Order Quantity',
-  Orders.total_sale_price AS 'Total Order Price',
-  Customers.name AS 'Customer Name',
-  Customers.email AS 'Customer Email',
-  Orders.customer_id AS 'Customer ID',
-  Payment_Methods.type AS 'Payment Type',
-  Orders.payment_method_id AS 'Payment Method ID',
-  Discounts.code AS 'Discount Applied',
-  Orders.discount_id AS 'Discount ID',
-  FROM Orders
-  LEFT JOIN Customers ON Customers.customer_id = Orders.customer_id
-  LEFT JOIN Payment_Methods ON Payment_Methods.payment_method_id = Orders.payment_method_id
-  LEFT JOIN Discounts ON Discounts.discount_id = Orders.discount_id
-  WHERE Orders.order_id = ${parseInt(req.query['orders_name'])}
-  ORDER BY ID ASC;`
+    Orders.order_date AS 'Order Date',
+    Orders.order_quantity AS 'Order Quantity',
+    Orders.total_sale_price AS 'Total Order Price',
+    Customers.name AS 'Customer Name',
+    Customers.email AS 'Customer Email',
+    Orders.customer_id AS 'Customer ID',
+    Payment_Methods.type AS 'Payment Type',
+    Orders.payment_method_id AS 'Payment Method ID',
+    Discounts.code AS 'Discount Applied',
+    Orders.discount_id AS 'Discount ID'
+    FROM Orders
+    LEFT JOIN Customers ON Customers.customer_id = Orders.customer_id
+    LEFT JOIN Payment_Methods ON Payment_Methods.payment_method_id = Orders.payment_method_id
+    LEFT JOIN Discounts ON Discounts.discount_id = Orders.discount_id
+    WHERE Orders.order_id = ${parseInt(req.query['orders_name'])}
+    ORDER BY ID ASC;`
   }
 
   db.pool.query(query1, function (error, rows, fields) {
