@@ -1017,15 +1017,60 @@ app.post('/add-order-form', function (req, res) {
 // Page to render for orders UPDATE
 app.put('/update-order-form', function (req, res, next) {
   const data = req.body
+  console.log(data)
   const orderID = parseInt(data.id)
-
-  const updateDate = String(data.name).trim()
+  const updateDate = String(data.date).trim()
   const updateQuantity = parseInt(data.quantity)
   const updateTotal = parseFloat(data.total)
-  const updateLocal = parseInt(data.local)
   const updateCustomerID = parseInt(data.customerid)
-  const updateSupplierID = parseInt(data.supplierid)
+  const updateDiscountID = parseInt(data.discountid)
   const updatePaymentID = parseInt(data.paymentid)
+
+  // T T T
+  let updateQuery = `UPDATE Orders SET
+    Orders.order_date = '${updateDate}', Orders.order_quantity = ${updateQuantity}, Orders.total_sale_price = ${updateTotal},
+    Orders.customer_id = ${updateCustomerID}, Orders.discount_id = ${updateDiscountID}, Orders.payment_method_id = ${updatePaymentID};`
+
+  if (!updateCustomerID && !updatePaymentID && !updateDiscountID) {
+    // F F F
+    updateQuery = `UPDATE Orders SET
+    Orders.order_date = '${updateDate}', Orders.order_quantity = ${updateQuantity}, Orders.total_sale_price = ${updateTotal},
+    Orders.customer_id = NULL, Orders.discount_id = NULL, Orders.payment_method_id = NULL;`
+  } else if (updateCustomerID && updatePaymentID && !updateDiscountID) {
+    // T T F
+    updateQuery = `UPDATE Orders SET
+    Orders.order_date = '${updateDate}', Orders.order_quantity = ${updateQuantity}, Orders.total_sale_price = ${updateTotal},
+    Orders.customer_id = ${updateCustomerID}, Orders.discount_id = NULL, Orders.payment_method_id = ${updatePaymentID};`
+  } else if (addCustomerID && !addPaymentID && addDiscountID) {
+    // T F T
+    updateQuery = `UPDATE Orders SET
+    Orders.order_date = '${updateDate}', Orders.order_quantity = ${updateQuantity}, Orders.total_sale_price = ${updateTotal},
+    Orders.customer_id = ${updateCustomerID}, Orders.discount_id = ${updateDiscountID}, Orders.payment_method_id = NULL;`
+  }
+  else if (addCustomerID && !addPaymentID && !addDiscountID) {
+    // T F F
+    updateQuery = `INSERT INTO Orders
+   (order_date, order_quantity, total_sale_price, customer_id)
+    VALUES ('${addDate}', '${addOrderQuantity}', ${addTotalSalePrice}, ${addCustomerID});`
+  }
+  
+  
+  else if (!addCustomerID && addPaymentID && addDiscountID) {
+    // F T T
+    updateQuery = `INSERT INTO Orders
+    (order_date, order_quantity, total_sale_price, payment_method_id, discount_id)
+     VALUES ('${addDate}', '${addOrderQuantity}', ${addTotalSalePrice}, ${addPaymentID}, ${addDiscountID});`
+  } else if (!addCustomerID && addPaymentID && !addDiscountID) {
+    // F T F
+    updateQuery = `INSERT INTO Orders
+    (order_date, order_quantity, total_sale_price, payment_method_id)
+     VALUES ('${addDate}', '${addOrderQuantity}', ${addTotalSalePrice}, ${addPaymentID});`
+  } else if (!addCustomerID && !addPaymentID && addDiscountID) {
+    // F F T
+    updateQuery = `INSERT INTO Orders
+    (order_date, order_quantity, total_sale_price, discount_id)
+     VALUES ('${addDate}', '${addOrderQuantity}', ${addTotalSalePrice}, ${addDiscountID});`
+  }
 
   db.pool.query(updateQuery, [orderID], function (error, rows, fields) {
     if (error) {
