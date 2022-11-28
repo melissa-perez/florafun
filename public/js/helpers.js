@@ -25,5 +25,5 @@ module.exports = {
   },
   returnKey: function (keys, index) {
     return keys[index]
-  }
+  },
 }
