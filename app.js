@@ -772,3 +772,35 @@ app.delete('/delete-order-item-form', function (req, res, next) {
     }
   })
 })
+
+// Page to render for order items CREATE
+app.post('/add-order-item-form', function (req, res) {
+  let data = req.body
+
+  const addQuantity = parseInt(data['add-quantity'])
+
+  const addOrderID = !data['add-order-select']
+    ? ''
+    : parseInt(data['add-order-select'])
+  const addItemID = !data['add-item-select']
+    ? ''
+    : parseInt(data['add-item-select'])
+
+  let insertQuery = `INSERT INTO Order_Items (quantity, order_id, item_id) VALUES (${addQuantity}, ${addOrderID}, ${addItemID});`
+  if (!addOrderID && !addItemID) {
+    insertQuery = `INSERT INTO Order_Items (quantity) VALUES (${addQuantity});`
+  } else if (!addOrderID) {
+    insertQuery = `INSERT INTO Order_Items (quantity, item_id) VALUES (${addQuantity}, ${addItemID});`
+  } else if (!addItemID) {
+    insertQuery = `INSERT INTO Order_Items (quantity, order_id) VALUES (${addQuantity}, ${addOrderID});`
+  }
+
+  db.pool.query(insertQuery, function (error, rows, fields) {
+    if (error) {
+      console.log(error)
+      res.sendStatus(400)
+    } else {
+      res.redirect('/order-items')
+    }
+  })
+})
