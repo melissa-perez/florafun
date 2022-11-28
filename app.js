@@ -1029,43 +1029,43 @@ app.put('/update-order-form', function (req, res, next) {
   // T T T
   let updateQuery = `UPDATE Orders SET
     Orders.order_date = '${updateDate}', Orders.order_quantity = ${updateQuantity}, Orders.total_sale_price = ${updateTotal},
-    Orders.customer_id = ${updateCustomerID}, Orders.discount_id = ${updateDiscountID}, Orders.payment_method_id = ${updatePaymentID};`
+    Orders.customer_id = ${updateCustomerID}, Orders.discount_id = ${updateDiscountID}, Orders.payment_method_id = ${updatePaymentID} WHERE Orders.order_id = ${orderID};`
 
   if (!updateCustomerID && !updatePaymentID && !updateDiscountID) {
     // F F F
     updateQuery = `UPDATE Orders SET
     Orders.order_date = '${updateDate}', Orders.order_quantity = ${updateQuantity}, Orders.total_sale_price = ${updateTotal},
-    Orders.customer_id = NULL, Orders.discount_id = NULL, Orders.payment_method_id = NULL;`
+    Orders.customer_id = NULL, Orders.discount_id = NULL, Orders.payment_method_id = NULL WHERE Orders.order_id = ${orderID};`
   } else if (updateCustomerID && updatePaymentID && !updateDiscountID) {
     // T T F
     updateQuery = `UPDATE Orders SET
     Orders.order_date = '${updateDate}', Orders.order_quantity = ${updateQuantity}, Orders.total_sale_price = ${updateTotal},
-    Orders.customer_id = ${updateCustomerID}, Orders.discount_id = NULL, Orders.payment_method_id = ${updatePaymentID};`
+    Orders.customer_id = ${updateCustomerID}, Orders.discount_id = NULL, Orders.payment_method_id = ${updatePaymentID} WHERE Orders.order_id = ${orderID};`
   } else if (updateCustomerID && !updatePaymentID && updateDiscountID) {
     // T F T
     updateQuery = `UPDATE Orders SET
     Orders.order_date = '${updateDate}', Orders.order_quantity = ${updateQuantity}, Orders.total_sale_price = ${updateTotal},
-    Orders.customer_id = ${updateCustomerID}, Orders.discount_id = ${updateDiscountID}, Orders.payment_method_id = NULL;`
+    Orders.customer_id = ${updateCustomerID}, Orders.discount_id = ${updateDiscountID}, Orders.payment_method_id = NULL WHERE Orders.order_id = ${orderID};`
   } else if (updateCustomerID && !updatePaymentID && !updateDiscountID) {
     // T F F
     updateQuery = `UPDATE Orders SET
     Orders.order_date = '${updateDate}', Orders.order_quantity = ${updateQuantity}, Orders.total_sale_price = ${updateTotal},
-    Orders.customer_id = ${updateCustomerID}, Orders.discount_id = NULL, Orders.payment_method_id = NULL;`
+    Orders.customer_id = ${updateCustomerID}, Orders.discount_id = NULL, Orders.payment_method_id = NULL WHERE Orders.order_id = ${orderID};`
   } else if (!updateCustomerID && updatePaymentID && updateDiscountID) {
     // F T T
     updateQuery = `UPDATE Orders SET
     Orders.order_date = '${updateDate}', Orders.order_quantity = ${updateQuantity}, Orders.total_sale_price = ${updateTotal},
-    Orders.customer_id = NULL, Orders.discount_id = ${updateDiscountID}, Orders.payment_method_id = ${updatePaymentID};`
+    Orders.customer_id = NULL, Orders.discount_id = ${updateDiscountID}, Orders.payment_method_id = ${updatePaymentID} WHERE Orders.order_id = ${orderID};`
   } else if (!updateCustomerID && updatePaymentID && !updateDiscountID) {
     // F T F
     updateQuery = `UPDATE Orders SET
     Orders.order_date = '${updateDate}', Orders.order_quantity = ${updateQuantity}, Orders.total_sale_price = ${updateTotal},
-    Orders.customer_id = NULL, Orders.discount_id = NULL, Orders.payment_method_id = ${updatePaymentID};`
+    Orders.customer_id = NULL, Orders.discount_id = NULL, Orders.payment_method_id = ${updatePaymentID} WHERE Orders.order_id = ${orderID};`
   } else if (!updateCustomerID && !updatePaymentID && updateDiscountID) {
     // F F T
     updateQuery = `UPDATE Orders SET
     Orders.order_date = '${updateDate}', Orders.order_quantity = ${updateQuantity}, Orders.total_sale_price = ${updateTotal},
-    Orders.customer_id = NULL, Orders.discount_id = ${updateDiscountID}, Orders.payment_method_id = NULL;`
+    Orders.customer_id = NULL, Orders.discount_id = ${updateDiscountID}, Orders.payment_method_id = NULL WHERE Orders.order_id = ${orderID};`
   }
 
   db.pool.query(updateQuery, [orderID], function (error, rows, fields) {
