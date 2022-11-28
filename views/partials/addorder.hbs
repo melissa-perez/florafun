@@ -1,0 +1,90 @@
+<div class='container border border-light rounded border-2 mb-2'>
+  <form
+    method='POST'
+    id='add-{{toLowerCase (removeLastLetter tableId)}}-form'
+    class='mb-4'
+    action='/add-{{toLowerCase (removeLastLetter tableId)}}-form'
+  >
+    <legend>Add a new {{removeLastLetter pageTitle}}</legend>
+    <p>Use the form below to add a new
+      {{toLowerCase (removeLastLetter pageTitle)}}.
+    </p>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='add-quantity'>
+          Order quantity
+        </label>
+        <input
+          class='form-control'
+          type='number'
+          name='add-quantity'
+          id='add-stock'
+          min='0'
+          step='1'
+          required
+        />
+      </fieldset>
+    </div>
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='add-total'>
+          Total Sale Price
+        </label>
+        <input
+          class='form-control'
+          type='number'
+          min='0'
+          step='0.01'
+          name='add-total'
+          id='add-total'
+          required
+        />
+      </fieldset>
+    </div>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='add-customer-select'>
+          Customer:
+        </label>
+        <select name='add-customer-select' id='add-customer-select'>
+          <option value=''>NULL</option>
+          {{#each this.customersdata}}
+            <option value='{{this.ID}}'>({{this.ID}}) {{this.name}}</option>
+          {{/each}}
+        </select>
+      </fieldset>
+    </div>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='add-payment-select'>
+          Payment method:
+        </label>
+        <select name='add-payment-select' id='add-payment-select'>
+          <option value=''>NULL</option>
+          {{#each this.methodsdata}}
+            <option value='{{this.ID}}'>({{this.ID}}) {{this.type}}</option>
+          {{/each}}
+        </select>
+      </fieldset>
+    </div>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='add-discount-select'>
+          Discount code:
+        </label>
+        <select name='add-discount-select' id='add-discount-select'>
+          <option value=''>NULL</option>
+          {{#each this.discountsdata}}
+            <option value='{{this.ID}}'>({{this.ID}}) {{this.code}}</option>
+          {{/each}}
+        </select>
+      </fieldset>
+    </div>
+    <button class='btn btn-success my-2 my-sm-0 btn-sm' type='submit'>Add
+      {{toLowerCase (removeLastLetter pageTitle)}}</button>
+  </form>
+</div>

@@ -17,7 +17,7 @@
         id='delete-{{toLowerCase (removeLastLetter tableId)}}-select'
         required
       >
-        <option value=''>Select a
+        <option value=''>Select an
           {{toLowerCase (removeLastLetter pageTitle)}}.</option>
         {{#each data}}
           <option value='{{this.ID}}'>({{this.ID}}): Order({{'Order ID'}}), {{this.Item}}</option>
