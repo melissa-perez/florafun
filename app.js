@@ -945,3 +945,53 @@ app.delete('/delete-order-form', function (req, res, next) {
     }
   })
 })
+
+// Page to render for orders CREATE
+app.post('/add-order-form', function (req, res) {
+  let data = req.body
+
+  const addDate = data['add-date']
+  const addOrderQuantity = parseInt(data['add-quantity'])
+  const addTotalSalePrice = parseFloat(data['add-total'])
+  const addCustomerID = !data['add-customer-select']
+    ? ''
+    : parseInt(data['add-customer-select'])
+  const addPaymentID = !data['add-payment-select']
+    ? ''
+    : parseInt(data['add-payment-select'])
+  const addDiscountID = !data['add-discount-select']
+    ? ''
+    : parseInt(data['add-discount-select'])
+
+  let insertQuery = `INSERT INTO Orders
+   (order_date, order_quantity, total_sale_price, customer_id, payment_method_id, discount_id)
+    VALUES ('${addDate}', '${addOrderQuantity}', ${addTotalSalePrice}, ${addCustomerID}, ${addPaymentID}, ${addDiscountID});`
+
+  if (!addCustomerID && !addPaymentID && !addDiscountID) {
+    insertQuery = `INSERT INTO Orders
+      (order_date, order_quantity, total_sale_price, customer_id, payment_method_id, discount_id)
+       VALUES ('${addDate}', '${addOrderQuantity}', ${addTotalSalePrice});`
+  } else if (!addCustomerID && addPaymentID && addDiscountID) {
+    insertQuery = `INSERT INTO Orders
+    (order_date, order_quantity, total_sale_price, customer_id, payment_method_id, discount_id)
+     VALUES ('${addDate}', '${addOrderQuantity}', ${addTotalSalePrice}, ${addPaymentID}, ${addDiscountID});`
+  } else if (!addPaymentID && addPaymentID && addDiscountID) {
+    insertQuery = `INSERT INTO Orders
+    (order_date, order_quantity, total_sale_price, customer_id, payment_method_id, discount_id)
+     VALUES ('${addDate}', '${addOrderQuantity}', ${addTotalSalePrice}, ${addPaymentID}, ${addDiscountID});`
+  }
+
+
+
+
+
+
+  db.pool.query(insertQuery, function (error, rows, fields) {
+    if (error) {
+      console.log(error)
+      res.sendStatus(400)
+    } else {
+      res.redirect('/orders')
+    }
+  })
+})
