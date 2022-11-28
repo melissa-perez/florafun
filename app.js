@@ -931,3 +931,17 @@ app.get('/orders', function (req, res) {
     }
   })
 })
+
+app.delete('/delete-order-form', function (req, res, next) {
+  let data = req.body
+  let orderID = parseInt(data.id)
+  let deleteQuery = `DELETE FROM Orders WHERE Orders.order_id = ${orderID};`
+  db.pool.query(deleteQuery, [orderID], function (error, rows, fields) {
+    if (error) {
+      console.log(error)
+      res.sendStatus(400)
+    } else {
+      res.sendStatus(204)
+    }
+  })
+})
