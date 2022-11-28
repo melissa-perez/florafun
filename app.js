@@ -970,7 +970,7 @@ app.post('/add-order-form', function (req, res) {
   if (!addCustomerID && !addPaymentID && !addDiscountID) {
     // F F F
     insertQuery = `INSERT INTO Orders
-      (order_date, order_quantity, total_sale_price, customer_id, payment_method_id, discount_id)
+      (order_date, order_quantity, total_sale_price)
        VALUES ('${addDate}', '${addOrderQuantity}', ${addTotalSalePrice});`
   } else if (addCustomerID && addPaymentID && !addDiscountID) {
     // T T F
