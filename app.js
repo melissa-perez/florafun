@@ -962,29 +962,47 @@ app.post('/add-order-form', function (req, res) {
   const addDiscountID = !data['add-discount-select']
     ? ''
     : parseInt(data['add-discount-select'])
-
+  // T T T
   let insertQuery = `INSERT INTO Orders
    (order_date, order_quantity, total_sale_price, customer_id, payment_method_id, discount_id)
     VALUES ('${addDate}', '${addOrderQuantity}', ${addTotalSalePrice}, ${addCustomerID}, ${addPaymentID}, ${addDiscountID});`
 
   if (!addCustomerID && !addPaymentID && !addDiscountID) {
+    // F F F
     insertQuery = `INSERT INTO Orders
       (order_date, order_quantity, total_sale_price, customer_id, payment_method_id, discount_id)
        VALUES ('${addDate}', '${addOrderQuantity}', ${addTotalSalePrice});`
+  } else if (addCustomerID && addPaymentID && !addDiscountID) {
+    // T T F
+    insertQuery = `INSERT INTO Orders
+   (order_date, order_quantity, total_sale_price, customer_id, payment_method_id)
+    VALUES ('${addDate}', '${addOrderQuantity}', ${addTotalSalePrice}, ${addCustomerID}, ${addPaymentID});`
+  } else if (addCustomerID && !addPaymentID && addDiscountID) {
+    // T F T
+    insertQuery = `INSERT INTO Orders
+    (order_date, order_quantity, total_sale_price, customer_id, discount_id)
+     VALUES ('${addDate}', '${addOrderQuantity}', ${addTotalSalePrice}, ${addCustomerID}, ${addDiscountID});`
+  } else if (addCustomerID && !addPaymentID && !addDiscountID) {
+    // T F F
+    insertQuery = `INSERT INTO Orders
+   (order_date, order_quantity, total_sale_price, customer_id)
+    VALUES ('${addDate}', '${addOrderQuantity}', ${addTotalSalePrice}, ${addCustomerID});`
   } else if (!addCustomerID && addPaymentID && addDiscountID) {
+    // F T T
     insertQuery = `INSERT INTO Orders
-    (order_date, order_quantity, total_sale_price, customer_id, payment_method_id, discount_id)
+    (order_date, order_quantity, total_sale_price, payment_method_id, discount_id)
      VALUES ('${addDate}', '${addOrderQuantity}', ${addTotalSalePrice}, ${addPaymentID}, ${addDiscountID});`
-  } else if (!addPaymentID && addPaymentID && addDiscountID) {
+  } else if (!addCustomerID && addPaymentID && !addDiscountID) {
+    // F T F
     insertQuery = `INSERT INTO Orders
-    (order_date, order_quantity, total_sale_price, customer_id, payment_method_id, discount_id)
-     VALUES ('${addDate}', '${addOrderQuantity}', ${addTotalSalePrice}, ${addPaymentID}, ${addDiscountID});`
+    (order_date, order_quantity, total_sale_price, payment_method_id)
+     VALUES ('${addDate}', '${addOrderQuantity}', ${addTotalSalePrice}, ${addPaymentID});`
+  } else if (!addCustomerID && !addPaymentID && addDiscountID) {
+    // F F T
+    insertQuery = `INSERT INTO Orders
+    (order_date, order_quantity, total_sale_price, discount_id)
+     VALUES ('${addDate}', '${addOrderQuantity}', ${addTotalSalePrice}, ${addDiscountID});`
   }
-
-
-
-
-
 
   db.pool.query(insertQuery, function (error, rows, fields) {
     if (error) {
