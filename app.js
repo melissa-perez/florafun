@@ -719,14 +719,42 @@ app.get('/order-items', function (req, res) {
 
   db.pool.query(query1, function (error, rows, fields) {
     let order_items = rows
-    res.render('order-items.hbs', {
-      layout: 'index.hbs',
-      pageTitle: 'Order Items',
-      data: order_items,
-      tableId: 'Order-Items',
-      isDisplayTables: true,
-      searchTerm: 'ID',
-    })
+    if (error) {
+      console.log(error)
+      res.sendStatus(400)
+    } else {
+      let orderQuery = `SELECT Orders.order_id AS ID
+       FROM Orders;`
+      db.pool.query(orderQuery, function (error, rows, fields) {
+        let orders = rows
+        if (error) {
+          console.log(error)
+          res.sendStatus(400)
+        } else {
+          let itemQuery = `SELECT Items.item_id AS ID,
+          Items.flower_name AS Item
+          FROM Items;`
+          db.pool.query(itemQuery, function (error, rows, fields) {
+            let items = rows
+            if (error) {
+              console.log(error)
+              res.sendStatus(400)
+            } else {
+              res.render('order-items.hbs', {
+                layout: 'index.hbs',
+                pageTitle: 'Order Items',
+                data: order_items,
+                ordersdata: orders,
+                itemsdata: items,
+                isDisplayTables: true,
+                tableId: 'Order-Items',
+                searchTerm: 'ID',
+              })
+            }
+          })
+        }
+      })
+    }
   })
 })
 
