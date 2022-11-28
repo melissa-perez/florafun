@@ -8,8 +8,8 @@ updateOrderForm.addEventListener('submit', function () {
   const newCustomerID = parseInt(
     document.getElementById('update-customer-select').value
   )
-  const newSupplierID = parseInt(
-    document.getElementById('update-supplier-select').value
+  const newDiscountID = parseInt(
+    document.getElementById('update-discount-select').value
   )
   const newPaymentID = parseInt(
     document.getElementById('update-payment-select').value
@@ -25,7 +25,7 @@ updateOrderForm.addEventListener('submit', function () {
     quantity: newQuantityValue,
     total: newTotalValue,
     customerid: newCustomerID,
-    supplierid: newSupplierID,
+    discountid: newDiscountID,
     paymentid: newPaymentID,
   }
 
@@ -50,13 +50,14 @@ function orderFill(data) {
     document.getElementById('update-quantity').value = ''
     document.getElementById('update-total').value = ''
     document.getElementById('update-customer-select').value = ''
-    document.getElementById('update-supplier-select').value = ''
+    document.getElementById('update-discount-select').value = ''
     document.getElementById('update-payment-select').value = ''
     return
   }
   for (let i = 0; i < data.length; i++) {
     if (data[i].ID == orderID) {
-      document.getElementById('update-date').value = data[i]['Order Date']
+      const dateToSet = new Date(data[i]['Order Date']).toLocaleDateString('en-CA') // 2020-08-19 (year-month-day) notice the different locale
+      document.getElementById('update-date').value = dateToSet
       document.getElementById('update-quantity').value =
         data[i]['Order Quantity']
       document.getElementById('update-total').value =
@@ -66,17 +67,16 @@ function orderFill(data) {
       else
         document.getElementById('update-customer-select').value =
           data[i]['Customer ID']
-      if (!data[i]['Supplier ID'])
-        document.getElementById('update-supplier-select').value = ''
+      if (!data[i]['Discount ID'])
+        document.getElementById('update-discount-select').value = ''
       else
-        document.getElementById('update-supplier-select').value =
-          data[i]['Supplier ID']
+        document.getElementById('update-discount-select').value =
+          data[i]['Discount ID']
       if (!data[i]['Payment Method ID'])
         document.getElementById('update-payment-select').value = ''
       else
         document.getElementById('update-payment-select').value =
           data[i]['Payment Method ID']
-
       return
     }
   }

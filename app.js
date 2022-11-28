@@ -1013,3 +1013,26 @@ app.post('/add-order-form', function (req, res) {
     }
   })
 })
+
+// Page to render for orders UPDATE
+app.put('/update-order-form', function (req, res, next) {
+  const data = req.body
+  const orderID = parseInt(data.id)
+
+  const updateDate = String(data.name).trim()
+  const updateQuantity = parseInt(data.quantity)
+  const updateTotal = parseFloat(data.total)
+  const updateLocal = parseInt(data.local)
+  const updateCustomerID = parseInt(data.customerid)
+  const updateSupplierID = parseInt(data.supplierid)
+  const updatePaymentID = parseInt(data.paymentid)
+
+  db.pool.query(updateQuery, [orderID], function (error, rows, fields) {
+    if (error) {
+      console.log(error)
+      res.sendStatus(400)
+    } else {
+      res.sendStatus(200)
+    }
+  })
+})

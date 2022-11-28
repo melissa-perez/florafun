@@ -1,0 +1,114 @@
+<div class='container border border-light rounded border-2 mb-2'>
+  <form
+    id='update-{{toLowerCase (removeLastLetter tableId)}}-form'
+    class='mb-4'
+  >
+    <legend>Update an existing {{removeLastLetter pageTitle}}</legend>
+    <label
+      class='form-label'
+      for='update-{{toLowerCase (removeLastLetter tableId)}}-select'
+    >
+      Use the dropdown to update an existing
+      {{toLowerCase (removeLastLetter pageTitle)}}:
+    </label>
+    <select
+      name='update-{{toLowerCase (removeLastLetter tableId)}}-select'
+      id='update-{{toLowerCase (removeLastLetter tableId)}}-select'
+      onChange='orderFill({{jsonHelper data}})'
+      required
+    >
+      <option value=''>Select an
+        {{toLowerCase (removeLastLetter pageTitle)}}.</option>
+      {{#each this.data}}
+        <option value='{{this.ID}}'>Order ID: {{this.ID}}</option>
+      {{/each}}
+    </select>
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='update-date'>Order date:</label>
+        <input type='date' id='update-date' name='update-date' required />
+      </fieldset>
+    </div>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='update-quantity'>
+          Order quantity
+        </label>
+        <input
+          class='form-control'
+          type='number'
+          name='update-quantity'
+          id='update-quantity'
+          min='0'
+          step='1'
+          required
+        />
+      </fieldset>
+    </div>
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='update-total'>
+          Total Sale Price
+        </label>
+        <input
+          class='form-control'
+          type='number'
+          min='0'
+          step='0.01'
+          name='update-total'
+          id='update-total'
+          required
+        />
+      </fieldset>
+    </div>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='update-customer-select'>
+          Customer:
+        </label>
+        <select name='update-customer-select' id='update-customer-select'>
+          <option value=''>NULL</option>
+          {{#each this.customersdata}}
+            <option value='{{this.ID}}'>({{this.ID}}) {{this.name}}</option>
+          {{/each}}
+        </select>
+      </fieldset>
+    </div>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='update-payment-select'>
+          Payment method:
+        </label>
+        <select name='update-payment-select' id='update-payment-select'>
+          <option value=''>NULL</option>
+          {{#each this.methodsdata}}
+            <option value='{{this.ID}}'>({{this.ID}}) {{this.type}}</option>
+          {{/each}}
+        </select>
+      </fieldset>
+    </div>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='update-discount-select'>
+          Discount code:
+        </label>
+        <select name='update-discount-select' id='update-discount-select'>
+          <option value=''>NULL</option>
+          {{#each this.discountsdata}}
+            <option value='{{this.ID}}'>({{this.ID}}) {{this.code}}</option>
+          {{/each}}
+        </select>
+      </fieldset>
+    </div>
+
+    <div class='form-text'>
+      WARNING: The update operation is permanent.
+    </div><br />
+    <button class='btn btn-success my-2 my-sm-0 btn-sm' type='submit'>Update
+      {{toLowerCase (removeLastLetter pageTitle)}}</button>
+  </form>
+</div>
