@@ -421,7 +421,7 @@ app.delete('/delete-payment-method-form', function (req, res) {
 /*************************************
   ITEMS ROUTES
 **************************************/
-// Page to render for colors READ
+// Page to render for items READ
 app.get('/items', function (req, res) {
   let searchQuery = `SELECT Items.item_id AS ID,
   Items.flower_name AS Item,
@@ -544,7 +544,7 @@ app.put('/update-item-form', function (req, res, next) {
   })
 })
 
-// Page to render for customers CREATE
+// Page to render for items CREATE
 app.post('/add-item-form', function (req, res) {
   let data = req.body
 
@@ -801,6 +801,34 @@ app.post('/add-order-item-form', function (req, res) {
       res.sendStatus(400)
     } else {
       res.redirect('/order-items')
+    }
+  })
+})
+
+// Page to render for order items UPDATE
+app.put('/update-order-item-form', function (req, res, next) {
+  const data = req.body
+  const orderItemID = parseInt(data.id)
+
+  const updateQuantity = parseInt(data.quantity)
+  const updateOrderID = !data.orderid ? '' : parseInt(data.orderid)
+  const updateItemID = !data.itemid ? '' : parseInt(data.itemid)
+
+  let updateQuery = `UPDATE Order_Items SET Order_Items.quantity = ${updateQuantity}, Order_Items.order_id = ${updateOrderID}, Order_Items.item_id = ${updateItemID} WHERE Order_Items.order_item_id = ${orderItemID};`
+  if (!updateOrderID && !updateItemID) {
+    updateQuery = `UPDATE Order_Items SET Order_Items.quantity = ${updateQuantity}, Order_Items.order_id = NULL, Order_Items.item_id = NULL WHERE Order_Items.order_item_id = ${orderItemID};`
+  } else if (!updateOrderID) {
+    updateQuery = `UPDATE Order_Items SET Order_Items.quantity = ${updateQuantity}, Order_Items.order_id = NULL, Order_Items.item_id = ${updateItemID} WHERE Order_Items.order_item_id = ${orderItemID};`
+  } else if (!updateItemID) {
+    updateQuery = `UPDATE Order_Items SET Order_Items.quantity = ${updateQuantity}, Order_Items.order_id = = ${updateOrderID}, Order_Items.item_id = NULL WHERE Order_Items.order_item_id = ${orderItemID};`
+  }
+  console.log(updateQuery)
+  db.pool.query(updateQuery, [orderItemID], function (error, rows, fields) {
+    if (error) {
+      console.log(error)
+      res.sendStatus(400)
+    } else {
+      res.sendStatus(200)
     }
   })
 })

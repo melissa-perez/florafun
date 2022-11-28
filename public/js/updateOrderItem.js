@@ -12,9 +12,9 @@ updateOrderItemForm.addEventListener('submit', function () {
 
   let data = {
     id: orderItemID,
-    name: newQuantityValue,
-    sciName: newOrderIDValue,
-    stock: newItemIDValue,
+    quantity: newQuantityValue,
+    orderid: newOrderIDValue,
+    itemid: newItemIDValue,
   }
 
   var xhttp = new XMLHttpRequest()
@@ -41,11 +41,14 @@ function orderItemFill(data) {
   }
   for (let i = 0; i < data.length; i++) {
     if (data[i].ID == orderItemID) {
-      document.getElementById('update-quantity').value = data[i].Quantity
+      console.log(data[i])
+
+      document.getElementById('update-quantity').value =
+        data[i]['Order Item Quantity']
       if (!data[i]['Order ID'])
         document.getElementById('update-order-select').value = ''
       else
-        document.getElementById('update-supplier-select').value =
+        document.getElementById('update-order-select').value =
           data[i]['Order ID']
       if (!data[i]['Item ID'])
         document.getElementById('update-item-select').value = ''

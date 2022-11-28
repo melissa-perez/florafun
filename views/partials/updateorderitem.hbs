@@ -1,0 +1,83 @@
+<div class='container border border-light rounded border-2 mb-2'>
+  <form
+    id='update-{{toLowerCase (removeLastLetter tableId)}}-form'
+    class='mb-4'
+  >
+    <legend>Update an existing {{removeLastLetter pageTitle}}</legend>
+    <label
+      class='form-label'
+      for='update-{{toLowerCase (removeLastLetter tableId)}}-select'
+    >
+      Use the dropdown to update an existing
+      {{toLowerCase (removeLastLetter pageTitle)}}:
+    </label>
+    <select
+      name='update-{{toLowerCase (removeLastLetter tableId)}}-select'
+      id='update-{{toLowerCase (removeLastLetter tableId)}}-select'
+      onChange='orderItemFill({{jsonHelper data}})'
+      required
+    >
+      <option value=''>Select an
+        {{toLowerCase (removeLastLetter pageTitle)}}.</option>
+      {{#each this.data}}
+        <option value='{{this.ID}}'>({{this.ID}}): Order({{'Order ID'}}),
+          {{this.Item}}</option>
+      {{/each}}
+    </select>
+
+    <div class='row mb-3'>
+      <h5>To update other Order information, please use the
+        <strong>Orders</strong>
+        page.</h5></div>
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='update-quantity'>
+          Order Item Quantity
+        </label>
+        <input
+          class='form-control'
+          type='number'
+          name='update-quantity'
+          id='update-quantity'
+          min='0'
+          step='1'
+          required
+        />
+      </fieldset>
+    </div>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='update-order-select'>
+          Order ID:
+        </label>
+        <select name='update-order-select' id='update-order-select'>
+          <option value=''>NULL</option>
+          {{#each this.ordersdata}}
+            <option value='{{this.ID}}'>Order ID: {{this.ID}}</option>
+          {{/each}}
+        </select>
+      </fieldset>
+    </div>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='update-item-select'>
+          Item ID:
+        </label>
+        <select name='update-item-select' id='update-item-select'>
+          <option value=''>NULL</option>
+          {{#each this.itemsdata}}
+            <option value='{{this.ID}}'>Item ID:
+              {{this.ID}}, Item: ({{this.Item}})</option>
+          {{/each}}
+        </select>
+      </fieldset>
+    </div>
+    <div class='form-text'>
+      WARNING: The update operation is permanent.
+    </div><br />
+    <button class='btn btn-success my-2 my-sm-0 btn-sm' type='submit'>Update
+      {{toLowerCase (removeLastLetter pageTitle)}}</button>
+  </form>
+</div>

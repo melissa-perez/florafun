@@ -9,7 +9,7 @@
     <p>Use the form below to add a new
       {{toLowerCase (removeLastLetter pageTitle)}}.
     </p>
-    <div class='row mb-3'> <h5>To update other Order information, please use the <strong>Orders</strong> page.</h5></div>
+    <div class='row mb-3'> <h5>To add other Order information, please use the <strong>Orders</strong> page.</h5></div>
     <div class='row mb-3'>
       <fieldset>
         <label class='form-label' for='add-quantity'>
@@ -55,7 +55,7 @@
         >
           <option value=''>NULL</option>
           {{#each this.itemsdata}}
-            <option value='{{this.ID}}'>Item ID: {{this.ID}}, Item: ({{this.Item}})</option>
+            <option value='{{this.ID}}'>Item ID: {{this.ID}}, Item: {{this.Item}}</option>
           {{/each}}
         </select>
       </fieldset>
