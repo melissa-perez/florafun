@@ -1,0 +1,33 @@
+<div class='container border border-light rounded border-2 mb-2'>
+  <form
+    method='GET'
+    id='read-{{removeLastLetter (toLowerCase tableId)}}-form'
+    action='/{{toLowerCase tableId}}'
+    class='mb-4'
+  >
+    <legend>Search for existing {{pageTitle}}</legend>
+    <fieldset>
+      <p>Search by using the field below.</p>
+      <label class='form-label' for='{{toLowerCase tableId}}_name'>
+        Order {{searchTerm}}
+      </label>
+      <input
+        class='form-control'
+        type='text'
+        name='{{toLowerCase tableId}}_name'
+      />
+      <div class='form-text'>
+        The search will look for Order Items that belong to the same Order ID.
+      </div><br />
+      <button
+        class='btn btn-primary my-2 my-sm-0 btn-sm'
+        type='submit'
+      >Search</button>
+      <a
+        class='btn btn-warning my-2 my-sm-0 btn-sm'
+        href='/{{toLowerCase tableId}}'
+        role='button'
+      >Reset search</a>
+    </fieldset>
+  </form>
+</div>

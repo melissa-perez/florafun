@@ -699,7 +699,24 @@ app.get('/order-items', function (req, res) {
   LEFT JOIN Orders ON Orders.order_id = Order_Items.order_id
   LEFT JOIN Items ON Items.item_id =  Order_Items.item_id
   ORDER BY ID ASC;`
- 
+
+  if (req.query['order-items_name'] !== undefined) {
+    query1 = `
+    SELECT Order_Items.order_item_id AS ID,
+    Orders.order_date AS 'Order Date',
+    Orders.order_quantity AS 'Order Quantity',
+    Orders.total_sale_price AS 'Total Order Price',
+    Order_Items.order_id AS 'Order ID',
+    Items.flower_name AS 'Item',
+    Order_Items.item_id AS 'Item ID',
+    Order_Items.quantity AS 'Order Item Quantity'
+    FROM Order_Items
+    LEFT JOIN Orders ON Orders.order_id = Order_Items.order_id
+    LEFT JOIN Items ON Items.item_id =  Order_Items.item_id
+    WHERE Order_Items.order_id = ${parseInt(req.query['order-items_name'])}
+    ORDER BY ID ASC;`
+  }
+
   db.pool.query(query1, function (error, rows, fields) {
     let order_items = rows
     res.render('order-items.hbs', {
@@ -708,7 +725,7 @@ app.get('/order-items', function (req, res) {
       data: order_items,
       tableId: 'Order-Items',
       isDisplayTables: true,
-      searchTerm: 'ID'
+      searchTerm: 'ID',
     })
   })
 })
