@@ -729,3 +729,18 @@ app.get('/order-items', function (req, res) {
     })
   })
 })
+
+// Page to render for order items DELETE
+app.delete('/delete-order-item-form', function (req, res, next) {
+  let data = req.body
+  let orderitemID = parseInt(data.id)
+  let deleteQuery = `DELETE FROM Order_Items WHERE Order_Items.order_item_id = ${orderitemID};`
+  db.pool.query(deleteQuery, [orderitemID], function (error, rows, fields) {
+    if (error) {
+      console.log(error)
+      res.sendStatus(400)
+    } else {
+      res.sendStatus(204)
+    }
+  })
+})
