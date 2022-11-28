@@ -578,3 +578,84 @@ app.post('/add-item-form', function (req, res) {
     }
   })
 })
+
+/*************************************
+  SUPPLIERS ROUTES
+**************************************/
+
+// Page to render for suppliers READ
+app.get('/suppliers', function (req, res) {
+  let query1 = `
+  SELECT Suppliers.supplier_id AS ID,
+  Suppliers.name AS Name,
+  Suppliers.address AS Address,
+  Suppliers.email AS Email,
+  IF(Suppliers.is_local, 'Yes', 'No') AS Local
+  FROM Suppliers
+  ORDER BY ID ASC;`
+  if (req.query.suppliers_name !== undefined) {
+    query1 = `SELECT Suppliers.supplier_id AS ID,
+    Suppliers.name AS Name,
+    Suppliers.address AS Address,
+    Suppliers.email AS Email,
+    IF(Suppliers.is_local, 'Yes', 'No') AS Local
+    FROM Suppliers
+    WHERE Suppliers.name LIKE CONCAT("%", "${String(
+      req.query.suppliers_name
+    ).trim()}", "%")
+    ORDER BY ID ASC;`
+  }
+
+  db.pool.query(query1, function (error, rows, fields) {
+    let suppliers = rows
+    if (error) {
+      console.log(error)
+      res.sendStatus(400)
+    } else {
+      res.render('suppliers.hbs', {
+        layout: 'index.hbs',
+        pageTitle: 'Suppliers',
+        data: suppliers,
+        tableId: 'Suppliers',
+        searchTerm: 'name',
+        isDisplayTables: true,
+      })
+    }
+  })
+})
+
+// Page to render for suppliers DELETE
+app.delete('/delete-supplier-form', function (req, res, next) {
+  let data = req.body
+  let supplierID = parseInt(data.id)
+  let deleteQuery = `DELETE FROM Suppliers WHERE Suppliers.supplier_id = ${supplierID};`
+  db.pool.query(deleteQuery, [supplierID], function (error, rows, fields) {
+    if (error) {
+      console.log(error)
+      res.sendStatus(400)
+    } else {
+      res.sendStatus(204)
+    }
+  })
+})
+
+// Page to render for suppliers CREATE
+app.post('/add-supplier-form', function (req, res) {
+  let data = req.body
+
+  const addName = String(data['add-name']).trim()
+  const addAddress = String(data['add-address']).trim()
+  const addEmail = String(data['add-email']).trim()
+  const addLocal = parseInt(data['add-local-select'])
+
+  let insertQuery = `INSERT INTO Suppliers (name, address, email, is_local) VALUES ('${addName}', '${addAddress}', '${addEmail}', ${addLocal});`
+
+  db.pool.query(insertQuery, function (error, rows, fields) {
+    if (error) {
+      console.log(error)
+      res.sendStatus(400)
+    } else {
+      res.redirect('/suppliers')
+    }
+  })
+})

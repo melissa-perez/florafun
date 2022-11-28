@@ -1,0 +1,80 @@
+<div class='container border border-light rounded border-2 mb-2'>
+  <form
+    method='POST'
+    id='add-{{toLowerCase (removeLastLetter tableId)}}-form'
+    class='mb-4'
+    action='/add-{{toLowerCase (removeLastLetter tableId)}}-form'
+  >
+    <legend>Add a new {{removeLastLetter pageTitle}}</legend>
+    <p>Use the form below to add a new
+      {{toLowerCase (removeLastLetter pageTitle)}}.
+    </p>
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='add-name'>
+          {{removeLastLetter pageTitle}}
+          name
+        </label>
+        <input
+          class='form-control'
+          type='text'
+          name='add-name'
+          id='add-name'
+          required
+        />
+      </fieldset>
+    </div>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='add-address'>
+          Address
+        </label>
+        <input
+          class='form-control'
+          type='text'
+          name='add-address'
+          id='add-address'
+          required
+        />
+        <div class='form-text'>
+          <em>Street No. Street Name City State Zip</em>
+        </div>
+      </fieldset>
+    </div>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='add-email'>
+          Email (Required*)
+        </label>
+        <input
+          class='form-control'
+          type='email'
+          name='add-email'
+          id='add-email'
+          required
+        />
+        <div class='form-text'>
+          <em>address@provider.ext</em>
+        </div>
+      </fieldset>
+    </div>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='add-local-select'>
+          Local?:
+        </label>
+        <select name='add-local-select' id='add-local-select' required>
+          <option value=''>Select a response.</option>
+          <option value='1'>Yes</option>
+          <option value='0'>No</option>
+        </select>
+      </fieldset>
+    </div>
+
+    <button class='btn btn-success my-2 my-sm-0 btn-sm' type='submit'>Add
+      {{toLowerCase (removeLastLetter pageTitle)}}</button>
+  </form>
+</div>
