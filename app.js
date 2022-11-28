@@ -659,3 +659,25 @@ app.post('/add-supplier-form', function (req, res) {
     }
   })
 })
+
+// Page to render for suppliers UPDATE
+app.put('/update-supplier-form', function (req, res, next) {
+  const data = req.body
+  const supplierID = parseInt(data.id)
+
+  const updateName = String(data.name).trim()
+  const updateAddress = String(data.address).trim()
+  const updateEmail = String(data.email).trim()
+  const updateLocal = parseInt(data.phone)
+
+  let updateQuery = `UPDATE Suppliers SET Suppliers.name = '${updateName}', Suppliers.email = '${updateEmail}', Suppliers.is_local = '${updateLocal}', Suppliers.address = '${updateAddress}' WHERE Suppliers.supplier_id = ${supplierID};`
+
+  db.pool.query(updateQuery, [supplierID], function (error, rows, fields) {
+    if (error) {
+      console.log(error)
+      res.sendStatus(400)
+    } else {
+      res.sendStatus(200)
+    }
+  })
+})
