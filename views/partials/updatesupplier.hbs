@@ -1,0 +1,97 @@
+<div class='container border border-light rounded border-2 mb-2'>
+  <form
+    id='update-{{toLowerCase (removeLastLetter tableId)}}-form'
+    class='mb-4'
+  >
+    <legend>Update an existing {{removeLastLetter pageTitle}}</legend>
+    <label
+      class='form-label'
+      for='update-{{toLowerCase (removeLastLetter tableId)}}-select'
+    >
+      Use the dropdown to update an existing
+      {{toLowerCase (removeLastLetter pageTitle)}}:
+    </label>
+    <select
+      name='update-{{toLowerCase (removeLastLetter tableId)}}-select'
+      id='update-{{toLowerCase (removeLastLetter tableId)}}-select'
+      onChange='supplierFill({{jsonHelper data}})'
+      required
+    >
+      <option value=''>Select an
+        {{toLowerCase (removeLastLetter pageTitle)}}.</option>
+      {{#each data}}
+        <option value='{{this.ID}}'>({{this.ID}}) {{this.Name}}</option>
+      {{/each}}
+    </select>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='update-name'>
+          {{removeLastLetter pageTitle}}
+          name
+        </label>
+        <input
+          class='form-control'
+          type='text'
+          name='update-name'
+          id='update-name'
+          required
+        />
+      </fieldset>
+    </div>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='update-address'>
+          Address
+        </label>
+        <input
+          class='form-control'
+          type='text'
+          name='update-address'
+          id='update-address'
+          required
+        />
+        <div class='form-text'>
+          <em>Street No. Street Name City State Zip</em>
+        </div>
+      </fieldset>
+    </div>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='update-email'>
+          Email (Required*)
+        </label>
+        <input
+          class='form-control'
+          type='email'
+          name='update-email'
+          id='update-email'
+          required
+        />
+        <div class='form-text'>
+          <em>address@provider.ext</em>
+        </div>
+      </fieldset>
+    </div>
+
+    <div class='row mb-3'>
+      <fieldset>
+        <label class='form-label' for='update-local-select'>
+          Local?:
+        </label>
+        <select name='update-local-select' id='update-local-select' required>
+          <option value=''>Select a response.</option>
+          <option value='1'>Yes</option>
+          <option value='0'>No</option>
+        </select>
+      </fieldset>
+    </div>
+    <div class='form-text'>
+      WARNING: The update operation is permanent.
+    </div><br />
+    <button class='btn btn-success my-2 my-sm-0 btn-sm' type='submit'>Update
+      {{toLowerCase (removeLastLetter pageTitle)}}</button>
+  </form>
+</div>
