@@ -449,8 +449,8 @@ app.get('/items', function (req, res) {
     Suppliers.name AS Supplier,
     Items.supplier_id AS 'Supplier ID'
     FROM Items
-    JOIN Suppliers ON Suppliers.supplier_id = Items.supplier_id
-    JOIN Colors ON Colors.color_id = Items.color_id
+    LEFT JOIN Suppliers ON Suppliers.supplier_id = Items.supplier_id
+    LEFT JOIN Colors ON Colors.color_id = Items.color_id
     WHERE Items.flower_name LIKE CONCAT("%", "${String(
       req.query.items_name
     ).trim()}", "%")
@@ -678,5 +678,37 @@ app.put('/update-supplier-form', function (req, res, next) {
     } else {
       res.sendStatus(200)
     }
+  })
+})
+
+/*************************************
+  ORDER ITEMS ROUTES
+**************************************/
+// Page to render for order_items READ
+app.get('/order-items', function (req, res) {
+  let query1 = `
+  SELECT Order_Items.order_item_id AS ID,
+  Orders.order_date AS 'Order Date',
+  Orders.order_quantity AS 'Order Quantity',
+  Orders.total_sale_price AS 'Total Order Price',
+  Order_Items.order_id AS 'Order ID',
+  Items.flower_name AS 'Item',
+  Order_Items.item_id AS 'Item ID',
+  Order_Items.quantity AS 'Order Item Quantity'
+  FROM Order_Items
+  LEFT JOIN Orders ON Orders.order_id = Order_Items.order_id
+  LEFT JOIN Items ON Items.item_id =  Order_Items.item_id
+  ORDER BY ID ASC;`
+ 
+  db.pool.query(query1, function (error, rows, fields) {
+    let order_items = rows
+    res.render('order-items.hbs', {
+      layout: 'index.hbs',
+      pageTitle: 'Order Items',
+      data: order_items,
+      tableId: 'Order-Items',
+      isDisplayTables: true,
+      searchTerm: 'ID'
+    })
   })
 })

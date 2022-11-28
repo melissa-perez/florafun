@@ -1,6 +1,6 @@
 const updateCustomerForm = document.getElementById('update-customer-form')
 
-updateCustomerForm.addEventListener('submit', function (e) {
+updateCustomerForm.addEventListener('submit', function () {
   const customerID = document.getElementById('update-customer-select').value
   const newName = document.getElementById('update-name')
   const newAddress = document.getElementById('update-address')
