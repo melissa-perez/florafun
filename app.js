@@ -2,7 +2,9 @@
     SETUP
 **************************************/
 // Express
-const PORT = 3425
+const PORT = 3999
+require('dotenv').config();
+
 const express = require('express')
 const app = express()
 const Importer = require('mysql-import')
@@ -13,10 +15,10 @@ app.use(express.static('public'))
 // Database
 const db = require('./database/db-connector')
 let importer = new Importer({
-  host: 'classmysql.engr.oregonstate.edu',
-  user: 'cs340_peremeli',
-  password: '6989',
-  database: 'cs340_peremeli',
+  host: process.env.host,
+  user: process.env.user,
+  password: process.env.password,
+  database: process.env.database,
 })
 
 importer.onProgress((progress) => {
@@ -78,7 +80,7 @@ app.get('/reload', function (req, res) {
     isDisplayTables: false,
   })
   importer
-    .import('./database/sql-scripts/floral_fun_ddl.sql')
+    .import('./database/floral_fun_ddl.sql')
     .then(() => {
       let files_imported = importer.getImported()
       console.log(`${files_imported.length} SQL file(s) imported.`)

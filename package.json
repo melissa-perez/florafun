@@ -4,7 +4,8 @@
   "description": "Repo for CS340 group project Introduction to Databases",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node -r dotenv/config app.js"
   },
   "repository": {
     "type": "git",
