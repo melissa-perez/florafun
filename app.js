@@ -831,3 +831,103 @@ app.put('/update-order-item-form', function (req, res, next) {
     }
   })
 })
+
+/*************************************
+  ORDERS ROUTES
+**************************************/
+
+// Page to render for orders READ
+app.get('/orders', function (req, res) {
+  let query1 = `
+  SELECT Orders.order_id AS ID,
+  Orders.order_date AS 'Order Date',
+  Orders.order_quantity AS 'Order Quantity',
+  Orders.total_sale_price AS 'Total Order Price',
+  Customers.name AS 'Customer Name',
+  Customers.email AS 'Customer Email',
+  Orders.customer_id AS 'Customer ID',
+  Payment_Methods.type AS 'Payment Type',
+  Orders.payment_method_id AS 'Payment Method ID',
+  Discounts.code AS 'Discount Applied',
+  Orders.discount_id AS 'Discount ID',
+  FROM Orders
+  LEFT JOIN Customers ON Customers.customer_id = Orders.customer_id
+  LEFT JOIN Payment_Methods ON Payment_Methods.payment_method_id = Orders.payment_method_id
+  LEFT JOIN Discounts ON Discounts.discount_id = Orders.discount_id
+  ORDER BY ID ASC;`
+
+  if (req.query['orders_name'] !== undefined) {
+    query1 = `
+    SELECT Orders.order_id AS ID,
+  Orders.order_date AS 'Order Date',
+  Orders.order_quantity AS 'Order Quantity',
+  Orders.total_sale_price AS 'Total Order Price',
+  Customers.name AS 'Customer Name',
+  Customers.email AS 'Customer Email',
+  Orders.customer_id AS 'Customer ID',
+  Payment_Methods.type AS 'Payment Type',
+  Orders.payment_method_id AS 'Payment Method ID',
+  Discounts.code AS 'Discount Applied',
+  Orders.discount_id AS 'Discount ID',
+  FROM Orders
+  LEFT JOIN Customers ON Customers.customer_id = Orders.customer_id
+  LEFT JOIN Payment_Methods ON Payment_Methods.payment_method_id = Orders.payment_method_id
+  LEFT JOIN Discounts ON Discounts.discount_id = Orders.discount_id
+  WHERE Orders.order_id = ${parseInt(req.query['orders_name'])}
+  ORDER BY ID ASC;`
+  }
+
+  db.pool.query(query1, function (error, rows, fields) {
+    let orders = rows
+    if (error) {
+      console.log(error)
+      res.sendStatus(400)
+    } else {
+      let customersQuery = `SELECT Customers.customer_id AS ID,
+      Customers.email AS email,
+      Customers.name AS name
+       FROM Customers;`
+      db.pool.query(customersQuery, function (error, rows, fields) {
+        let customers = rows
+        if (error) {
+          console.log(error)
+          res.sendStatus(400)
+        } else {
+          let methodQuery = `SELECT Payment_Methods.payment_method_id AS ID,
+          Payment_Methods.type AS type
+          FROM Payment_Methods;`
+          db.pool.query(methodQuery, function (error, rows, fields) {
+            let methods = rows
+            if (error) {
+              console.log(error)
+              res.sendStatus(400)
+            } else {
+              let discountQuery = `SELECT Discounts.discount_id AS ID,
+              Discounts.code AS code
+               FROM Discounts;`
+              db.pool.query(discountQuery, function (error, rows, fields) {
+                if (error) {
+                  console.log(error)
+                  res.sendStatus(400)
+                } else {
+                  let discounts = rows
+                  res.render('orders.hbs', {
+                    layout: 'index.hbs',
+                    pageTitle: 'Orders',
+                    data: orders,
+                    customersdata: customers,
+                    methodsdata: methods,
+                    discountsdata: discounts,
+                    isDisplayTables: true,
+                    tableId: 'Orders',
+                    searchTerm: 'ID',
+                  })
+                }
+              })
+            }
+          })
+        }
+      })
+    }
+  })
+})
