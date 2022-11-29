@@ -27,4 +27,12 @@ Repo for CS340 group project Introduction to Databases
     ORIGINALITY: ADAPTED, COPIED
     SOURCE: https://stackoverflow.com/questions/41423727/handlebars-registerhelper-serverside-with-expressjs
     
+    
+    HIDING CREDENTIALS
+    FROM VtoCorleone ON STACK OVERFLOW
+    CITATION SCOPE: LINES, COPIED
+    DATE: NOVEMBER 2022
+    ORIGINALITY: ADAPTED, COPIED
+    SOURCE: https://stackoverflow.com/questions/57470659/how-to-hide-connection-details-for-mysql-database-in-node-js
+    
 **************************************/
