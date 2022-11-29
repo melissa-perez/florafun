@@ -23,6 +23,13 @@
     DATE: NOVEMBER 2022
     ORIGINALITY: ADAPTED, COPIED
     SOURCE: https://stackoverflow.com/questions/41423727/handlebars-registerhelper-serverside-with-expressjs
+    
+    HIDING CREDENTIALS
+    FROM VtoCorleone ON STACK OVERFLOW
+    CITATION SCOPE: LINES, COPIED
+    DATE: NOVEMBER 2022
+    ORIGINALITY: ADAPTED, COPIED
+    SOURCE: https://stackoverflow.com/questions/57470659/how-to-hide-connection-details-for-mysql-database-in-node-js
 
 **************************************/
 
@@ -40,7 +47,8 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 
-// Database
+// Database hid credentials   VtoCorleone ON STACK OVERFLOW
+// https://stackoverflow.com/questions/57470659/how-to-hide-connection-details-for-mysql-database-in-node-js
 const db = require('./database/db-connector')
 let importer = new Importer({
   host: process.env.host,
