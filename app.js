@@ -1,9 +1,36 @@
 /*************************************
+    CITATIONS
+
+
+    EVERY SINGLE PAGE AND FUNCTION IS DERIVED AND
+    UPDATED FROM THE NODE JS STARTER APP.
+    CITATION SCOPE: LITERALLY ENTIRE APP
+    DATE: NOVEMBER 2022
+    ORIGINALITY: ADAPTED, BASED, COPIED
+    SOURCE: https://github.com/osu-cs340-ecampus/nodejs-starter-app
+
+    THE MYSQL-IMPORT DATABASE RELOAD BUTTON
+    FROM JAMES COLE
+    CITATION SCOPE: FUNCTION
+    DATE: NOVEMBER 2022
+    ORIGINALITY: ADAPTED, COPIED
+    SOURCE: https://edstem.org/us/courses/28987/discussion/1836410
+
+    THE HELPERS.JS FILE WITH HANDLEBARS HELPERS
+    FROM Tom22 and Community[Bot] ON STACK OVERFLOW
+    ON HOW TO MAKE HANDLEBARS HELPER FUNCTIONS
+    CITATION SCOPE: FUNCTION, MODULE
+    DATE: NOVEMBER 2022
+    ORIGINALITY: ADAPTED, COPIED
+    SOURCE: https://stackoverflow.com/questions/41423727/handlebars-registerhelper-serverside-with-expressjs
+**************************************/
+
+/*************************************
     SETUP
 **************************************/
 // Express
 const PORT = 3999
-require('dotenv').config();
+require('dotenv').config()
 
 const express = require('express')
 const app = express()
@@ -1019,7 +1046,6 @@ app.post('/add-order-form', function (req, res) {
 // Page to render for orders UPDATE
 app.put('/update-order-form', function (req, res, next) {
   const data = req.body
-  console.log(data)
   const orderID = parseInt(data.id)
   const updateDate = String(data.date).trim()
   const updateQuantity = parseInt(data.quantity)
