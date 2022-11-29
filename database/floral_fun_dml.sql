@@ -183,79 +183,196 @@ WHERE
   Colors.color LIKE CONCAT("%", LOWER(:colorName), "%");
 
 /********************************************************
- Entity: Customers
+ Entity: CUSTOMERS
  The following are defined actions for the Customers entity.
- Actions: INSERT, SEARCH, UPDATE, DELETE
+ ACTIONS: INSERT, READ, UPDATE, DELETE
  *******************************************************/
--- SELECT all Customers to display in the Customers page.
+-- SELECT all Customers to display.
 SELECT
-  *
+  Customers.customer_id AS "ID",
+  Customers.name AS "Name",
+  Customers.address AS "Address",
+  Customers.email AS "Email",
+  Customers.phone AS "Phone Number"
 FROM
-  Customers;
+  Customers
+ORDER BY
+  ID ASC;
 
--- INSERT a new customer into Customers.
+-- SELECT Customer that matches name to display.
+SELECT
+  Customers.customer_id AS "ID",
+  Customers.name AS "Name",
+  Customers.address AS "Address",
+  Customers.email AS "Email",
+  Customers.phone AS "Phone Number"
+FROM
+  Customers
+WHERE
+  Customers.name LIKE CONCAT(
+    "%",
+    "${String(
+      req.query.customers_name
+    ).trim()}",
+    "%"
+  )
+ORDER BY
+  ID ASC;
+
+-- CREATE Customer, changes depending on NULL value.
 INSERT INTO
-  Customers (name, email, phone, address)
+  Customers (name, address, email, phone)
 VALUES
   (
-    :customerName,
-    :customerEmail,
-    :customerPhone,
-    :customerAddress
+    '${addName}',
+    '${addAddress}',
+    '${addEmail}',
+    '${addPhone}'
   );
 
--- UPDATE an existing customer in Customers.
+INSERT INTO
+  Customers (name, address, email)
+VALUES
+  ('${addName}', '${addAddress}', '${addEmail}');
+
+-- UPDATE Customer, changes depending on NULL value.
 UPDATE
   Customers
 SET
-  name = :customerName,
-  email = :customerEmail,
-  phone = :customerPhone,
-  address = :customerAddress
+  Customers.name = '${updateName}',
+  Customers.email = '${updateEmail}',
+  Customers.phone = '${updatePhone}',
+  Customers.address = '${updateAddress}'
 WHERE
-  Customers.customer_id = :customerIdToUpdate;
+  Customers.customer_id = $ { customerID };
 
--- DELETE an existing customer from Customers.
+UPDATE
+  Customers
+SET
+  Customers.name = '${updateName}',
+  Customers.email = '${updateEmail}',
+  Customers.phone = '${updatePhone}',
+  Customers.address = '${updateAddress}'
+WHERE
+  Customers.customer_id = $ { customerID };
+
+-- DELETE customer on ID
 DELETE FROM
   Customers
 WHERE
-  Customers.customer_id = :customerIdToDelete;
-
--- SELECT all Customers relating to search in the Customers page.
-SELECT
-  *
-FROM
-  Customers
-WHERE
-  Customers.name LIKE CONCAT("%", LOWER(:customerName), "%");
+  Customers.customer_id = $ { customerID };
 
 /********************************************************
- Entity: Items
+ Entity: ITEMS
  The following are defined actions for the Items entity.
- Actions: INSERT, SEARCH, UPDATE, DELETE
+ ACTIONS: INSERT, READ, UPDATE, DELETE
  *******************************************************/
--- SELECT all Items to display in the Items page.
-SELECT
-  *
-FROM
-  Items;
-
 -- SELECT all Items to display in the Items page with updated FOREIGN KEYS.
 SELECT
-  Items.item_id,
-  Items.flower_name,
-  Items.scientific_name,
-  Items.is_indoor,
-  Items.stock_quantity,
-  Items.price,
-  Suppliers.name,
-  Colors.color
+  Items.item_id AS ID,
+  Items.flower_name AS Item,
+  Items.scientific_name AS 'Scientific name',
+  IF(Items.is_indoor, 'Yes', 'No') AS Indoor,
+  Items.stock_quantity AS Stock,
+  Items.price AS Price,
+  Colors.color AS Color,
+  Items.color_id AS 'Color ID',
+  Suppliers.name AS Supplier,
+  Items.supplier_id AS 'Supplier ID'
 FROM
-  `Items`
-  INNER JOIN Suppliers ON Suppliers.supplier_id = Items.supplier_id
-  INNER JOIN Colors ON Items.color_id = Colors.color_id;
+  Items
+  LEFT JOIN Suppliers ON Suppliers.supplier_id = Items.supplier_id
+  LEFT JOIN Colors ON Colors.color_id = Items.color_id
+ORDER BY
+  ID ASC;
 
--- INSERT a new item into Items.
+-- SELECT Items that match name to display in the Items page with updated FOREIGN KEYS.
+SELECT
+  Items.item_id AS ID,
+  Items.flower_name AS Item,
+  Items.scientific_name AS 'Scientific name',
+  IF(Items.is_indoor, 'Yes', 'No') AS Indoor,
+  Items.stock_quantity AS Stock,
+  Items.price AS Price,
+  Colors.color AS Color,
+  Items.color_id AS 'Color ID',
+  Suppliers.name AS Supplier,
+  Items.supplier_id AS 'Supplier ID'
+FROM
+  Items
+  LEFT JOIN Suppliers ON Suppliers.supplier_id = Items.supplier_id
+  LEFT JOIN Colors ON Colors.color_id = Items.color_id
+WHERE
+  Items.flower_name LIKE CONCAT(
+    "%",
+    "${String(
+      req.query.items_name
+    ).trim()}",
+    "%"
+  )
+ORDER BY
+  ID ASC;
+
+-- DELETE Item that matches ID.
+DELETE FROM
+  Items
+WHERE
+  Items.item_id = $ { itemID };
+
+-- UPDATE Item that matches ID, changes depending on NULL value.
+UPDATE
+  Items
+SET
+  Items.flower_name = '${updateName}',
+  Items.scientific_name = '${updateSciName}',
+  Items.is_indoor = $ { updateIndoor },
+  Items.stock_quantity = $ { updateStock },
+  Items.price = $ { updatePrice },
+  Items.supplier_id = $ { updateSupplierID },
+  Items.color_id = $ { updateColorID }
+WHERE
+  Items.item_id = $ { itemID };
+
+UPDATE
+  Items
+SET
+  Items.flower_name = '${updateName}',
+  Items.scientific_name = '${updateSciName}',
+  Items.is_indoor = $ { updateIndoor },
+  Items.stock_quantity = $ { updateStock },
+  Items.price = $ { updatePrice },
+  Items.supplier_id = NULL,
+  Items.color_id = NULL
+WHERE
+  Items.item_id = $ { itemID };
+
+UPDATE
+  Items
+SET
+  Items.flower_name = '${updateName}',
+  Items.scientific_name = '${updateSciName}',
+  Items.is_indoor = $ { updateIndoor },
+  Items.stock_quantity = $ { updateStock },
+  Items.price = $ { updatePrice },
+  Items.supplier_id = $ { updateSupplierID },
+  Items.color_id = NULL
+WHERE
+  Items.item_id = $ { itemID };
+
+UPDATE
+  Items
+SET
+  Items.flower_name = '${updateName}',
+  Items.scientific_name = '${updateSciName}',
+  Items.is_indoor = $ { updateIndoor },
+  Items.stock_quantity = $ { updateStock },
+  Items.price = $ { updatePrice },
+  Items.color_id = $ { updateColorID },
+  Items.supplier_id = NULL
+WHERE
+  Items.item_id = $ { itemID };
+
+-- CREATE Item, changes depending on NULL value.
 INSERT INTO
   Items (
     flower_name,
@@ -268,40 +385,66 @@ INSERT INTO
   )
 VALUES
   (
-    :flowerName,
-    :sciName,
-    :isIndoor,
-    :stockQuantity,
-    :price,
-    :supplierId,
-    :colorId
+    '${addName}',
+    '${addSciName}',
+    $ { addIndoor },
+    $ { addStock },
+    $ { addPrice },
+    $ { addSupplierID },
+    $ { addColorID }
   );
 
--- UPDATE an existing item in Items.
-UPDATE
-  Items
-SET
-  flower_name = :flowerName,
-  scientific_name = :sciName,
-  is_indoor = :isIndoor,
-  stock_quantity = :stockQuantity,
-  price = :price,
-  supplier_id = :supplierId,
-  color_id = :colorId
-)
-WHERE
-  Items.item_id = :itemIdToUpdate;
+INSERT INTO
+  Items (
+    flower_name,
+    scientific_name,
+    is_indoor,
+    stock_quantity,
+    price
+  )
+VALUES
+  (
+    '${addName}',
+    '${addSciName}',
+    $ { addIndoor },
+    $ { addStock },
+    $ { addPrice }
+  );
 
--- DELETE an existing item in Items.
-DELETE FROM
-  Items
-WHERE
-  Items.item_id = :itemIdToDelete;
+INSERT INTO
+  Items (
+    flower_name,
+    scientific_name,
+    is_indoor,
+    stock_quantity,
+    price,
+    supplier_id
+  )
+VALUES
+  (
+    '${addName}',
+    '${addSciName}',
+    $ { addIndoor },
+    $ { addStock },
+    $ { addPrice },
+    $ { addSupplierID }
+  );
 
--- SELECT all Items relating to search in the Items page.
-SELECT
-  *
-FROM
-  Items
-WHERE
-  Items.name LIKE CONCAT("%", LOWER(:itemName), "%");
+INSERT INTO
+  Items (
+    flower_name,
+    scientific_name,
+    is_indoor,
+    stock_quantity,
+    price,
+    color_id
+  )
+VALUES
+  (
+    '${addName}',
+    '${addSciName}',
+    $ { addIndoor },
+    $ { addStock },
+    $ { addPrice },
+    $ { addColorID }
+  );

@@ -10,7 +10,13 @@
 -- Database: Floral Fun
 -- Group: 56
 -- Members: Jacob Springer, Melissa Perez
---
+-- For CS340 Final Project
+/*
+ Floral Fun is a small, up-and-coming brick-and-mortar flower shop in Corvallis, Oregon.
+ The shop owners are looking into creating a database website as taking orders on pen 
+ and paper is no longer sustainable. The goal of the website is to record various information
+ such as Customers, Orders, and Items into its database.
+ */
 SET
   SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 

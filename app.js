@@ -23,6 +23,7 @@
     DATE: NOVEMBER 2022
     ORIGINALITY: ADAPTED, COPIED
     SOURCE: https://stackoverflow.com/questions/41423727/handlebars-registerhelper-serverside-with-expressjs
+
 **************************************/
 
 /*************************************
