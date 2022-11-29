@@ -1,186 +1,45 @@
--- Create new order
-INSERT INTO
-  `Orders` (order_date, order_quantity, total_sale_price)
-VALUES
-  (
-    :order_dateInput,
-    :order_quantityInput,
-    :total_sale_priceInput
-  );
-
--- View table uppon clicking Orders page
-SELECT
-  Orders.order_id,
-  Orders.order_date,
-  Orders.order_quantity,
-  Orders.total_sale_price,
-  Customers.name,
-  Payment_Methods.type,
-  Discounts.code
-FROM
-  `Orders`
-  INNER JOIN Customers ON Orders.customer_id = Customers.customer_id
-  INNER JOIN Payment_Methods ON Orders.payment_method_id = Payment_Methods.payment_method_id
-  INNER JOIN Discounts ON Orders.discount_id = Discounts.discount_id;
-
--- Update order
-UPDATE
-  `Orders`
-SET
-  order_date = :order_dateInput,
-  order_quantity = :order_quantityInput,
-  total_sale_price = :total_sale_priceInput
-WHERE
-  id = :order_ID_from_the_update_form;
-
--- Delete order
-DELETE FROM
-  Orders
-WHERE
-  id = :order_ID_selected_from_browse_order_page;
-
--- Create new order_items
-INSERT INTO
-  `Order_Items` (quantity, order_id, item_id)
-VALUES
-  (:quantityInput, :order_idInput, :item_idInput);
-
--- View table uppon clicking Order_Items page
-SELECT
-  Order_Items.order_item_id,
-  Order_Items.quantity,
-  Order_Items.order_id,
-  Items.flower_name
-FROM
-  Order_Items
-  INNER JOIN Items ON Order_Items.item_id = Items.item_id;
-
--- Update order_items
-UPDATE
-  `Order_Items`
-SET
-  quantity = :quantityInput,
-  order_id = :order_idInput,
-  item_id = :item_idInput
-WHERE
-  id = :order_items_ID_from_the_update_form;
-
--- Delete order_items
-DELETE FROM
-  Order_Items
-WHERE
-  id = :order_items_ID_selected_from_browse_order_page;
-
--- Create new supplier
-INSERT INTO
-  `Suppliers` (name, address, email, is_local);
-
-VALUES
-  (
-    :nameInput,
-    :addressInput,
-    :emailInput,
-    :is_local_from_dropdown_Input
-  ) -- View table uppon clicking Suppliers page
-SELECT
-  *
-FROM
-  Suppliers;
-
--- Update supplier
-UPDATE
-  `Suppliers`
-SET
-  name = :nameInput,
-  address = :addressInput,
-  email = :emailInput,
-  is_local = :is_local_from_dropdown_Input
-WHERE
-  id = :supplier_ID_from_the_update_form;
-
--- Delete supplier
-DELETE FROM
-  Suppliers
-WHERE
-  id = :supplier_ID_selected_from_browse_supplier_page;
-
--- Create new payment_method
-INSERT INTO
-  `Payment_Methods` (type)
-VALUES
-  (:typeInput);
-
--- View table uppon clicking Payment_Methods page
-SELECT
-  *
-FROM
-  Payment_Methods;
-
--- Update payment_method
-UPDATE
-  `Payment_Methods`
-SET
-  name = :typeInput
-WHERE
-  id = :payment_method_ID_from_the_update_form;
-
--- Delete payment_method
-DELETE FROM
-  Payment_Methods
-WHERE
-  id = :payment_method_ID_selected_from_browse_payment_method_page;
-
--- Create new discount
-INSERT INTO
-  `Discounts` (code, percent)
-VALUES
-  (:codeInput, :percentInput);
-
--- View table uppon clicking Discounts page
-SELECT
-  *
-FROM
-  Discounts;
-
--- Update discount
-UPDATE
-  `Discounts`
-SET
-  code = :codeInput,
-  percent = :percentInput
-WHERE
-  id = :discount_ID_from_the_update_form;
-
--- Delete discount
-DELETE FROM
-  Discounts
-WHERE
-  id = :discount_ID_selected_from_browse_discount_page;
-
 /********************************************************
- Entity: Colors
- The following are defined actions for the Colors entity.
- Actions: INSERT, SEARCH
+ Entity: COLORS
+ The following are defined actions for the COLORS entity.
+ ACTIONS: INSERT, READ
  *******************************************************/
--- SELECT all Colors to display in the Colors page.
+-- SELECT all colors
 SELECT
-  *
+  Colors.color_id AS "ID",
+  Colors.color AS "Color"
 FROM
-  Colors;
+  Colors
+ORDER BY
+  ID ASC;
 
--- INSERT a new color into Colors.
-INSERT INTO
-  Colors (color)
-VALUES
-  (:colorName);
-
--- SELECT all Colors relating to search in the Colors page.
+--SELECT a color based on name
 SELECT
-  *
+  Colors.color_id AS "ID",
+  Colors.color AS "Color"
 FROM
   Colors
 WHERE
-  Colors.color LIKE CONCAT("%", LOWER(:colorName), "%");
+  Colors.color LIKE CONCAT(
+    "%",
+    "${String(
+      req.query.colors_name
+    ).trim()}",
+    "%"
+  )
+ORDER BY
+  ID ASC;
+
+-- Add a new color
+INSERT INTO
+  Colors (color)
+VALUES
+  (
+    '${String(
+    data['
+    add
+      - color ']
+  ).trim()}'
+  );
 
 /********************************************************
  Entity: CUSTOMERS
@@ -448,3 +307,559 @@ VALUES
     $ { addPrice },
     $ { addColorID }
   );
+
+/********************************************************
+ Entity: DISCOUNTS
+ The following are defined actions for the DISCOUNTS entity.
+ ACTIONS: INSERT, READ, UPDATE, DELETE
+ *******************************************************/
+-- display all Discounts
+SELECT
+  Discounts.discount_id AS ID,
+  Discounts.code AS Code,
+  Discounts.percent AS Percent
+FROM
+  Discounts
+ORDER BY
+  ID ASC;
+
+-- display discounts matching name
+SELECT
+  Discounts.discount_id AS ID,
+  Discounts.code AS Code,
+  Discounts.percent AS Percent
+FROM
+  Discounts
+WHERE
+  Discounts.code LIKE CONCAT(
+    "%",
+    "${String(
+      req.query.discounts_name
+    ).trim()}",
+    "%"
+  )
+ORDER BY
+  ID ASC;
+
+-- delete a discount
+DELETE FROM
+  Discounts
+WHERE
+  Discounts.discount_id = $ { discountID };
+
+-- add a new discount
+INSERT INTO
+  Discounts (code, percent)
+VALUES
+  ('${addCode}', $ { addPercent });
+
+--- update a discount matching id
+UPDATE
+  Discounts
+SET
+  Discounts.code = '${updateCode}',
+  Discounts.percent = $ { updatePercent }
+WHERE
+  Discounts.discount_id = $ { discountID };
+
+/********************************************************
+ Entity: PAYMENT_METHODS
+ The following are defined actions for the PAYMENT_METHODS entity.
+ ACTIONS: INSERT, READ, UPDATE, DELETE
+ *******************************************************/
+-- display all payment methods
+SELECT
+  Payment_Methods.payment_method_id AS ID,
+  Payment_Methods.type AS Type
+FROM
+  Payment_Methods
+ORDER BY
+  ID ASC;
+
+-- display a payment method on type
+SELECT
+  Payment_Methods.payment_method_id AS ID,
+  Payment_Methods.type AS Type
+FROM
+  Payment_Methods
+WHERE
+  Payment_Methods.type LIKE CONCAT(
+    "%",
+    "${String(
+      req.query['payment-methods_name']
+    ).trim()}",
+    "%"
+  )
+ORDER BY
+  ID ASC;
+
+-- update a payment method
+UPDATE
+  Payment_Methods
+SET
+  type = '${data[' type ']}'
+WHERE
+  payment_method_id = '${data[' id ']}' -- add a new payment
+INSERT INTO
+  Payment_Methods (type)
+VALUES
+  ('${addPaymentMethodType}');
+
+-- delete a payment method
+DELETE FROM
+  Payment_Methods
+WHERE
+  Payment_Methods.payment_method_id = $ { paymentMethodID };
+
+/********************************************************
+ Entity: SUPPLIERS
+ The following are defined actions for the SUPPLIERS entity.
+ ACTIONS: INSERT, READ, UPDATE, DELETE
+ *******************************************************/
+-- display all suppliers
+SELECT
+  Suppliers.supplier_id AS ID,
+  Suppliers.name AS Name,
+  Suppliers.address AS Address,
+  Suppliers.email AS Email,
+  IF(Suppliers.is_local, 'Yes', 'No') AS Local
+FROM
+  Suppliers
+ORDER BY
+  ID ASC;
+
+-- display supplier based on name
+SELECT
+  Suppliers.supplier_id AS ID,
+  Suppliers.name AS Name,
+  Suppliers.address AS Address,
+  Suppliers.email AS Email,
+  IF(Suppliers.is_local, 'Yes', 'No') AS Local
+FROM
+  Suppliers
+WHERE
+  Suppliers.name LIKE CONCAT(
+    "%",
+    "${String(
+      req.query.suppliers_name
+    ).trim()}",
+    "%"
+  )
+ORDER BY
+  ID ASC;
+
+-- delete supplier
+DELETE FROM
+  Suppliers
+WHERE
+  Suppliers.supplier_id = $ { supplierID };
+
+-- add a new supplier
+INSERT INTO
+  Suppliers (name, address, email, is_local)
+VALUES
+  (
+    '${addName}',
+    '${addAddress}',
+    '${addEmail}',
+    $ { addLocal }
+  );
+
+-- update supplier
+UPDATE
+  Suppliers
+SET
+  Suppliers.name = '${updateName}',
+  Suppliers.email = '${updateEmail}',
+  Suppliers.is_local = '${updateLocal}',
+  Suppliers.address = '${updateAddress}'
+WHERE
+  Suppliers.supplier_id = $ { supplierID };
+
+/********************************************************
+ Entity: ORDER_ITEMS
+ The following are defined actions for the ORDER_ITEMS entity.
+ ACTIONS: INSERT, READ, UPDATE, DELETE
+ *******************************************************/
+-- display all order items
+SELECT
+  Order_Items.order_item_id AS ID,
+  Orders.order_date AS 'Order Date',
+  Orders.order_quantity AS 'Order Quantity',
+  Orders.total_sale_price AS 'Total Order Price',
+  Order_Items.order_id AS 'Order ID',
+  Items.flower_name AS 'Item',
+  Order_Items.item_id AS 'Item ID',
+  Order_Items.quantity AS 'Order Item Quantity'
+FROM
+  Order_Items
+  LEFT JOIN Orders ON Orders.order_id = Order_Items.order_id
+  LEFT JOIN Items ON Items.item_id = Order_Items.item_id
+ORDER BY
+  ID ASC;
+
+-- display order items of the same order id
+SELECT
+  Order_Items.order_item_id AS ID,
+  Orders.order_date AS 'Order Date',
+  Orders.order_quantity AS 'Order Quantity',
+  Orders.total_sale_price AS 'Total Order Price',
+  Order_Items.order_id AS 'Order ID',
+  Items.flower_name AS 'Item',
+  Order_Items.item_id AS 'Item ID',
+  Order_Items.quantity AS 'Order Item Quantity'
+FROM
+  Order_Items
+  LEFT JOIN Orders ON Orders.order_id = Order_Items.order_id
+  LEFT JOIN Items ON Items.item_id = Order_Items.item_id
+WHERE
+  Order_Items.order_id = $ { parseInt(req.query ['order-items_name']) }
+ORDER BY
+  ID ASC;
+
+-- delete an order item
+DELETE FROM
+  Order_Items
+WHERE
+  Order_Items.order_item_id = $ { orderitemID };
+
+-- insert order item depending on whether null is used
+INSERT INTO
+  Order_Items (quantity, order_id, item_id)
+VALUES
+  (
+    $ { addQuantity },
+    $ { addOrderID },
+    $ { addItemID }
+  );
+
+INSERT INTO
+  Order_Items (quantity)
+VALUES
+  ($ { addQuantity });
+
+INSERT INTO
+  Order_Items (quantity, item_id)
+VALUES
+  ($ { addQuantity }, $ { addItemID });
+
+INSERT INTO
+  Order_Items (quantity, order_id)
+VALUES
+  ($ { addQuantity }, $ { addOrderID });
+
+-- update order item depending on whether null is used
+UPDATE
+  Order_Items
+SET
+  Order_Items.quantity = $ { updateQuantity },
+  Order_Items.order_id = $ { updateOrderID },
+  Order_Items.item_id = $ { updateItemID }
+WHERE
+  Order_Items.order_item_id = $ { orderItemID };
+
+UPDATE
+  Order_Items
+SET
+  Order_Items.quantity = $ { updateQuantity },
+  Order_Items.order_id = NULL,
+  Order_Items.item_id = NULL
+WHERE
+  Order_Items.order_item_id = $ { orderItemID };
+
+UPDATE
+  Order_Items
+SET
+  Order_Items.quantity = $ { updateQuantity },
+  Order_Items.order_id = NULL,
+  Order_Items.item_id = $ { updateItemID }
+WHERE
+  Order_Items.order_item_id = $ { orderItemID };
+
+UPDATE
+  Order_Items
+SET
+  Order_Items.quantity = $ { updateQuantity },
+  Order_Items.order_id = $ { updateOrderID },
+  Order_Items.item_id = NULL
+WHERE
+  Order_Items.order_item_id = $ { orderItemID };
+
+/********************************************************
+ Entity: ORDERS
+ The following are defined actions for the ORDERS entity.
+ ACTIONS: INSERT, READ, UPDATE, DELETE
+ *******************************************************/
+-- displays all orders
+SELECT
+  Orders.order_id AS ID,
+  Orders.order_date AS 'Order Date',
+  Orders.order_quantity AS 'Order Quantity',
+  Orders.total_sale_price AS 'Total Order Price',
+  Customers.name AS 'Customer Name',
+  Customers.email AS 'Customer Email',
+  Orders.customer_id AS 'Customer ID',
+  Payment_Methods.type AS 'Payment Type',
+  Orders.payment_method_id AS 'Payment Method ID',
+  Discounts.code AS 'Discount Applied',
+  Orders.discount_id AS 'Discount ID'
+FROM
+  Orders
+  LEFT JOIN Customers ON Customers.customer_id = Orders.customer_id
+  LEFT JOIN Payment_Methods ON Payment_Methods.payment_method_id = Orders.payment_method_id
+  LEFT JOIN Discounts ON Discounts.discount_id = Orders.discount_id
+ORDER BY
+  ID ASC;
+
+-- display order based on id
+SELECT
+  Orders.order_id AS ID,
+  Orders.order_date AS 'Order Date',
+  Orders.order_quantity AS 'Order Quantity',
+  Orders.total_sale_price AS 'Total Order Price',
+  Customers.name AS 'Customer Name',
+  Customers.email AS 'Customer Email',
+  Orders.customer_id AS 'Customer ID',
+  Payment_Methods.type AS 'Payment Type',
+  Orders.payment_method_id AS 'Payment Method ID',
+  Discounts.code AS 'Discount Applied',
+  Orders.discount_id AS 'Discount ID'
+FROM
+  Orders
+  LEFT JOIN Customers ON Customers.customer_id = Orders.customer_id
+  LEFT JOIN Payment_Methods ON Payment_Methods.payment_method_id = Orders.payment_method_id
+  LEFT JOIN Discounts ON Discounts.discount_id = Orders.discount_id
+WHERE
+  Orders.order_id = $ { parseInt(req.query ['orders_name']) }
+ORDER BY
+  ID ASC;
+
+-- delete an order on id
+DELETE FROM
+  Orders
+WHERE
+  Orders.order_id = $ { orderID };
+
+-- insert new order depending on what is null
+INSERT INTO
+  Orders (
+    order_date,
+    order_quantity,
+    total_sale_price,
+    customer_id,
+    payment_method_id,
+    discount_id
+  )
+VALUES
+  (
+    '${addDate}',
+    '${addOrderQuantity}',
+    $ { addTotalSalePrice },
+    $ { addCustomerID },
+    $ { addPaymentID },
+    $ { addDiscountID }
+  );
+
+INSERT INTO
+  Orders (order_date, order_quantity, total_sale_price)
+VALUES
+  (
+    '${addDate}',
+    '${addOrderQuantity}',
+    $ { addTotalSalePrice }
+  );
+
+INSERT INTO
+  Orders (
+    order_date,
+    order_quantity,
+    total_sale_price,
+    customer_id,
+    payment_method_id
+  )
+VALUES
+  (
+    '${addDate}',
+    '${addOrderQuantity}',
+    $ { addTotalSalePrice },
+    $ { addCustomerID },
+    $ { addPaymentID }
+  );
+
+INSERT INTO
+  Orders (
+    order_date,
+    order_quantity,
+    total_sale_price,
+    customer_id,
+    discount_id
+  )
+VALUES
+  (
+    '${addDate}',
+    '${addOrderQuantity}',
+    $ { addTotalSalePrice },
+    $ { addCustomerID },
+    $ { addDiscountID }
+  );
+
+insertQuery =
+INSERT INTO
+  Orders (
+    order_date,
+    order_quantity,
+    total_sale_price,
+    customer_id
+  )
+VALUES
+  (
+    '${addDate}',
+    '${addOrderQuantity}',
+    $ { addTotalSalePrice },
+    $ { addCustomerID }
+  );
+
+insertQuery =
+INSERT INTO
+  Orders (
+    order_date,
+    order_quantity,
+    total_sale_price,
+    payment_method_id,
+    discount_id
+  )
+VALUES
+  (
+    '${addDate}',
+    '${addOrderQuantity}',
+    $ { addTotalSalePrice },
+    $ { addPaymentID },
+    $ { addDiscountID }
+  );
+
+INSERT INTO
+  Orders (
+    order_date,
+    order_quantity,
+    total_sale_price,
+    payment_method_id
+  )
+VALUES
+  (
+    '${addDate}',
+    '${addOrderQuantity}',
+    $ { addTotalSalePrice },
+    $ { addPaymentID }
+  );
+
+INSERT INTO
+  Orders (
+    order_date,
+    order_quantity,
+    total_sale_price,
+    discount_id
+  )
+VALUES
+  (
+    '${addDate}',
+    '${addOrderQuantity}',
+    $ { addTotalSalePrice },
+    $ { addDiscountID }
+  );
+
+-- update order depending if null is entered
+UPDATE
+  Orders
+SET
+  Orders.order_date = '${updateDate}',
+  Orders.order_quantity = $ { updateQuantity },
+  Orders.total_sale_price = $ { updateTotal },
+  Orders.customer_id = $ { updateCustomerID },
+  Orders.discount_id = $ { updateDiscountID },
+  Orders.payment_method_id = $ { updatePaymentID }
+WHERE
+  Orders.order_id = $ { orderID };
+
+UPDATE
+  Orders
+SET
+  Orders.order_date = '${updateDate}',
+  Orders.order_quantity = $ { updateQuantity },
+  Orders.total_sale_price = $ { updateTotal },
+  Orders.customer_id = NULL,
+  Orders.discount_id = NULL,
+  Orders.payment_method_id = NULL
+WHERE
+  Orders.order_id = $ { orderID };
+
+UPDATE
+  Orders
+SET
+  Orders.order_date = '${updateDate}',
+  Orders.order_quantity = $ { updateQuantity },
+  Orders.total_sale_price = $ { updateTotal },
+  Orders.customer_id = $ { updateCustomerID },
+  Orders.discount_id = NULL,
+  Orders.payment_method_id = $ { updatePaymentID }
+WHERE
+  Orders.order_id = $ { orderID };
+
+UPDATE
+  Orders
+SET
+  Orders.order_date = '${updateDate}',
+  Orders.order_quantity = $ { updateQuantity },
+  Orders.total_sale_price = $ { updateTotal },
+  Orders.customer_id = $ { updateCustomerID },
+  Orders.discount_id = $ { updateDiscountID },
+  Orders.payment_method_id = NULL
+WHERE
+  Orders.order_id = $ { orderID };
+
+UPDATE
+  Orders
+SET
+  Orders.order_date = '${updateDate}',
+  Orders.order_quantity = $ { updateQuantity },
+  Orders.total_sale_price = $ { updateTotal },
+  Orders.customer_id = $ { updateCustomerID },
+  Orders.discount_id = NULL,
+  Orders.payment_method_id = NULL
+WHERE
+  Orders.order_id = $ { orderID };
+
+UPDATE
+  Orders
+SET
+  Orders.order_date = '${updateDate}',
+  Orders.order_quantity = $ { updateQuantity },
+  Orders.total_sale_price = $ { updateTotal },
+  Orders.customer_id = NULL,
+  Orders.discount_id = $ { updateDiscountID },
+  Orders.payment_method_id = $ { updatePaymentID }
+WHERE
+  Orders.order_id = $ { orderID };
+
+UPDATE
+  Orders
+SET
+  Orders.order_date = '${updateDate}',
+  Orders.order_quantity = $ { updateQuantity },
+  Orders.total_sale_price = $ { updateTotal },
+  Orders.customer_id = NULL,
+  Orders.discount_id = NULL,
+  Orders.payment_method_id = $ { updatePaymentID }
+WHERE
+  Orders.order_id = $ { orderID };
+
+UPDATE
+  Orders
+SET
+  Orders.order_date = '${updateDate}',
+  Orders.order_quantity = $ { updateQuantity },
+  Orders.total_sale_price = $ { updateTotal },
+  Orders.customer_id = NULL,
+  Orders.discount_id = $ { updateDiscountID },
+  Orders.payment_method_id = NULL
+WHERE
+  Orders.order_id = $ { orderID };
